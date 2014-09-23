@@ -8,9 +8,15 @@ public class DutyTimeTableTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		String path = "";
-		DutyTimeTable timeTable = new DutyTimeTable(path);
+		// String url =
+		// "https://docs.google.com/spreadsheet/pub?key=0AjBJCFRK44scdDcwd21mSXdWaU43Y19JUEtoVDBJWnc&output=xls";
+		String url = "https://docs.google.com/spreadsheet/pub?key=0AjBJCFRK44scdG9uamRqajhvTE1IZUtwZHd3QjFZNWc&output=xls";
+		String path = "FromGoogle";
+		String inFilename = "MIC.xls";
+		String outFilename = "MIC-old.xls";
+		int weekNum = 4;
+		DutyTimeTable dutyTimeTable = new DutyTimeTable(url, path, inFilename, outFilename, weekNum);
+		dutyTimeTable.menu();
 	}
 
 }
