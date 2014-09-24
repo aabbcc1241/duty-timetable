@@ -5,10 +5,10 @@ public class GA {
 	public static float PMUTATION = 0.1f;
 	public static float PCX = 0.25f;
 
-	private int NGEN;
-	private int NGENE;
-	private int LGENE;
-	private Life[] lifes;// [num of animal][num of gene]
+	protected int NGEN;
+	protected int NGENE;
+	protected int LGENE;
+	protected Life[] lifes;// [num of animal][num of gene]
 
 	public GA(int nGEN, int nGENE, int lGENE) {
 		super();
@@ -21,7 +21,7 @@ public class GA {
 		}
 	}
 
-	private void setRandom() {
+	protected void setRandom() {
 		for (Life life : lifes)
 			life.setRandom();
 	}
@@ -35,15 +35,18 @@ public class GA {
 		}
 	}
 
-	private void benchmark() {
+	protected void benchmark() {
+		for (Life life : lifes)
+			life.benchmark();
+	}
+
+	protected void cx() {
 
 	}
 
-	private void cx() {
-
-	}
-
-	private void mutation() {
+	protected void mutation() {
+		for (Life life : lifes)
+			life.mutation();
 	}
 
 }

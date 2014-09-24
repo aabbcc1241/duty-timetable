@@ -1,5 +1,7 @@
 package core;
 
+import ga.GA;
+
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -97,7 +99,7 @@ public class DutyTimeTable {
 	}
 
 	private void generate() {
-		GA ga=new GA();
-		ga.start();
+		MIC_GA mic_GA = new MIC_GA(mic, worker);
+		mic_GA.start();
 	}
 }

@@ -13,4 +13,12 @@ public class Life {
 		for (Gene gene : genes)
 			gene.setRandom();
 	}
+
+	public void benchmark() {
+
+	}
+
+	public void mutation() {
+
+	}
 }
