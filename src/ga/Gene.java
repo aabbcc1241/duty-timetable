@@ -13,4 +13,16 @@ public class Gene {
 		for (int i = 0; i < codes.length; i++)
 			codes[i] = Utils.random.nextBoolean();
 	}
+
+	public void cx(Gene gene2) {
+		for (int i = 0; i < codes.length; i++)
+			if(Utils.random.nextBoolean())
+				codes[i]=gene2.codes[i];
+	}
+
+	public void mutate() {
+		for (int i = 0; i < codes.length; i++)
+			if(Utils.random.nextFloat()<GA.PMUTATION)
+				codes[i]=!codes[i];
+	}
 }

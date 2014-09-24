@@ -1,5 +1,7 @@
 package ga;
 
+import myutils.Utils;
+
 public class GA {
 	public static int NPOP = 32;
 	public static float PMUTATION = 0.1f;
@@ -10,6 +12,7 @@ public class GA {
 	protected int LGENE;
 	protected Life[] lifes;// [num of animal][num of gene]
 
+	/* contrucstor */
 	public GA(int nGEN, int nGENE, int lGENE) {
 		super();
 		NGEN = nGEN;
@@ -21,6 +24,14 @@ public class GA {
 		}
 	}
 
+	/* static method */
+	public static Life cx(Life life1, Life life2) {
+		Life result = (Life) life1.clone();
+		life1.cx(life2);
+		return result;
+	}
+
+	/* instance method */
 	protected void setRandom() {
 		for (Life life : lifes)
 			life.setRandom();
@@ -40,13 +51,22 @@ public class GA {
 			life.benchmark();
 	}
 
+	// losers cx with random life who's better then it
 	protected void cx() {
-
+		// new child is iLife, parents are iLife and i
+		int i, j;
+		for (int iLife = 0; iLife < lifes.length; iLife++) {
+			if (iLife > lifes.length * PCX) {
+				i = Utils.random.nextInt(iLife);
+				lifes[iLife] = cx(lifes[iLife], lifes[i]);
+			}
+		}
 	}
 
 	protected void mutation() {
 		for (Life life : lifes)
-			life.mutation();
+			if (Utils.random.nextFloat() < PMUTATION)
+				life.mutate();
 	}
 
 }
