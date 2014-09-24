@@ -1,5 +1,4 @@
-package utils;
-
+package myutils;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -12,7 +11,7 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
-public abstract class Utils {
+public abstract class MyFile {
 	public static void createDir(String path) {
 		File folder = new File(path);
 		if (!folder.exists()) {
