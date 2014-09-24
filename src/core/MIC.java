@@ -1,5 +1,7 @@
 package core;
 
+import core.Worker.Day.Timeslot;
+
 
 public class MIC {
 	int weekNum;
@@ -15,6 +17,9 @@ public class MIC {
 
 		public Day(int dayOfWeek) {
 			this.dayOfWeek = dayOfWeek;
+			for (int iTimeslot = 0; iTimeslot < timeslot.length; iTimeslot++) {
+				timeslot[iTimeslot] = new Timeslot();
+			}
 		}
 	}
 

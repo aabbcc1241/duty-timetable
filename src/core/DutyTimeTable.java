@@ -26,8 +26,8 @@ public class DutyTimeTable {
 		this.weekNum = weekNum;
 		mic = new MIC();
 		workers = new Worker[10];
-		for(int i=0;i<workers.length;i++)
-			workers[i]=new Worker();
+		for (int i = 0; i < workers.length; i++)
+			workers[i] = new Worker();
 	}
 
 	public void menu() {
@@ -81,11 +81,10 @@ public class DutyTimeTable {
 					for (int colIndex = 1; colIndex <= timeslotAmount; colIndex++) {
 						cell = sheet.getCell(colIndex, rowIndex);
 						str = cell.getContents();
-						System.out.println(rowIndex);
-						System.out.println(sheetIndex);
-						System.out.println(colIndex);
-						workers[rowIndex-1].days[sheetIndex-1].timeslot[colIndex - 1].status = (str.length() != 0) ? Integer
-								.parseInt(str) : 0;
+						System.out.println();
+						System.out.println(sheetIndex + "\t" + rowIndex + "\t" + colIndex);
+						workers[rowIndex - 1].days[sheetIndex - 1].timeslot[colIndex - 1].status = (str
+								.length() != 0) ? Integer.parseInt(str) : 0;
 					}
 				}
 			}
