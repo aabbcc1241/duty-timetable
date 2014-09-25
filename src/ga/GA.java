@@ -10,7 +10,7 @@ public class GA {
 	public static int N_POP = 32;
 	public static float P_MUTATION = 0.1f;
 	public static float A_MUTATION = 0.1f;
-	public static float P_CX = 0.25f;
+	public static float P_SURVIVE = 0.75f;
 
 	protected int N_GEN;
 	protected int N_GENE;
@@ -58,19 +58,24 @@ public class GA {
 	}
 
 	protected void sort() {
-		Collections.sort(lifes);		
+		Collections.sort(lifes);
 	}
 
 	/** losers cx with random life who's better then it **/
 	protected void cx() {
-		/** new child is iLife, parents are iLife and i **/
-		int i;
+		/** Top P_SURVIVE (x100%) can marry **/
+		List<Life> newLifes = new ArrayList<Life>(lifes);
 		for (int iLife = 0; iLife < N_POP; iLife++) {
-			if (iLife > N_POP * P_CX) {
-				i = Utils.random.nextInt(iLife);
-				lifes.set(iLife, cx(lifes.get(iLife),lifes.get(i)));
+			if ((float) iLife / N_POP < P_SURVIVE) {
+				newLifes.add(lifes.get(iLife));
 			}
 		}
+		while (newLifes.size() < lifes.size()) {
+			Life newLife = cx(newLifes.get(Utils.random.nextInt(newLifes.size())),
+					newLifes.get(Utils.random.nextInt(newLifes.size())));
+			newLifes.add(newLife);
+		}
+		lifes = newLifes;
 	}
 
 	protected void mutation() {

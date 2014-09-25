@@ -1,7 +1,5 @@
 package core;
 
-import ga.Life;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -9,13 +7,13 @@ import java.util.List;
 import myutils.Utils;
 
 public class MIC_GA {
-	public static int N_GEN = 50;
-	public static int N_POP = 32;
-	public static float P_MUTATION = 0.1f;
-	public static float A_MUTATION = 0.1f;
-	public static float P_CX = 0.75f;
+	public static int N_GEN = 1000;
+	public static int N_POP = 100;
+	public static float P_MUTATION = 0.01f;
+	public static float A_MUTATION = 0.02f;
+	public static float P_SURVIVE = 0.25f;
 
-	public static final float PUNISH_HAS_LESSON = -5f;
+	public static final float PUNISH_HAS_LESSON = -1f;
 	public static final float BONUS_WANTED = 1f;
 	public static final float BONUS_AVAILABLE = 0.5f;
 	public static final float BONUS_CONTINUOUS = 0.25f;
@@ -27,6 +25,10 @@ public class MIC_GA {
 
 	private Worker[] workers;
 	private MIC mic;
+
+	public float avgFitness = -321;
+	private float lastAvgFitness;
+	private float sumFitness;
 
 	/** contrucstor **/
 	public MIC_GA(MIC mic, Worker[] workers) {
@@ -64,7 +66,14 @@ public class MIC_GA {
 		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
 			benchmark();
 			sort();
-			report(iGEN);
+			report(iGEN + 1);
+			if (avgFitness == lastAvgFitness)
+				// break;
+				;
+			if (lifes.get(0).fitness > 0)
+				break;
+			else
+				N_GEN++;
 			cx();
 			mutation();
 		}
@@ -76,19 +85,25 @@ public class MIC_GA {
 	}
 
 	protected void sort() {
+		// Collections.sort(lifes);
 		Collections.sort(lifes, Collections.reverseOrder());
 	}
 
 	/** losers cx with random life who's better then it **/
 	protected void cx() {
 		/** new child is iLife, parents are iLife and i **/
-		int i;
+		List<MIC_Life> newLifes = new ArrayList<MIC_Life>();
 		for (int iLife = 0; iLife < N_POP; iLife++) {
-			if (iLife > N_POP * P_CX) {
-				i = Utils.random.nextInt(iLife);
-				lifes.set(iLife, cx(lifes.get(iLife), lifes.get(i)));
+			if ((float) iLife / N_POP < P_SURVIVE) {
+				newLifes.add(lifes.get(iLife));
 			}
 		}
+		while (newLifes.size() < lifes.size()) {
+			MIC_Life newLife = cx(newLifes.get(Utils.random.nextInt(newLifes.size())),
+					newLifes.get(Utils.random.nextInt(newLifes.size())));
+			newLifes.add(newLife);
+		}
+		lifes = newLifes;
 	}
 
 	protected void mutation() {
@@ -98,11 +113,13 @@ public class MIC_GA {
 	}
 
 	public void report(int iGEN) {
-		float sum = 0;
-		for (Life life : lifes)
-			sum += life.fitness;
-		float avg = sum / N_POP;
+		lastAvgFitness = avgFitness;
+		sumFitness = 0;
+		for (MIC_Life life : lifes) {
+			sumFitness += life.fitness;
+		}
+		avgFitness = sumFitness / N_POP;
 		System.out.printf("\n%s%5s | %s%5s | %s%5s", "Generation: ", iGEN, "Best: ",
-				lifes.get(0).fitness, "Avg.: ", avg);
+				lifes.get(0).fitness, "Avg.: ", avgFitness);
 	}
 }

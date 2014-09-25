@@ -36,7 +36,7 @@ public class MIC_Life extends Life {
 		for (int iDay = 0; iDay < genes.length; iDay++)
 			for (int iTimeslot = 0; iTimeslot < genes.length; iTimeslot++) {
 
-				workerId = genes[iDay].codes[iTimeslot];				
+				workerId = genes[iDay].codes[iTimeslot];
 				switch (workers[workerId].days[iDay].timeslot[iTimeslot].status) {
 				/** check valid **/
 				case 0:
@@ -59,6 +59,16 @@ public class MIC_Life extends Life {
 						fitness += MIC_GA.BONUS_CONTINUOUS;
 				}
 			}
+	}
 
+	public void cx(MIC_Life life2) {
+		/** new child is this , parents are this and life2 **/
+		for (int i = 0; i < genes.length; i++)
+			genes[i].cx(life2.genes[i]);
+	}
+	@Override
+	public void mutate() {
+		for (MIC_Gene gene : genes)
+			gene.mutate();
 	}
 }
