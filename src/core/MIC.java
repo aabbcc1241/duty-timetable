@@ -2,7 +2,6 @@ package core;
 
 
 public class MIC {
-	int weekNum;
 	Day[] days;
 
 	class Day {

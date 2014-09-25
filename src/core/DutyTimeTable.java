@@ -81,6 +81,13 @@ public class DutyTimeTable {
 			int dayAmount = workers[0].days.length;
 			int workerAmount = workers.length;
 			int timeslotAmount = workers[0].days[0].timeslot.length;
+			{
+				sheet = workbook.getSheet(0);
+				for (int rowIndex = 3; rowIndex < 3 + workerAmount; rowIndex++) {
+					cell = sheet.getCell(7, rowIndex);
+					workers[rowIndex - 3].name = cell.getContents();
+				}
+			}
 			for (int sheetIndex = 1; sheetIndex <= dayAmount; sheetIndex++) {
 				sheet = workbook.getSheet(sheetIndex);
 				for (int rowIndex = 1; rowIndex <= workerAmount; rowIndex++) {
@@ -99,6 +106,6 @@ public class DutyTimeTable {
 
 	private void generate() {
 		MIC_GA mic_GA = new MIC_GA(mic, workers);
-		mic_GA.start();
+		mic_GA.start();		
 	}
 }

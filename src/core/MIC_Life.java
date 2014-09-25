@@ -46,7 +46,13 @@ public class MIC_Life extends Life {
 				case 1:
 					fitness += MIC_GA.BONUS_WANTED;
 					break;
+				case 10:
+					fitness += MIC_GA.BONUS_WANTED;
+					break;
 				case 2:
+					fitness += MIC_GA.BONUS_AVAILABLE;
+					break;
+				case 20:
 					fitness += MIC_GA.BONUS_AVAILABLE;
 					break;
 				default:

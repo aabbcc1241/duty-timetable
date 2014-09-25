@@ -1,7 +1,8 @@
 package core;
 
 public class Worker {
-	int weekNum;
+	int id;
+	String name;
 	Day[] days;
 
 	class Day {
@@ -10,13 +11,11 @@ public class Worker {
 
 		class Timeslot {
 			public int status;
+
 			/*
-			 * 0 for lessons
-			 * 1 for wanted
-			 * 2 for available
-			 * 10 for duty-wanted
-			 * 20 for duty-available
-			 * */
+			 * 0 for lessons 1 for wanted 2 for available 10 for duty-wanted 20
+			 * for duty-available
+			 */
 
 			public Timeslot() {
 				status = 0;
@@ -32,6 +31,12 @@ public class Worker {
 	}
 
 	public Worker() {
+		this(0, "no_name");
+	}
+
+	public Worker(int id, String name) {
+		this.id = id;
+		this.name = name;
 		days = new Day[5];
 		for (int dayOfWeek = 1; dayOfWeek <= days.length; dayOfWeek++) {
 			days[dayOfWeek - 1] = new Day(dayOfWeek);

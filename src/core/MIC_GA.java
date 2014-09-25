@@ -13,7 +13,7 @@ public class MIC_GA {
 	public static float A_MUTATION = 0.02f;
 	public static float P_SURVIVE = 0.25f;
 
-	public static final float PUNISH_HAS_LESSON = -1f;
+	public static final float PUNISH_HAS_LESSON = -5f;
 	public static final float BONUS_WANTED = 1f;
 	public static final float BONUS_AVAILABLE = 0.5f;
 	public static final float BONUS_CONTINUOUS = 0.25f;
@@ -121,5 +121,6 @@ public class MIC_GA {
 		avgFitness = sumFitness / N_POP;
 		System.out.printf("\n%s%5s | %s%5s | %s%5s", "Generation: ", iGEN, "Best: ",
 				lifes.get(0).fitness, "Avg.: ", avgFitness);
+		
 	}
 }
