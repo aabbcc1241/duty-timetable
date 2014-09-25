@@ -11,7 +11,7 @@ public class Life implements Cloneable {
 	}
 
 	@Override
-	protected Object clone() {
+	public Object clone() {
 		try {
 			return super.clone();
 		} catch (CloneNotSupportedException e) {
