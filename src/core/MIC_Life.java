@@ -1,5 +1,6 @@
 package core;
 
+import ga.Gene;
 import ga.Life;
 
 public class MIC_Life extends Life {
@@ -23,13 +24,19 @@ public class MIC_Life extends Life {
 	}
 
 	@Override
+	public void setRandom() {
+		for (MIC_Gene gene : genes)
+			gene.setRandom();
+	}
+
+	@Override
 	public void benchmark() {
 		fitness = 0;
 		int workerId, workerIdLast;
 		for (int iDay = 0; iDay < genes.length; iDay++)
 			for (int iTimeslot = 0; iTimeslot < genes.length; iTimeslot++) {
 
-				workerId = genes[iDay].codes[iTimeslot];
+				workerId = genes[iDay].codes[iTimeslot];				
 				switch (workers[workerId].days[iDay].timeslot[iTimeslot].status) {
 				/** check valid **/
 				case 0:

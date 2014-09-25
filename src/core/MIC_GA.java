@@ -9,11 +9,11 @@ import java.util.List;
 import myutils.Utils;
 
 public class MIC_GA {
-	public static final int N_GEN = 50;
+	public static int N_GEN = 50;
 	public static int N_POP = 32;
 	public static float P_MUTATION = 0.1f;
 	public static float A_MUTATION = 0.1f;
-	public static float P_CX = 0.25f;
+	public static float P_CX = 0.75f;
 
 	public static final float PUNISH_HAS_LESSON = -5f;
 	public static final float BONUS_WANTED = 1f;
@@ -40,7 +40,7 @@ public class MIC_GA {
 
 	private MIC_GA(int nGEN, int nGENE, int lGENE) {
 		super();
-		NGEN = nGEN;
+		N_GEN = nGEN;
 		N_GENE = nGENE;
 		L_GENE = lGENE;
 		lifes = new ArrayList<MIC_Life>();
@@ -61,7 +61,7 @@ public class MIC_GA {
 
 	public void start() {
 		setRandom();
-		for (int iGEN = 0; iGEN < NGEN; iGEN++) {
+		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
 			benchmark();
 			sort();
 			report(iGEN);
