@@ -25,6 +25,7 @@ public class MIC_GA {
 
 	private Worker[] workers;
 	private MIC mic;
+	private int maxWorkerNameLength;
 
 	public float avgFitness = -321;
 	private float lastAvgFitness;
@@ -63,6 +64,10 @@ public class MIC_GA {
 
 	public void start() {
 		setRandom();
+		maxWorkerNameLength=0;
+		for(Worker worker:workers)
+			maxWorkerNameLength=Math.max(maxWorkerNameLength, worker.name.length());
+		maxWorkerNameLength+=5;
 		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
 			benchmark();
 			sort();
@@ -120,7 +125,13 @@ public class MIC_GA {
 		}
 		avgFitness = sumFitness / N_POP;
 		System.out.printf("\n%s%5s | %s%5s | %s%5s", "Generation: ", iGEN, "Best: ",
-				lifes.get(0).fitness, "Avg.: ", avgFitness);
-		
+				lifes.get(0).fitness, "Avg.: ", avgFitness);		
+		for (int iDay = 0; iDay < lifes.get(0).genes.length; iDay++) {
+			System.out.println();
+			for (int iTimeslot = 0; iTimeslot < lifes.get(0).genes.length; iTimeslot++) {
+				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
+				System.out.printf("%"+"s", workers[workerId].name);
+			}
+		}
 	}
 }

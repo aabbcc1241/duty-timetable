@@ -105,7 +105,7 @@ public class DutyTimeTable {
 	}
 
 	private void generate() {
-		MIC_GA mic_GA = new MIC_GA(mic, workers);
+		MIC_GA mic_GA = new MIC_GA(mic, workers);		
 		mic_GA.start();		
 	}
 }
