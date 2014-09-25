@@ -34,7 +34,7 @@ public class Life implements Cloneable {
 	}
 
 	public void cx(Life life2) {
-		// new child is this , parents are this and life2
+		/** new child is this , parents are this and life2**/
 		for (int i = 0; i < genes.length; i++)
 			genes[i].cx(life2.genes[i]);
 	}

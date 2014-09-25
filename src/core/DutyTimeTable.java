@@ -1,7 +1,5 @@
 package core;
 
-import ga.GA;
-
 import java.util.Scanner;
 import java.io.IOException;
 
@@ -12,6 +10,7 @@ import jxl.Workbook;
 import jxl.read.biff.BiffException;
 
 public class DutyTimeTable {
+	public static final int WORKER_AMOUNT = 10;
 	private String path;
 	private String url;
 	private String inFilename;
@@ -28,7 +27,7 @@ public class DutyTimeTable {
 		this.outFilename = outFilename;
 		this.weekNum = weekNum;
 		mic = new MIC();
-		workers = new Worker[10];
+		workers = new Worker[WORKER_AMOUNT];
 		for (int i = 0; i < workers.length; i++)
 			workers[i] = new Worker();
 	}
