@@ -9,8 +9,15 @@ public class MIC_Life extends Life {
 	/** represent days **/
 	public MIC_Gene[] genes;
 
-	public MIC_Life(int NGENE, int LGENE, MIC mic, Worker[] workers) {
+	public MIC_Life(final int NGENE, final int LGENE) {
 		super(NGENE, LGENE);
+		genes = new MIC_Gene[NGENE];
+		for (int iGENE = 0; iGENE < NGENE; iGENE++)
+			genes[iGENE] = new MIC_Gene(LGENE);
+	}
+
+	public MIC_Life(int NGENE, int LGENE, MIC mic, Worker[] workers) {
+		this(NGENE, LGENE);
 		this.mic = mic;
 		this.workers = workers;
 	}

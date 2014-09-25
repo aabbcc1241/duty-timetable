@@ -7,26 +7,26 @@ import java.util.List;
 import myutils.Utils;
 
 public class GA {
-	public static int NPOP = 32;
-	public static float PMUTATION = 0.1f;
-	public static float AMUTATION = 0.1f;
-	public static float PCX = 0.25f;
+	public static int N_POP = 32;
+	public static float P_MUTATION = 0.1f;
+	public static float A_MUTATION = 0.1f;
+	public static float P_CX = 0.25f;
 
-	protected int NGEN;
-	protected int NGENE;
-	protected int LGENE;
+	protected int N_GEN;
+	protected int N_GENE;
+	protected int L_GENE;
 	/** [num of animal][num of gene] **/
 	protected List<Life> lifes;
 
 	/** contrucstor **/
 	public GA(int nGEN, int nGENE, int lGENE) {
 		super();
-		NGEN = nGEN;
-		NGENE = nGENE;
-		LGENE = lGENE;
+		N_GEN = nGEN;
+		N_GENE = nGENE;
+		L_GENE = lGENE;
 		lifes = new ArrayList<Life>();
-		for (int iLife = 0; iLife < NPOP; iLife++)
-			lifes.add(new Life(NGENE, LGENE));
+		for (int iLife = 0; iLife < N_POP; iLife++)
+			lifes.add(new Life(N_GENE, L_GENE));
 	}
 
 	/** static method **/
@@ -44,7 +44,7 @@ public class GA {
 
 	public void start() {
 		setRandom();
-		for (int iGEN = 0; iGEN < NGEN; iGEN++) {
+		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
 			benchmark();
 			sort();
 			cx();
@@ -65,8 +65,8 @@ public class GA {
 	protected void cx() {
 		/** new child is iLife, parents are iLife and i **/
 		int i;
-		for (int iLife = 0; iLife < NPOP; iLife++) {
-			if (iLife > NPOP * PCX) {
+		for (int iLife = 0; iLife < N_POP; iLife++) {
+			if (iLife > N_POP * P_CX) {
 				i = Utils.random.nextInt(iLife);
 				lifes.set(iLife, cx(lifes.get(iLife),lifes.get(i)));
 			}
@@ -75,7 +75,7 @@ public class GA {
 
 	protected void mutation() {
 		for (Life life : lifes)
-			if (Utils.random.nextFloat() < PMUTATION)
+			if (Utils.random.nextFloat() < P_MUTATION)
 				life.mutate();
 	}
 

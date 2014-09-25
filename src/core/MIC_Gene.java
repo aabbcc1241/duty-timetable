@@ -27,7 +27,7 @@ public class MIC_Gene {
 
 	public void mutate() {
 		for (int i = 0; i < codes.length; i++)
-			if (Utils.random.nextFloat() < GA.AMUTATION) {
+			if (Utils.random.nextFloat() < GA.A_MUTATION) {
 				int newCode;
 				do {
 					newCode = Utils.random.nextInt(DutyTimeTable.WORKER_AMOUNT);

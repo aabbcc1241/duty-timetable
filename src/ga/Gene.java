@@ -22,7 +22,7 @@ public class Gene {
 
 	public void mutate() {
 		for (int i = 0; i < codes.length; i++)
-			if(Utils.random.nextFloat()<GA.AMUTATION)
+			if(Utils.random.nextFloat()<GA.A_MUTATION)
 				codes[i]=!codes[i];
 	}
 }
