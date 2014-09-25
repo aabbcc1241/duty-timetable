@@ -1,6 +1,9 @@
 package core;
 
-import ga.Life;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import myutils.Utils;
 
 public class MIC_GA {
@@ -18,7 +21,7 @@ public class MIC_GA {
 	protected int NGENE;
 	protected int LGENE;
 	/** [num of animal][num of gene] **/
-	protected MIC_Life[] lifes;
+	protected List<MIC_Life> lifes;
 
 	private Worker[] workers;
 	private MIC mic;
@@ -28,9 +31,9 @@ public class MIC_GA {
 		this(50, mic.days.length, mic.days[0].timeslot.length);
 		this.mic = mic;
 		this.workers = workers;
-		for (MIC_Life life : lifes) {
-			life = new MIC_Life(NGENE, LGENE, mic, workers);
-		}
+
+		for (int iLife = 0; iLife < NPOP; iLife++)
+			lifes.add(new MIC_Life(NGENE, LGENE, this.mic, this.workers));
 	}
 
 	private MIC_GA(int nGEN, int nGENE, int lGENE) {
@@ -38,7 +41,7 @@ public class MIC_GA {
 		NGEN = nGEN;
 		NGENE = nGENE;
 		LGENE = lGENE;
-		lifes = new MIC_Life[NPOP];
+		lifes = new ArrayList<MIC_Life>();
 	}
 
 	/** static method **/
@@ -58,6 +61,7 @@ public class MIC_GA {
 		setRandom();
 		for (int iGEN = 0; iGEN < NGEN; iGEN++) {
 			benchmark();
+			sort();
 			cx();
 			mutation();
 		}
@@ -68,14 +72,18 @@ public class MIC_GA {
 			life.benchmark();
 	}
 
+	protected void sort() {
+		Collections.sort(lifes);
+	}
+
 	/** losers cx with random life who's better then it **/
 	protected void cx() {
 		/** new child is iLife, parents are iLife and i **/
-		int i, j;
-		for (int iLife = 0; iLife < lifes.length; iLife++) {
-			if (iLife > lifes.length * PCX) {
+		int i;
+		for (int iLife = 0; iLife < NPOP; iLife++) {
+			if (iLife > NPOP * PCX) {
 				i = Utils.random.nextInt(iLife);
-				lifes[iLife] = cx(lifes[iLife], lifes[i]);
+				lifes.set(iLife, cx(lifes.get(iLife), lifes.get(i)));
 			}
 		}
 	}

@@ -1,7 +1,5 @@
 package core;
 
-import core.Worker.Day.Timeslot;
-
 
 public class MIC {
 	int weekNum;

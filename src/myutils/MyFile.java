@@ -6,8 +6,6 @@ import java.net.URL;
 import java.nio.channels.Channels;
 import java.nio.channels.ReadableByteChannel;
 
-import jxl.Cell;
-import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 

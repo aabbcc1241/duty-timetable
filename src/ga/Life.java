@@ -1,6 +1,6 @@
 package ga;
 
-public class Life implements Cloneable {
+public class Life implements Cloneable, Comparable<Life> {
 	public Gene[] genes;
 	public float fitness;
 
@@ -34,7 +34,7 @@ public class Life implements Cloneable {
 	}
 
 	public void cx(Life life2) {
-		/** new child is this , parents are this and life2**/
+		/** new child is this , parents are this and life2 **/
 		for (int i = 0; i < genes.length; i++)
 			genes[i].cx(life2.genes[i]);
 	}
@@ -42,5 +42,10 @@ public class Life implements Cloneable {
 	public void mutate() {
 		for (Gene gene : genes)
 			gene.mutate();
+	}
+
+	@Override
+	public int compareTo(Life o) {
+		return Float.compare(this.fitness, o.fitness);
 	}
 }
