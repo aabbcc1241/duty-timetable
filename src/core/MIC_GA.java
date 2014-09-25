@@ -1,5 +1,7 @@
 package core;
 
+import ga.Life;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -62,6 +64,7 @@ public class MIC_GA {
 		for (int iGEN = 0; iGEN < NGEN; iGEN++) {
 			benchmark();
 			sort();
+			report();
 			cx();
 			mutation();
 		}
@@ -94,4 +97,13 @@ public class MIC_GA {
 				life.mutate();
 	}
 
+	public void report() {
+		float sum = 0;
+		for (Life life : lifes)
+			sum += life.fitness;
+		float avg=sum/NPOP;
+		System.out.println();
+		System.out.println("Best fitness: " + lifes.get(0).fitness);
+		System.out.println("Avg. fitness: " + avg);
+	}
 }
