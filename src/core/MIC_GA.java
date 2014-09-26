@@ -1,15 +1,13 @@
 package core;
 
 import java.io.PrintStream;
-import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.JTextArea;
-
+import myutils.Display;
+import myutils.StringUtils;
 import myutils.Utils;
 
 public class MIC_GA {
@@ -139,27 +137,38 @@ public class MIC_GA {
 			sumFitness += life.fitness;
 		}
 		avgFitness = sumFitness / N_POP;
-		String width = String.valueOf(maxWorkerNameLength + 5);
+		int width = maxWorkerNameLength + 5;
 		/** display **/
-		display.clear();
+		display.clearBuffer();
 		Calendar now = Calendar.getInstance();
 		java.util.Date date = now.getTime();
 		// System.out.println(date.toString());
 		display.writeBuffer(date.toString());
-		msg = String.format("%s%5s | %s%5s | %s%5s", "Generation: ",
-				iGEN, "Best: ", lifes.get(0).fitness, "Avg.: ", avgFitness);
-		//System.out.println(msg);
-		display.writeBuffer(msg);
-		//System.out.print("POP-size: " + lifes.size());
-		display.writeBuffer("POP-size: " + lifes.size());
+		msg = String.format("\n%s%5s | %s%5s | %s%5s", "Generation: ", iGEN,
+				"Best: ", lifes.get(0).fitness, "Avg.: ", avgFitness);
+		// System.out.println(msg);
+		display.writeBuffer(msg + "\n");
+		for (MIC.Day day : mic.days) {
+			// msg = String.format("%-" + width + "s | ", "¬P´Á-" +
+			// day.dayOfWeek);
+			msg = StringUtils.center("Day-" + day.dayOfWeek, width);
+			display.writeBuffer(msg+" | ");
+		}
+
+		// System.out.print("POP-size: " + lifes.size());
+		// display.writeBuffer("POP-size: " + lifes.size());
 		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
-			//System.out.println();
+			// System.out.println();
+			// System.out.println();
 			display.writeBuffer("\n");
 			for (int iDay = 0; iDay < lifes.get(0).genes.length; iDay++) {
 				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
-				//System.out.printf("%-" + width + "s", workers[workerId].name);
-				msg=String.format("%-" + width + "s", workers[workerId].name);
-				display.writeBuffer(msg);
+				// System.out.printf("%-" + width + "s",
+				// workers[workerId].name);
+				msg = StringUtils.center(workers[workerId].name, width);
+				// msg = String.format("%-" + width + "s | ",
+				// workers[workerId].name);
+				display.writeBuffer(msg + " | ");
 			}
 		}
 		display.checkUpdateBuffer();

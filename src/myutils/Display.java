@@ -1,8 +1,7 @@
-package core;
+package myutils;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.LayoutManager;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -34,8 +33,8 @@ public class Display extends OutputStream {
 		frame.pack();
 		frame.setVisible(true);
 
-		bufferString=new StringBuilder();
-		
+		bufferString = new StringBuilder();
+
 		clear();
 		update();
 	}
@@ -73,13 +72,17 @@ public class Display extends OutputStream {
 		});
 	}
 
+	public void clearBuffer() {
+		bufferString = new StringBuilder();
+	}
+
 	public void setBuffer(String str) {
-		bufferString=new StringBuilder(str);
+		bufferString = new StringBuilder(str);
 	}
 
 	public void writeBuffer(String str) {
-		if(bufferString==null)
-			bufferString=new StringBuilder();
+		if (bufferString == null)
+			bufferString = new StringBuilder();
 		bufferString.append(str);
 	}
 
