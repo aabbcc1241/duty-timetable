@@ -15,23 +15,27 @@ public class Display extends OutputStream {
 	public JFrame frame;
 	public Container container;
 	public JTextArea textArea;
-
+	public StringBuilder bufferString;
 	public long interval;
 	public long lastUpdate;
 
-	public Display(int interval) {
-		this.interval = interval;
+	public Display(double interval) {
+		this.interval = Math.round(interval / 1000);
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		container = frame.getContentPane();
 		container.setLayout(new BorderLayout());
 		textArea = new JTextArea(25, 80);
 		textArea.setEditable(false);
-		container.add(new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+		container.add(new JScrollPane(textArea,
+				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
+				BorderLayout.CENTER);
 		frame.pack();
 		frame.setVisible(true);
 
+		bufferString=new StringBuilder();
+		
 		clear();
 		update();
 	}
@@ -39,6 +43,10 @@ public class Display extends OutputStream {
 	public Display() {
 		this(0);
 	}
+
+	public void setFPS(double fps) {
+		interval = Math.round(1000 / fps);
+	};
 
 	@Override
 	public void write(byte[] buffer, int offset, int length) throws IOException {
@@ -65,13 +73,33 @@ public class Display extends OutputStream {
 		});
 	}
 
+	public void setBuffer(String str) {
+		bufferString=new StringBuilder(str);
+	}
+
+	public void writeBuffer(String str) {
+		if(bufferString==null)
+			bufferString=new StringBuilder();
+		bufferString.append(str);
+	}
+
 	public void update() {
 		textArea.update(textArea.getGraphics());
+		lastUpdate = System.currentTimeMillis();
+	}
+
+	public void updateBuffer() {
+		textArea.setText(bufferString.toString());
 		lastUpdate = System.currentTimeMillis();
 	}
 
 	public void checkUpdate() {
 		if (System.currentTimeMillis() - lastUpdate >= interval)
 			update();
-	};
+	}
+
+	public void checkUpdateBuffer() {
+		if (System.currentTimeMillis() - lastUpdate >= interval)
+			updateBuffer();
+	}
 }

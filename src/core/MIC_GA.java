@@ -1,7 +1,10 @@
 package core;
 
 import java.io.PrintStream;
+import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
@@ -74,7 +77,8 @@ public class MIC_GA {
 		setRandom();
 		maxWorkerNameLength = 0;
 		for (Worker worker : workers)
-			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
+			maxWorkerNameLength = Math.max(maxWorkerNameLength,
+					worker.name.length());
 		maxWorkerNameLength += 5;
 		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
 			benchmark();
@@ -113,7 +117,8 @@ public class MIC_GA {
 			}
 		}
 		while (newLifes.size() < lifes.size()) {
-			MIC_Life newLife = cx(newLifes.get(Utils.random.nextInt(newLifes.size())),
+			MIC_Life newLife = cx(
+					newLifes.get(Utils.random.nextInt(newLifes.size())),
 					newLifes.get(Utils.random.nextInt(newLifes.size())));
 			newLifes.add(newLife);
 		}
@@ -129,6 +134,7 @@ public class MIC_GA {
 	public void report(int iGEN) {
 		lastAvgFitness = avgFitness;
 		sumFitness = 0;
+		String msg;
 		for (MIC_Life life : lifes) {
 			sumFitness += life.fitness;
 		}
@@ -136,16 +142,26 @@ public class MIC_GA {
 		String width = String.valueOf(maxWorkerNameLength + 5);
 		/** display **/
 		display.clear();
-		System.out.printf("\n%s%5s | %s%5s | %s%5s", "Generation: ", iGEN, "Best: ", lifes.get(0).fitness,
-				"Avg.: ", avgFitness);
+		Calendar now = Calendar.getInstance();
+		java.util.Date date = now.getTime();
+		// System.out.println(date.toString());
+		display.writeBuffer(date.toString());
+		msg = String.format("%s%5s | %s%5s | %s%5s", "Generation: ",
+				iGEN, "Best: ", lifes.get(0).fitness, "Avg.: ", avgFitness);
+		//System.out.println(msg);
+		display.writeBuffer(msg);
+		//System.out.print("POP-size: " + lifes.size());
+		display.writeBuffer("POP-size: " + lifes.size());
 		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
-			System.out.println();
+			//System.out.println();
+			display.writeBuffer("\n");
 			for (int iDay = 0; iDay < lifes.get(0).genes.length; iDay++) {
 				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
-				System.out.printf("%-" + width + "s", workers[workerId].name);
+				//System.out.printf("%-" + width + "s", workers[workerId].name);
+				msg=String.format("%-" + width + "s", workers[workerId].name);
+				display.writeBuffer(msg);
 			}
 		}
-		if (Utils.random.nextFloat() < 0.001f)
-			display.update();
+		display.checkUpdateBuffer();
 	}
 }

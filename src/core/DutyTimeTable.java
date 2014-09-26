@@ -33,6 +33,7 @@ public class DutyTimeTable {
 		for (int i = 0; i < workers.length; i++)
 			workers[i] = new Worker();
 		display=new Display();
+		display.setFPS(2);
 	}
 
 	public void menu() {
