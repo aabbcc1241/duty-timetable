@@ -18,6 +18,8 @@ public class DutyTimeTable {
 	int weekNum;
 	MIC mic;
 	Worker[] workers;
+	
+	Display display;
 
 	public DutyTimeTable(String url, String path, String inFilename, String outFilename,
 			int weekNum) {
@@ -30,6 +32,7 @@ public class DutyTimeTable {
 		workers = new Worker[WORKER_AMOUNT];
 		for (int i = 0; i < workers.length; i++)
 			workers[i] = new Worker();
+		display=new Display();
 	}
 
 	public void menu() {
@@ -85,7 +88,7 @@ public class DutyTimeTable {
 				sheet = workbook.getSheet(0);
 				for (int rowIndex = 3; rowIndex < 3 + workerAmount; rowIndex++) {
 					cell = sheet.getCell(7, rowIndex);
-					workers[rowIndex - 3].name = cell.getContents();
+					workers[rowIndex - 3].name = cell.getContents().trim();
 				}
 			}
 			for (int sheetIndex = 1; sheetIndex <= dayAmount; sheetIndex++) {
@@ -105,7 +108,7 @@ public class DutyTimeTable {
 	}
 
 	private void generate() {
-		MIC_GA mic_GA = new MIC_GA(mic, workers);		
+		MIC_GA mic_GA = new MIC_GA(display,mic, workers);		
 		mic_GA.start();		
 	}
 }

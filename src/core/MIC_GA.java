@@ -1,8 +1,11 @@
 package core;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import javax.swing.JTextArea;
 
 import myutils.Utils;
 
@@ -31,11 +34,14 @@ public class MIC_GA {
 	private float lastAvgFitness;
 	private float sumFitness;
 
+	private Display display;
+
 	/** contrucstor **/
-	public MIC_GA(MIC mic, Worker[] workers) {
+	public MIC_GA(Display display, MIC mic, Worker[] workers) {
 		this(N_GEN, mic.days.length, mic.days[0].timeslot.length);
 		this.mic = mic;
 		this.workers = workers;
+		this.display = display;
 
 		for (int iLife = 0; iLife < N_POP; iLife++)
 			lifes.add(new MIC_Life(N_GENE, L_GENE, this.mic, this.workers));
@@ -63,11 +69,13 @@ public class MIC_GA {
 	}
 
 	public void start() {
+		PrintStream oriPrintStream = System.out;
+		System.setOut(new PrintStream(display));
 		setRandom();
-		maxWorkerNameLength=0;
-		for(Worker worker:workers)
-			maxWorkerNameLength=Math.max(maxWorkerNameLength, worker.name.length());
-		maxWorkerNameLength+=5;
+		maxWorkerNameLength = 0;
+		for (Worker worker : workers)
+			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
+		maxWorkerNameLength += 5;
 		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
 			benchmark();
 			sort();
@@ -82,6 +90,7 @@ public class MIC_GA {
 			cx();
 			mutation();
 		}
+		System.setOut(oriPrintStream);
 	}
 
 	protected void benchmark() {
@@ -124,14 +133,19 @@ public class MIC_GA {
 			sumFitness += life.fitness;
 		}
 		avgFitness = sumFitness / N_POP;
-		System.out.printf("\n%s%5s | %s%5s | %s%5s", "Generation: ", iGEN, "Best: ",
-				lifes.get(0).fitness, "Avg.: ", avgFitness);		
-		for (int iDay = 0; iDay < lifes.get(0).genes.length; iDay++) {
+		String width = String.valueOf(maxWorkerNameLength + 5);
+		/** display **/
+		display.clear();
+		System.out.printf("\n%s%5s | %s%5s | %s%5s", "Generation: ", iGEN, "Best: ", lifes.get(0).fitness,
+				"Avg.: ", avgFitness);
+		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
 			System.out.println();
-			for (int iTimeslot = 0; iTimeslot < lifes.get(0).genes.length; iTimeslot++) {
+			for (int iDay = 0; iDay < lifes.get(0).genes.length; iDay++) {
 				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
-				System.out.printf("%"+"s", workers[workerId].name);
+				System.out.printf("%-" + width + "s", workers[workerId].name);
 			}
 		}
+		if (Utils.random.nextFloat() < 0.001f)
+			display.update();
 	}
 }

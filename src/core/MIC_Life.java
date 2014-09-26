@@ -1,6 +1,5 @@
 package core;
 
-import ga.Gene;
 import ga.Life;
 
 public class MIC_Life extends Life {
