@@ -1,16 +1,16 @@
 package core;
 
+import javax.rmi.CORBA.Util;
+
+import core.MIC.Day;
 import core.MIC.Day.Timeslot;
 import ga.GA;
 import myutils.Utils;
 
 public class MIC_Gene {
 
+	/** represent workerId of timeslots **/
 	public int[] codes;
-
-	/*
-	 * int []represent time-slots int is worker id
-	 */
 
 	public MIC_Gene(int length) {
 		codes = new int[length];
@@ -28,14 +28,15 @@ public class MIC_Gene {
 				codes[i] = gene2.codes[i];
 	}
 
-	public void mutate() {
-		for (int i = 0; i < codes.length; i++)
+	public void mutate(Day day) {
+		for (int iTimeslot = 0; iTimeslot < day.timeslot.length; iTimeslot++)
 			if (Utils.random.nextFloat() < GA.A_MUTATION) {
 				int newCode;
 				do {
-					newCode = Utils.random.nextInt(DutyTimeTable.WORKER_AMOUNT);
-				} while (newCode == codes[i]);
-				codes[i] = newCode;
+					newCode = Utils.random
+							.nextInt(day.timeslot[iTimeslot].possibleWorkers.size());
+				} while (newCode == codes[iTimeslot]);
+				codes[iTimeslot] = newCode;
 			}
 	}
 }

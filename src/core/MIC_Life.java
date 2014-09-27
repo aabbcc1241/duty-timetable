@@ -1,5 +1,7 @@
 package core;
 
+import core.MIC.Day;
+import core.MIC.Day.Timeslot;
 import ga.Life;
 
 public class MIC_Life extends Life {
@@ -83,10 +85,13 @@ public class MIC_Life extends Life {
 		for (int i = 0; i < genes.length; i++)
 			genes[i].cx(life2.genes[i]);
 	}
-
 	@Override
 	public void mutate() {
-		for (MIC_Gene gene : genes)
-			gene.mutate();
+	mutate(mic.days);
+	}
+
+	public void mutate(Day[] days) {
+		for (int iDay = 0; iDay < days.length; iDay++)			
+			genes[iDay].mutate(days[iDay]);		
 	}
 }
