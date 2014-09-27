@@ -1,9 +1,11 @@
 package core;
 
+import core.MIC.Day.Timeslot;
 import ga.GA;
 import myutils.Utils;
 
 public class MIC_Gene {
+
 	public int[] codes;
 
 	/*
@@ -14,9 +16,10 @@ public class MIC_Gene {
 		codes = new int[length];
 	}
 
-	public void setRandom() {
-		for (int i = 0; i < codes.length; i++)
-			codes[i] = Utils.random.nextInt(DutyTimeTable.WORKER_AMOUNT);
+	public void setRandom(Timeslot[] timeslots) {
+		for (int iTimeslot = 0; iTimeslot < timeslots.length; iTimeslot++)
+			codes[iTimeslot] = Utils.random.nextInt(timeslots[iTimeslot].possibleWorkers
+					.size());
 	}
 
 	public void cx(MIC_Gene gene2) {

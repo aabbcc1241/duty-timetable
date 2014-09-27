@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import myutils.Display;
 import myutils.MyFile;
+import myutils.StringUtils;
 import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
@@ -19,7 +20,7 @@ public class DutyTimeTable {
 	int weekNum;
 	MIC mic;
 	Worker[] workers;
-	
+
 	Display display;
 
 	public DutyTimeTable(String url, String path, String inFilename, String outFilename,
@@ -30,10 +31,10 @@ public class DutyTimeTable {
 		this.outFilename = outFilename;
 		this.weekNum = weekNum;
 		mic = new MIC();
-		workers = new Worker[WORKER_AMOUNT];
-		for (int i = 0; i < workers.length; i++)
-			workers[i] = new Worker();
-		display=new Display();
+		workers = new Worker[WORKER_AMOUNT];	
+		for (int iWorker = 0; iWorker < workers.length; iWorker++)
+			workers[iWorker] = new Worker();
+		display = new Display();
 		display.setFPS(2);
 	}
 
@@ -49,6 +50,7 @@ public class DutyTimeTable {
 			try {
 				option = scanner.nextInt();
 			} catch (Exception e) {
+				System.out.println(e.toString());
 			}
 			switch (option) {
 			case 0:
@@ -79,6 +81,7 @@ public class DutyTimeTable {
 	private void readFile() {
 		try {
 			Workbook workbook;
+			System.out.println("geting from<" + path + "\\" + outFilename + ">");
 			workbook = MyFile.getWorkbook(path, outFilename);
 			Sheet sheet;
 			Cell cell;
@@ -104,13 +107,30 @@ public class DutyTimeTable {
 					}
 				}
 			}
+			showWorkerInfo();
 		} catch (BiffException | IOException e) {
 			System.out.println("cannot readFile");
 		}
 	}
 
+	private void showWorkerInfo() {
+		/** show worker info **/
+		display.clearBuffer();
+		for (int iWorker = 0; iWorker < workers.length; iWorker++) {
+			display.writeBuffer("\n" + workers[iWorker].name);
+			for (int iDay = 0; iDay < workers[iWorker].days.length; iDay++) {
+				display.writeBuffer("\n\tDay-" + iDay + "\t");
+				for (int iTimeslot = 0; iTimeslot < workers[iWorker].days[iDay].timeslot.length; iTimeslot++)
+					display.writeBuffer(StringUtils.center(""
+							+ workers[iWorker].days[iDay].timeslot[iTimeslot].status, 4));
+			}
+		}
+		display.updateBuffer();
+	}
+
 	private void generate() {
-		MIC_GA mic_GA = new MIC_GA(display,mic, workers);		
-		mic_GA.start();		
+		mic.findPossibleWorkers(workers);
+		MIC_GA mic_GA = new MIC_GA(display, mic, workers);
+		mic_GA.start();
 	}
 }

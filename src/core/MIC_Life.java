@@ -9,23 +9,24 @@ public class MIC_Life extends Life {
 	/** represent days **/
 	public MIC_Gene[] genes;
 
-	public MIC_Life(final int NGENE, final int LGENE) {
+	/*public MIC_Life(final int NGENE, final int LGENE) {
 		super(NGENE, LGENE);
 		genes = new MIC_Gene[NGENE];
 		for (int iGENE = 0; iGENE < NGENE; iGENE++)
 			genes[iGENE] = new MIC_Gene(LGENE);
-	}
+	}*/
 
-	public MIC_Life(int NGENE, int LGENE, MIC mic, Worker[] workers) {
-		this(NGENE, LGENE);
+	public MIC_Life(int NGENE, int LGENE, MIC mic, Worker[] workers) {		
+		//this(NGENE, LGENE);
+		super(NGENE, LGENE);
 		this.mic = mic;
 		this.workers = workers;
 	}
 
 	@Override
 	public void setRandom() {
-		for (MIC_Gene gene : genes)
-			gene.setRandom();
+		for(int iDay=0;iDay<mic.days.length;iDay++)
+			genes[iDay].setRandom(mic.days[iDay].timeslot);		
 	}
 
 	@Override
