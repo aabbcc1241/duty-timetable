@@ -26,9 +26,9 @@ public class MIC_Life extends Life {
 	}
 
 	@Override
-	public void setRandom() {		
-		for (int iDay = 0; iDay < mic.days.length; iDay++) 
-			genes[iDay].setRandom(mic.days[iDay].timeslot);		
+	public void setRandom() {
+		for (int iDay = 0; iDay < mic.days.length; iDay++)
+			genes[iDay].setRandom(mic.days[iDay].timeslot);
 	}
 
 	@Override
@@ -37,8 +37,17 @@ public class MIC_Life extends Life {
 		int workerId, workerIdLast;
 		for (int iDay = 0; iDay < genes.length; iDay++)
 			for (int iTimeslot = 0; iTimeslot < genes.length; iTimeslot++) {
-
-				workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers.get(genes[iDay].codes[iTimeslot]).id;
+				System.out.println();
+				System.out.print("iDay\t\t");
+				System.out.println(iDay);
+				System.out.print("iTimeslot\t\t");
+				System.out.println(iTimeslot);
+				System.out.print("genes[" + iDay + "].codes[" + iTimeslot + "]\t\t");
+				System.out.println(genes[iDay].codes[iTimeslot]);
+				System.out.print("mic.days["+iDay+"].timeslot["+iTimeslot+"].possibleWorkers.size()\t\t");
+				System.out.println(mic.days[iDay].timeslot[iTimeslot].possibleWorkers.size());
+				workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers
+						.get(genes[iDay].codes[iTimeslot]).id;
 				switch (workers[workerId].days[iDay].timeslot[iTimeslot].status) {
 				/** check valid **/
 				case 0:
