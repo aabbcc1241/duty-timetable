@@ -13,8 +13,8 @@ import myutils.Utils;
 public class MIC_GA {
 	public static int N_GEN = 1000;
 	public static int N_POP = 100;
-	public static float P_MUTATION = (N_GEN-1) / (float)N_GEN;
-	public static float A_MUTATION = 84f / 85f;
+	public static float P_MUTATION = 0.99f;
+	public static float A_MUTATION = 0.5f;
 	public static float P_SURVIVE = 0.25f;
 
 	public static final float SCORE_HAS_LESSON = -1000f;
@@ -108,8 +108,9 @@ public class MIC_GA {
 		/** new child is iLife, parents are iLife and i **/
 		List<MIC_Life> newLifes = new ArrayList<MIC_Life>();
 		for (int iLife = 0; iLife < N_POP; iLife++) {
-			if ((float) iLife / N_POP < P_SURVIVE) {
-				newLifes.add(lifes.get(iLife));
+			if ( iLife < N_POP * P_SURVIVE) {
+			//if(Utils.random.nextInt(iLife+1)==0){
+				newLifes.add((MIC_Life) lifes.get(iLife).clone());
 			}
 		}
 		while (newLifes.size() < lifes.size()) {
