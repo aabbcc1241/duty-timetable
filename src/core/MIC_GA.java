@@ -75,20 +75,17 @@ public class MIC_GA {
 		setRandom();
 		maxWorkerNameLength = 0;
 		for (Worker worker : workers)
-			maxWorkerNameLength = Math.max(maxWorkerNameLength,
-					worker.name.length());
+			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
 		maxWorkerNameLength += 5;
 		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
 			benchmark();
 			sort();
 			report(iGEN + 1);
-			if (avgFitness == lastAvgFitness)
-				// break;
-				;
-			if (lifes.get(0).fitness > 0)
-				break;
-			else
-				N_GEN++;
+			/*
+			 * if (avgFitness == lastAvgFitness) // break; ; if
+			 * (lifes.get(0).fitness > 0) //break; ; else
+			 */
+			N_GEN++;
 			cx();
 			mutation();
 		}
@@ -115,8 +112,7 @@ public class MIC_GA {
 			}
 		}
 		while (newLifes.size() < lifes.size()) {
-			MIC_Life newLife = cx(
-					newLifes.get(Utils.random.nextInt(newLifes.size())),
+			MIC_Life newLife = cx(newLifes.get(Utils.random.nextInt(newLifes.size())),
 					newLifes.get(Utils.random.nextInt(newLifes.size())));
 			newLifes.add(newLife);
 		}
@@ -144,15 +140,15 @@ public class MIC_GA {
 		java.util.Date date = now.getTime();
 		// System.out.println(date.toString());
 		display.writeBuffer(date.toString());
-		msg = String.format("\n%s%5s | %s%5s | %s%5s", "Generation: ", iGEN,
-				"Best: ", lifes.get(0).fitness, "Avg.: ", avgFitness);
+		msg = String.format("\n%s%5s | %s%5s | %s%5s", "Generation: ", iGEN, "Best: ",
+				lifes.get(0).fitness, "Avg.: ", avgFitness);
 		// System.out.println(msg);
 		display.writeBuffer(msg + "\n");
 		for (MIC.Day day : mic.days) {
-			// msg = String.format("%-" + width + "s | ", "¬P´Á-" +
+			// msg = String.format("%-" + width + "s | ", "ï¿½Pï¿½ï¿½-" +
 			// day.dayOfWeek);
 			msg = StringUtils.center("Day-" + day.dayOfWeek, width);
-			display.writeBuffer(msg+" | ");
+			display.writeBuffer(msg + " | ");
 		}
 
 		// System.out.print("POP-size: " + lifes.size());
