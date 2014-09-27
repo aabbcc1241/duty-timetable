@@ -33,7 +33,7 @@ public class DutyTimeTable {
 		mic = new MIC();
 		workers = new Worker[WORKER_AMOUNT];	
 		for (int iWorker = 0; iWorker < workers.length; iWorker++)
-			workers[iWorker] = new Worker();
+			workers[iWorker] = new Worker(iWorker);
 		display = new Display();
 		display.setFPS(2);
 	}
@@ -92,7 +92,7 @@ public class DutyTimeTable {
 			{
 				sheet = workbook.getSheet(0);
 				for (int rowIndex = 3; rowIndex < 3 + workerAmount; rowIndex++) {
-					cell = sheet.getCell(7, rowIndex);
+					cell = sheet.getCell(7, rowIndex);					
 					workers[rowIndex - 3].name = cell.getContents().trim();
 				}
 			}

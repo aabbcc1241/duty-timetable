@@ -30,8 +30,8 @@ public class Worker {
 		}
 	}
 
-	public Worker() {
-		this(0, "no_name");
+	public Worker(int id) {
+		this(id, "no_name");
 	}
 
 	public Worker(int id, String name) {

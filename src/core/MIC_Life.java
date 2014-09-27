@@ -38,7 +38,7 @@ public class MIC_Life extends Life {
 		for (int iDay = 0; iDay < genes.length; iDay++)
 			for (int iTimeslot = 0; iTimeslot < genes.length; iTimeslot++) {
 
-				workerId = genes[iDay].codes[iTimeslot];
+				workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers.get(genes[iDay].codes[iTimeslot]).id;
 				switch (workers[workerId].days[iDay].timeslot[iTimeslot].status) {
 				/** check valid **/
 				case 0:
