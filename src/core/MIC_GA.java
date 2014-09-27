@@ -13,14 +13,14 @@ import myutils.Utils;
 public class MIC_GA {
 	public static int N_GEN = 1000;
 	public static int N_POP = 100;
-	public static float P_MUTATION = 0.01f;
-	public static float A_MUTATION = 0.02f;
+	public static float P_MUTATION = (N_GEN-1) / (float)N_GEN;
+	public static float A_MUTATION = 84f / 85f;
 	public static float P_SURVIVE = 0.25f;
 
-	public static final float PUNISH_HAS_LESSON = -5f;
-	public static final float BONUS_WANTED = 1f;
-	public static final float BONUS_AVAILABLE = 0.5f;
-	public static final float BONUS_CONTINUOUS = 0.25f;
+	public static final float SCORE_HAS_LESSON = -1000f;
+	public static final float SCORE_WANTED = 1f;
+	public static final float SCORE_AVAILABLE = -0.5f;
+	public static final float SCORE_CONTINUOUS = 0.5f;
 
 	protected int N_GENE;
 	protected int L_GENE;
@@ -31,7 +31,8 @@ public class MIC_GA {
 	private MIC mic;
 	private int maxWorkerNameLength;
 
-	public float avgFitness = -321;
+	public float avgFitness = Float.MIN_VALUE;
+	public float sdFitness = Float.MAX_VALUE;
 	private float lastAvgFitness;
 	private float sumFitness;
 
@@ -133,6 +134,10 @@ public class MIC_GA {
 			sumFitness += life.fitness;
 		}
 		avgFitness = sumFitness / N_POP;
+		sdFitness = 0;
+		for (MIC_Life life : lifes) {
+			sdFitness += Math.pow(life.fitness - avgFitness, 2);
+		}
 		int width = maxWorkerNameLength + 5;
 		/** display **/
 		display.clearBuffer();
@@ -140,8 +145,8 @@ public class MIC_GA {
 		java.util.Date date = now.getTime();
 		// System.out.println(date.toString());
 		display.writeBuffer(date.toString());
-		msg = String.format("\n%s%5s | %s%5s | %s%5s", "Generation: ", iGEN, "Best: ",
-				lifes.get(0).fitness, "Avg.: ", avgFitness);
+		msg = String.format("\n%s%5s | %s%5s | %s%5s | %s%5s", "Generation: ", iGEN, "Best: ",
+				lifes.get(0).fitness, "Avg.: ", avgFitness,"SD.: ",sdFitness);
 		// System.out.println(msg);
 		display.writeBuffer(msg + "\n");
 		for (MIC.Day day : mic.days) {

@@ -1,7 +1,6 @@
 package core;
 
 import core.MIC.Day;
-import core.MIC.Day.Timeslot;
 import ga.Life;
 
 public class MIC_Life extends Life {
@@ -39,34 +38,36 @@ public class MIC_Life extends Life {
 		int workerId, workerIdLast;
 		for (int iDay = 0; iDay < genes.length; iDay++)
 			for (int iTimeslot = 0; iTimeslot < genes.length; iTimeslot++) {
-				System.out.println();
-				System.out.print("iDay\t\t");
-				System.out.println(iDay);
-				System.out.print("iTimeslot\t\t");
-				System.out.println(iTimeslot);
-				System.out.print("genes[" + iDay + "].codes[" + iTimeslot + "]\t\t");
-				System.out.println(genes[iDay].codes[iTimeslot]);
-				System.out.print("mic.days["+iDay+"].timeslot["+iTimeslot+"].possibleWorkers.size()\t\t");
-				System.out.println(mic.days[iDay].timeslot[iTimeslot].possibleWorkers.size());
+				/*
+				 * System.out.println(); System.out.print("iDay\t\t");
+				 * System.out.println(iDay); System.out.print("iTimeslot\t\t");
+				 * System.out.println(iTimeslot); System.out.print("genes[" +
+				 * iDay + "].codes[" + iTimeslot + "]\t\t");
+				 * System.out.println(genes[iDay].codes[iTimeslot]);
+				 * System.out.print("mic.days["+iDay+"].timeslot["+iTimeslot+
+				 * "].possibleWorkers.size()\t\t");
+				 * System.out.println(mic.days[iDay
+				 * ].timeslot[iTimeslot].possibleWorkers.size());
+				 */
 				workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers
 						.get(genes[iDay].codes[iTimeslot]).id;
 				switch (workers[workerId].days[iDay].timeslot[iTimeslot].status) {
 				/** check valid **/
 				case 0:
-					fitness += MIC_GA.PUNISH_HAS_LESSON;
+					fitness += MIC_GA.SCORE_HAS_LESSON;
 					break;
 				/** check wanted and available bonus **/
 				case 1:
-					fitness += MIC_GA.BONUS_WANTED;
+					fitness += MIC_GA.SCORE_WANTED;
 					break;
 				case 10:
-					fitness += MIC_GA.BONUS_WANTED;
+					fitness += MIC_GA.SCORE_WANTED;
 					break;
 				case 2:
-					fitness += MIC_GA.BONUS_AVAILABLE;
+					fitness += MIC_GA.SCORE_AVAILABLE;
 					break;
 				case 20:
-					fitness += MIC_GA.BONUS_AVAILABLE;
+					fitness += MIC_GA.SCORE_AVAILABLE;
 					break;
 				default:
 					break;
@@ -75,7 +76,7 @@ public class MIC_Life extends Life {
 				if (iTimeslot > 0) {
 					workerIdLast = genes[iDay].codes[iTimeslot - 1];
 					if (workerId == workerIdLast)
-						fitness += MIC_GA.BONUS_CONTINUOUS;
+						fitness += MIC_GA.SCORE_CONTINUOUS;
 				}
 			}
 	}
