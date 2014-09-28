@@ -29,16 +29,14 @@ public class MIC_Gene {
 					.size());
 	}
 
-	public void cx(MIC_Gene gene2) {
-		for (int i = 0; i < codes.length; i++)
-			if (Utils.random.nextBoolean())
-				codes[i] = gene2.codes[i];
-	}
-
 	public void mutate(Day day) {
+		int newCode;
 		for (int iTimeslot = 0; iTimeslot < day.timeslot.length; iTimeslot++)
-			if (Utils.random.nextFloat() < GA.A_MUTATION) {
-				int newCode;
+			if ((day.timeslot[iTimeslot].possibleWorkers.size() > 1)
+					&& (Utils.random.nextFloat() < GA.A_MUTATION)) {
+				// System.out.println("\ngene-mutate-really " +
+				// Utils.random.nextInt());
+				// System.out.println(day.timeslot[iTimeslot].possibleWorkers.size());
 				do {
 					newCode = Utils.random
 							.nextInt(day.timeslot[iTimeslot].possibleWorkers.size());

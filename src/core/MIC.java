@@ -44,16 +44,17 @@ public class MIC {
 	}
 
 	public void findPossibleWorkers(Worker[] workers) {
+		int status;
 		clearPossibleWorkers();
 		for (int iWorker = 0; iWorker < workers.length; iWorker++)
 			for (int iDay = 0; iDay < workers[iWorker].days.length; iDay++)
-				for (int iTimeslot = 0; iTimeslot < workers[iWorker].days[iDay].timeslot.length; iTimeslot++)
-					if ((workers[iWorker].days[iDay].timeslot[iTimeslot].status == 1)
-							||(workers[iWorker].days[iDay].timeslot[iTimeslot].status == 10)
-							|| (workers[iWorker].days[iDay].timeslot[iTimeslot].status == 2)
-							||(workers[iWorker].days[iDay].timeslot[iTimeslot].status == 20))
+				for (int iTimeslot = 0; iTimeslot < workers[iWorker].days[iDay].timeslot.length; iTimeslot++) {
+					status = workers[iWorker].days[iDay].timeslot[iTimeslot].status;
+					if ((status == 1) || (status == 10) || (status == 2)
+							|| (status == 20))
 						days[iDay].timeslot[iTimeslot].possibleWorkers
 								.add(workers[iWorker]);
+				}
 	}
 
 }

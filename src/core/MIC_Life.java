@@ -1,5 +1,6 @@
 package core;
 
+import myutils.Utils;
 import ga.Life;
 
 public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
@@ -59,17 +60,6 @@ public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 		int workerId, workerIdLast;
 		for (int iDay = 0; iDay < genes.length; iDay++)
 			for (int iTimeslot = 0; iTimeslot < genes.length; iTimeslot++) {
-				/*
-				 * System.out.println(); System.out.print("iDay\t\t");
-				 * System.out.println(iDay); System.out.print("iTimeslot\t\t");
-				 * System.out.println(iTimeslot); System.out.print("genes[" +
-				 * iDay + "].codes[" + iTimeslot + "]\t\t");
-				 * System.out.println(genes[iDay].codes[iTimeslot]);
-				 * System.out.print("mic.days["+iDay+"].timeslot["+iTimeslot+
-				 * "].possibleWorkers.size()\t\t");
-				 * System.out.println(mic.days[iDay
-				 * ].timeslot[iTimeslot].possibleWorkers.size());
-				 */
 				workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers
 						.get(genes[iDay].codes[iTimeslot]).id;
 				switch (workers[workerId].days[iDay].timeslot[iTimeslot].status) {

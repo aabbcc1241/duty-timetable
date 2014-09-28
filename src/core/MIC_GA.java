@@ -1,5 +1,7 @@
 package core;
 
+import ga.Life;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,56 +68,66 @@ public class MIC_GA {
 			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
 		maxWorkerNameLength += 5;
 		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
-			System.out.println("\nstart " + Utils.random.nextInt());
 			benchmark();
 			sort();
 			report(iGEN + 1);
-			/*
-			 * if (avgFitness == lastAvgFitness) // break; ; if
-			 * (lifes.get(0).fitness > 0) //break; ; else
-			 */
-			N_GEN++;
-			System.out.println("\ncx "+Utils.random.nextInt());
+			/** check if the loop should end **/
+			if (avgFitness == lastAvgFitness)
+				;// break;
+			else
+				N_GEN++;
 			cx();
-			System.out.println("\nmutate "+Utils.random.nextInt());
 			mutate();
+			/** slow down for debug **/
+			/*
+			 * { try { Thread.sleep(1000); } catch (InterruptedException e) { //
+			 * TODO Auto-generated catch block e.printStackTrace(); } }
+			 */
 		}
-		System.out.println("\nend "+Utils.random.nextInt());
+		System.out.println("\n\nFinished");
 		System.setOut(oriPrintStream);
 	}
 
 	protected void benchmark() {
-		for (MIC_Life life : lifes){
-			System.out.println("\nbenchmark "+Utils.random.nextInt());
-			life.benchmark();}
+		for (MIC_Life life : lifes)
+			life.benchmark();
 	}
 
 	protected void sort() {
-		Collections.sort(lifes);
+		Collections.sort(lifes, Collections.reverseOrder());
 	}
 
 	/** losers cx with random life who's better then it **/
 	protected void cx() {
 		/** new child is iLife, parents are iLife and i **/
 		List<MIC_Life> newLifes = new ArrayList<MIC_Life>();
-		for (int iLife = 0; iLife < N_POP; iLife++) {
+		newLifes.add((MIC_Life) lifes.get(0).clone());
+		for (int iLife = 1; iLife < N_POP; iLife++) {
 			if (iLife < N_POP * P_SURVIVE) {
 				newLifes.add((MIC_Life) lifes.get(iLife).clone());
 			}
 		}
 		while (newLifes.size() < lifes.size()) {
 			MIC_Life newLife = MIC_Life.cx(
-					newLifes.get(Utils.random.nextInt(newLifes.size())),
-					newLifes.get(Utils.random.nextInt(newLifes.size())));
+			// newLifes.get(Utils.random.nextInt(newLifes.size())),
+					lifes.get(Utils.random.nextInt(lifes.size())),
+					// newLifes.get(Utils.random.nextInt(newLifes.size())));
+					lifes.get(Utils.random.nextInt(lifes.size())));
 			newLifes.add(newLife);
 		}
-		lifes = newLifes;
+		lifes.clear();
+		for(MIC_Life life:newLifes)
+			lifes.add((MIC_Life) life.clone());		
 	}
 
 	protected void mutate() {
-		for (MIC_Life life : lifes)
-			if (Utils.random.nextFloat() < P_MUTATION)
-				life.mutate();
+		/*
+		 * for (MIC_Life life : lifes) if (Utils.random.nextFloat() <
+		 * P_MUTATION) life.mutate();
+		 */
+		for (int iLife = 1; iLife < N_POP; iLife++) {
+			lifes.get(iLife).mutate();
+		}
 	}
 
 	protected void calcStat() {
@@ -130,7 +142,6 @@ public class MIC_GA {
 	}
 
 	public void report(int iGEN) {
-		System.out.println("\nreport " + Utils.random.nextInt());
 		calcStat();
 		/** prepare to display **/
 		String msg;
@@ -157,8 +168,8 @@ public class MIC_GA {
 		}
 
 		/** display **/
-		System.out.println("\nreport-updatebuffer "+Utils.random.nextInt());
 		display.checkUpdateBuffer();
+		// display.updateBuffer();
 	}
 
 }
