@@ -13,8 +13,8 @@ import myutils.Utils;
 public class MIC_GA {
 	public static int N_GEN = 1000;
 	public static int N_POP = 100;
-	public static float P_MUTATION = 0.99f;
-	public static float A_MUTATION = 0.5f;
+	public static float P_MUTATION = 0.02f;
+	public static float A_MUTATION = 0.1f;
 	public static float P_SURVIVE = 0.25f;
 
 	public static final float SCORE_HAS_LESSON = -1000f;
@@ -66,6 +66,7 @@ public class MIC_GA {
 			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
 		maxWorkerNameLength += 5;
 		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
+			System.out.println("\nstart " + Utils.random.nextInt());
 			benchmark();
 			sort();
 			report(iGEN + 1);
@@ -74,15 +75,19 @@ public class MIC_GA {
 			 * (lifes.get(0).fitness > 0) //break; ; else
 			 */
 			N_GEN++;
+			System.out.println("\ncx "+Utils.random.nextInt());
 			cx();
-			mutation();
+			System.out.println("\nmutate "+Utils.random.nextInt());
+			mutate();
 		}
+		System.out.println("\nend "+Utils.random.nextInt());
 		System.setOut(oriPrintStream);
 	}
 
 	protected void benchmark() {
-		for (MIC_Life life : lifes)
-			life.benchmark();
+		for (MIC_Life life : lifes){
+			System.out.println("\nbenchmark "+Utils.random.nextInt());
+			life.benchmark();}
 	}
 
 	protected void sort() {
@@ -95,7 +100,6 @@ public class MIC_GA {
 		List<MIC_Life> newLifes = new ArrayList<MIC_Life>();
 		for (int iLife = 0; iLife < N_POP; iLife++) {
 			if (iLife < N_POP * P_SURVIVE) {
-				// if(Utils.random.nextInt(iLife+1)==0){
 				newLifes.add((MIC_Life) lifes.get(iLife).clone());
 			}
 		}
@@ -108,7 +112,7 @@ public class MIC_GA {
 		lifes = newLifes;
 	}
 
-	protected void mutation() {
+	protected void mutate() {
 		for (MIC_Life life : lifes)
 			if (Utils.random.nextFloat() < P_MUTATION)
 				life.mutate();
@@ -126,6 +130,7 @@ public class MIC_GA {
 	}
 
 	public void report(int iGEN) {
+		System.out.println("\nreport " + Utils.random.nextInt());
 		calcStat();
 		/** prepare to display **/
 		String msg;
@@ -152,7 +157,8 @@ public class MIC_GA {
 		}
 
 		/** display **/
-		display.checkUpdateBuffer();		
+		System.out.println("\nreport-updatebuffer "+Utils.random.nextInt());
+		display.checkUpdateBuffer();
 	}
 
 }
