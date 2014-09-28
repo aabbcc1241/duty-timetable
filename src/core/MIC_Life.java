@@ -1,7 +1,5 @@
 package core;
 
-import core.MIC.Day;
-import ga.Gene;
 import ga.Life;
 
 public class MIC_Life implements Cloneable, Comparable<MIC_Life> {

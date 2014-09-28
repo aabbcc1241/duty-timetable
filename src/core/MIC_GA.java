@@ -1,8 +1,5 @@
 package core;
 
-import ga.GA;
-import ga.Life;
-
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -155,7 +152,7 @@ public class MIC_GA {
 		}
 
 		/** display **/
-		display.checkUpdateBuffer();
+		display.checkUpdateBuffer();		
 	}
 
 }

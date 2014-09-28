@@ -2,6 +2,7 @@ package myutils;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -22,16 +23,15 @@ public class Display extends OutputStream {
 		this.interval = Math.round(interval / 1000);
 		frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setPreferredSize(new Dimension(800, 600));
 		container = frame.getContentPane();
 		container.setLayout(new BorderLayout());
 		textArea = new JTextArea(25, 80);
 		textArea.setEditable(false);
-		container.add(new JScrollPane(textArea,
-				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
-				BorderLayout.CENTER);
+		container.add(new JScrollPane(textArea, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 		frame.pack();
-		frame.setSize(textArea.getWidth(), textArea.getHeight());
+		// frame.setSize(textArea.getWidth(), textArea.getHeight());
 		frame.setVisible(true);
 
 		bufferString = new StringBuilder();
@@ -105,5 +105,11 @@ public class Display extends OutputStream {
 	public void checkUpdateBuffer() {
 		if (System.currentTimeMillis() - lastUpdate >= interval)
 			updateBuffer();
+	}
+
+	public void setSize(int width, int height) {
+		// frame.setPreferredSize(new Dimension(width,height));
+		// frame.pack();
+		frame.setSize(width, height);
 	}
 }
