@@ -2,14 +2,14 @@ package ga;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import core.MIC_Life;
 import myutils.Display;
 import myutils.Utils;
 
-public abstract class GA {
+public class GA {
 	public static int N_POP = 32;
 	public static float P_MUTATION = 0.1f;
 	public static float A_MUTATION = 0.1f;
@@ -23,21 +23,23 @@ public abstract class GA {
 
 	public float avgFitness = Float.MIN_VALUE;
 	public float sdFitness = Float.MAX_VALUE;
-	private float lastAvgFitness;
-	private float sumFitness;
+	protected float lastAvgFitness;
+	protected float sumFitness;
 
 	private Display display;
 
 	/** contrucstor **/
-	public GA(int nGEN, int nGENE, int lGENE, Display display) {
+	public GA(int nGEN, int nGENE, int lGENE, Display display, boolean initLifes) {
 		super();
 		N_GEN = nGEN;
 		N_GENE = nGENE;
 		L_GENE = lGENE;
-		lifes = new ArrayList<Life>();
-		for (int iLife = 0; iLife < N_POP; iLife++)
-			lifes.add(new Life(N_GENE, L_GENE));
 		this.display = display;
+		if (initLifes) {
+			lifes = new ArrayList<Life>();
+			for (int iLife = 0; iLife < N_POP; iLife++)
+				lifes.add(new Life(N_GENE, L_GENE));
+		}
 	}
 
 	/** static method **/
@@ -55,6 +57,7 @@ public abstract class GA {
 		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
 			benchmark();
 			sort();
+			report(iGEN + 1);
 			cx();
 			mutation();
 		}
@@ -104,6 +107,19 @@ public abstract class GA {
 			sdFitness += Math.pow(life.fitness - avgFitness, 2);
 	}
 
-	public abstract void report();
+	public void report(int iGEN) {
+		calcStat();
+		/** prepare to display **/
+		String msg;
+		display.clearBuffer();
+		Calendar now = Calendar.getInstance();
+		java.util.Date date = now.getTime();
+		display.writeBuffer(date.toString());
+		msg = String.format("\n%s%5s | %s%5s | %s%5s | %s%5s", "Generation: ", iGEN,
+				"Best: ", lifes.get(0).fitness, "Avg.: ", avgFitness, "SD.: ", sdFitness);
+		display.writeBuffer(msg + "\n");
+		/** display **/
+		display.checkUpdateBuffer();
+	}
 
 }

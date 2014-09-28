@@ -1,16 +1,17 @@
 package core;
 
+import ga.GA;
+
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.List;
 
 import myutils.Display;
 import myutils.StringUtils;
 import myutils.Utils;
 
-public class MIC_GA {
+public class MIC_GA extends GA {
 	public static int N_GEN = 1000;
 	public static int N_POP = 100;
 	public static float P_MUTATION = 0.99f;
@@ -31,30 +32,16 @@ public class MIC_GA {
 	private MIC mic;
 	private int maxWorkerNameLength;
 
-	public float avgFitness = Float.MIN_VALUE;
-	public float sdFitness = Float.MAX_VALUE;
-	private float lastAvgFitness;
-	private float sumFitness;
-
 	private Display display;
 
 	/** contrucstor **/
-	public MIC_GA(Display display, MIC mic, Worker[] workers) {
-		this(N_GEN, mic.days.length, mic.days[0].timeslot.length);
+	public MIC_GA(MIC mic, Worker[] workers, Display display) {
+		super(N_GEN, mic.days.length, mic.days[0].timeslot.length, display, false);
 		this.mic = mic;
 		this.workers = workers;
-		this.display = display;
-
+		lifes = new ArrayList<MIC_Life>();
 		for (int iLife = 0; iLife < N_POP; iLife++)
 			lifes.add(new MIC_Life(N_GENE, L_GENE, this.mic, this.workers));
-	}
-
-	private MIC_GA(int nGEN, int nGENE, int lGENE) {
-		super();
-		N_GEN = nGEN;
-		N_GENE = nGENE;
-		L_GENE = lGENE;
-		lifes = new ArrayList<MIC_Life>();
 	}
 
 	/** static method **/
@@ -65,6 +52,7 @@ public class MIC_GA {
 			life.setRandom();
 	}
 
+	@Override
 	public void start() {
 		PrintStream oriPrintStream = System.out;
 		System.setOut(new PrintStream(display));
@@ -88,16 +76,13 @@ public class MIC_GA {
 		System.setOut(oriPrintStream);
 	}
 
+	@Override
 	protected void benchmark() {
 		for (MIC_Life life : lifes)
 			life.benchmark();
 	}
 
-	protected void sort() {
-		// Collections.sort(lifes);
-		Collections.sort(lifes, Collections.reverseOrder());
-	}
-
+	@Override
 	/** losers cx with random life who's better then it **/
 	protected void cx() {
 		/** new child is iLife, parents are iLife and i **/
@@ -117,64 +102,42 @@ public class MIC_GA {
 		lifes = newLifes;
 	}
 
+	@Override
 	protected void mutation() {
 		for (MIC_Life life : lifes)
 			if (Utils.random.nextFloat() < P_MUTATION)
 				life.mutate();
 	}
 
-	public void calcStat() {
-		lastAvgFitness = avgFitness;
-		sumFitness = 0;
-		for (MIC_Life life : lifes) {
-			// sumFitness += life.fitness;
-			sumFitness += life.id;
-		}
-		avgFitness = sumFitness / N_POP;
-		sdFitness = 0;
-		for (MIC_Life life : lifes) {
-			// sdFitness += Math.pow(life.fitness - avgFitness, 2);
-			sdFitness += Math.pow(life.id - avgFitness, 2);
-		}
-	}
-
+	@Override
 	public void report(int iGEN) {
 		calcStat();
+		/** prepare to display **/
 		String msg;
 		int width = maxWorkerNameLength + 5;
-		/** display **/
 		display.clearBuffer();
 		Calendar now = Calendar.getInstance();
 		java.util.Date date = now.getTime();
-		// System.out.println(date.toString());
 		display.writeBuffer(date.toString());
 		msg = String.format("\n%s%5s | %s%5s | %s%5s | %s%5s", "Generation: ", iGEN,
 				"Best: ", lifes.get(0).fitness, "Avg.: ", avgFitness, "SD.: ", sdFitness);
-		// System.out.println(msg);
+
 		display.writeBuffer(msg + "\n");
 		for (MIC.Day day : mic.days) {
-			// msg = String.format("%-" + width + "s | ", "�P��-" +
-			// day.dayOfWeek);
 			msg = StringUtils.center("Day-" + day.dayOfWeek, width);
 			display.writeBuffer(msg + " | ");
 		}
-
-		// System.out.print("POP-size: " + lifes.size());
-		// display.writeBuffer("POP-size: " + lifes.size());
 		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
-			// System.out.println();
-			// System.out.println();
 			display.writeBuffer("\n");
 			for (int iDay = 0; iDay < lifes.get(0).genes.length; iDay++) {
 				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
-				// System.out.printf("%-" + width + "s",
-				// workers[workerId].name);
 				msg = StringUtils.center(workers[workerId].name, width);
-				// msg = String.format("%-" + width + "s | ",
-				// workers[workerId].name);
 				display.writeBuffer(msg + " | ");
 			}
 		}
+
+		/** display **/
 		display.checkUpdateBuffer();
 	}
+
 }
