@@ -58,11 +58,6 @@ public class MIC_GA {
 	}
 
 	/** static method **/
-	public static MIC_Life cx(MIC_Life life1, MIC_Life life2) {
-		MIC_Life result = (MIC_Life) life1.clone();
-		life1.cx(life2);
-		return result;
-	}
 
 	/** instance method **/
 	protected void setRandom() {
@@ -108,13 +103,14 @@ public class MIC_GA {
 		/** new child is iLife, parents are iLife and i **/
 		List<MIC_Life> newLifes = new ArrayList<MIC_Life>();
 		for (int iLife = 0; iLife < N_POP; iLife++) {
-			if ( iLife < N_POP * P_SURVIVE) {
-			//if(Utils.random.nextInt(iLife+1)==0){
+			if (iLife < N_POP * P_SURVIVE) {
+				// if(Utils.random.nextInt(iLife+1)==0){
 				newLifes.add((MIC_Life) lifes.get(iLife).clone());
 			}
 		}
 		while (newLifes.size() < lifes.size()) {
-			MIC_Life newLife = cx(newLifes.get(Utils.random.nextInt(newLifes.size())),
+			MIC_Life newLife = MIC_Life.cx(
+					newLifes.get(Utils.random.nextInt(newLifes.size())),
 					newLifes.get(Utils.random.nextInt(newLifes.size())));
 			newLifes.add(newLife);
 		}
@@ -127,18 +123,24 @@ public class MIC_GA {
 				life.mutate();
 	}
 
-	public void report(int iGEN) {
+	public void calcStat() {
 		lastAvgFitness = avgFitness;
 		sumFitness = 0;
-		String msg;
 		for (MIC_Life life : lifes) {
-			sumFitness += life.fitness;
+			// sumFitness += life.fitness;
+			sumFitness += life.id;
 		}
 		avgFitness = sumFitness / N_POP;
 		sdFitness = 0;
 		for (MIC_Life life : lifes) {
-			sdFitness += Math.pow(life.fitness - avgFitness, 2);
+			// sdFitness += Math.pow(life.fitness - avgFitness, 2);
+			sdFitness += Math.pow(life.id - avgFitness, 2);
 		}
+	}
+
+	public void report(int iGEN) {
+		calcStat();
+		String msg;
 		int width = maxWorkerNameLength + 5;
 		/** display **/
 		display.clearBuffer();
@@ -146,8 +148,8 @@ public class MIC_GA {
 		java.util.Date date = now.getTime();
 		// System.out.println(date.toString());
 		display.writeBuffer(date.toString());
-		msg = String.format("\n%s%5s | %s%5s | %s%5s | %s%5s", "Generation: ", iGEN, "Best: ",
-				lifes.get(0).fitness, "Avg.: ", avgFitness,"SD.: ",sdFitness);
+		msg = String.format("\n%s%5s | %s%5s | %s%5s | %s%5s", "Generation: ", iGEN,
+				"Best: ", lifes.get(0).fitness, "Avg.: ", avgFitness, "SD.: ", sdFitness);
 		// System.out.println(msg);
 		display.writeBuffer(msg + "\n");
 		for (MIC.Day day : mic.days) {

@@ -1,12 +1,15 @@
 package ga;
 
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import core.MIC_Life;
+import myutils.Display;
 import myutils.Utils;
 
-public class GA {
+public abstract class GA {
 	public static int N_POP = 32;
 	public static float P_MUTATION = 0.1f;
 	public static float A_MUTATION = 0.1f;
@@ -18,8 +21,15 @@ public class GA {
 	/** [num of animal][num of gene] **/
 	protected List<Life> lifes;
 
+	public float avgFitness = Float.MIN_VALUE;
+	public float sdFitness = Float.MAX_VALUE;
+	private float lastAvgFitness;
+	private float sumFitness;
+
+	private Display display;
+
 	/** contrucstor **/
-	public GA(int nGEN, int nGENE, int lGENE) {
+	public GA(int nGEN, int nGENE, int lGENE, Display display) {
 		super();
 		N_GEN = nGEN;
 		N_GENE = nGENE;
@@ -27,14 +37,10 @@ public class GA {
 		lifes = new ArrayList<Life>();
 		for (int iLife = 0; iLife < N_POP; iLife++)
 			lifes.add(new Life(N_GENE, L_GENE));
+		this.display = display;
 	}
 
 	/** static method **/
-	public static Life cx(Life life1, Life life2) {
-		Life result = (Life) life1.clone();
-		life1.cx(life2);
-		return result;
-	}
 
 	/** instance method **/
 	protected void setRandom() {
@@ -43,6 +49,8 @@ public class GA {
 	}
 
 	public void start() {
+		PrintStream oriPrintStream = System.out;
+		System.setOut(new PrintStream(display));
 		setRandom();
 		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
 			benchmark();
@@ -50,6 +58,7 @@ public class GA {
 			cx();
 			mutation();
 		}
+		System.setOut(oriPrintStream);
 	}
 
 	protected void benchmark() {
@@ -71,7 +80,7 @@ public class GA {
 			}
 		}
 		while (newLifes.size() < lifes.size()) {
-			Life newLife = cx(newLifes.get(Utils.random.nextInt(newLifes.size())),
+			Life newLife = Life.cx(newLifes.get(Utils.random.nextInt(newLifes.size())),
 					newLifes.get(Utils.random.nextInt(newLifes.size())));
 			newLifes.add(newLife);
 		}
@@ -83,5 +92,18 @@ public class GA {
 			if (Utils.random.nextFloat() < P_MUTATION)
 				life.mutate();
 	}
+
+	protected void calcStat() {
+		lastAvgFitness = avgFitness;
+		sumFitness = 0;
+		for (Life life : lifes)
+			sumFitness += life.fitness;
+		avgFitness = sumFitness / N_POP;
+		sdFitness = 0;
+		for (Life life : lifes)
+			sdFitness += Math.pow(life.fitness - avgFitness, 2);
+	}
+
+	public abstract void report();
 
 }

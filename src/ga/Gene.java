@@ -9,20 +9,24 @@ public class Gene {
 		codes = new boolean[length];
 	}
 
+	/** static method **/
+	public static Gene cx(Gene gene1, Gene gene2) {
+		Gene newGene = new Gene(gene1.codes.length);
+		for (int iCode = 0; iCode < newGene.codes.length; iCode++)
+			newGene.codes[iCode] = (Utils.random.nextBoolean()) ? gene1.codes[iCode]
+					: gene2.codes[iCode];
+		return newGene;
+	}
+
 	public void setRandom() {
 		for (int i = 0; i < codes.length; i++)
 			codes[i] = Utils.random.nextBoolean();
 	}
 
-	public void cx(Gene gene2) {
-		for (int i = 0; i < codes.length; i++)
-			if(Utils.random.nextBoolean())
-				codes[i]=gene2.codes[i];
-	}
-
 	public void mutate() {
 		for (int i = 0; i < codes.length; i++)
-			if(Utils.random.nextFloat()<GA.A_MUTATION)
-				codes[i]=!codes[i];
+			if (Utils.random.nextFloat() < GA.A_MUTATION)
+				codes[i] = !codes[i];
 	}
+
 }

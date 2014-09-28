@@ -1,7 +1,5 @@
 package core;
 
-import javax.rmi.CORBA.Util;
-
 import core.MIC.Day;
 import core.MIC.Day.Timeslot;
 import ga.GA;
@@ -14,6 +12,15 @@ public class MIC_Gene {
 
 	public MIC_Gene(int length) {
 		codes = new int[length];
+	}
+
+	/** static method **/
+	public static MIC_Gene cx(MIC_Gene gene1, MIC_Gene gene2) {
+		MIC_Gene newGene = new MIC_Gene(gene1.codes.length);
+		for (int iCode = 0; iCode < newGene.codes.length; iCode++)
+			newGene.codes[iCode] = (Utils.random.nextBoolean()) ? gene1.codes[iCode]
+					: gene2.codes[iCode];
+		return newGene;
 	}
 
 	public void setRandom(Timeslot[] timeslots) {

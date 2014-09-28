@@ -20,6 +20,15 @@ public class Life implements Cloneable, Comparable<Life> {
 		}
 	}
 
+	/** static method **/
+	public static Life cx(Life life1, Life life2) {
+		Life newLife = (Life) life1.clone();
+		for (int iGene = 0; iGene < newLife.genes.length; iGene++) {
+			newLife.genes[iGene] = Gene.cx(life1.genes[iGene], life2.genes[iGene]);
+		}
+		return newLife;
+	}
+
 	public void setRandom() {
 		for (Gene gene : genes)
 			gene.setRandom();
@@ -31,12 +40,6 @@ public class Life implements Cloneable, Comparable<Life> {
 			for (int iCode = 0; iCode < genes.length; iCode++)
 				if (genes[iGene].codes[iCode])
 					fitness++;
-	}
-
-	public void cx(Life life2) {
-		/** new child is this , parents are this and life2 **/
-		for (int i = 0; i < genes.length; i++)
-			genes[i].cx(life2.genes[i]);
 	}
 
 	public void mutate() {
