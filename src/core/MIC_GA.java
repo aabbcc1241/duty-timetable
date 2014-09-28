@@ -1,7 +1,5 @@
 package core;
 
-import ga.Life;
-
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -107,17 +105,19 @@ public class MIC_GA {
 				newLifes.add((MIC_Life) lifes.get(iLife).clone());
 			}
 		}
+		int life1, life2;
 		while (newLifes.size() < lifes.size()) {
-			MIC_Life newLife = MIC_Life.cx(
-			// newLifes.get(Utils.random.nextInt(newLifes.size())),
-					lifes.get(Utils.random.nextInt(lifes.size())),
-					// newLifes.get(Utils.random.nextInt(newLifes.size())));
-					lifes.get(Utils.random.nextInt(lifes.size())));
+			do {
+				System.out.print("\nfinding couple"+Utils.random.nextInt());
+				life1 = Utils.random.nextInt(lifes.size());
+				life2 = Utils.random.nextInt(lifes.size());
+			} while (lifes.get(life1).fitness == lifes.get(life2).fitness);
+			MIC_Life newLife = MIC_Life.cx(lifes.get(life1), lifes.get(life2));
 			newLifes.add(newLife);
 		}
 		lifes.clear();
-		for(MIC_Life life:newLifes)
-			lifes.add((MIC_Life) life.clone());		
+		for (MIC_Life life : newLifes)
+			lifes.add((MIC_Life) life.clone());
 	}
 
 	protected void mutate() {
