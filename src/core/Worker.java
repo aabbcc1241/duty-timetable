@@ -3,7 +3,7 @@ package core;
 public class Worker {
 	int id;
 	String name;
-	Day[] days;
+	Day[] days;;
 
 	class Day {
 		int dayOfWeek;

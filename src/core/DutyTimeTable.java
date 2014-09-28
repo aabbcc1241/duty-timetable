@@ -131,6 +131,7 @@ public class DutyTimeTable {
 	private void generate() {
 		mic.findPossibleWorkers(workers);
 		MIC_GA mic_GA = new MIC_GA(mic, workers, display);
-		mic_GA.start();
+		//mic_GA.start();
+		mic_GA.grow();
 	}
 }

@@ -1,5 +1,7 @@
 package ga;
 
+import java.util.Arrays;
+
 import myutils.Utils;
 
 public class Gene {
@@ -17,7 +19,11 @@ public class Gene {
 					: gene2.codes[iCode];
 		return newGene;
 	}
+	public static boolean equals(Gene gene1, Gene gene2) {
+		return Arrays.equals(gene1.codes, gene2.codes);
+	}
 
+	/** instance method **/
 	public void setRandom() {
 		for (int i = 0; i < codes.length; i++)
 			codes[i] = Utils.random.nextBoolean();

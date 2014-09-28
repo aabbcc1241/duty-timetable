@@ -34,7 +34,18 @@ public class Life implements Cloneable, Comparable<Life> {
 		}
 		return newLife;
 	}
+	public static boolean equals(Life life1, Life life2) {
+		boolean isSame = life1.genes.length == life2.genes.length;
+		int i = 0;
+		while (isSame && (i < life1.genes.length)) {
+			isSame &= Gene.equals(life1.genes[i], life2.genes[i]);
+			i++;
+		}
+		return isSame;
+	}
+	
 
+	/** instance method **/
 	public void setRandom() {
 		for (Gene gene : genes)
 			gene.setRandom();
