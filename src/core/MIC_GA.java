@@ -120,11 +120,11 @@ public class MIC_GA {
 	protected void calcStat() {
 		lastAvgFitness = avgFitness;
 		sumFitness = 0;
-		for (Life life : lifes)
+		for (MIC_Life life : lifes)
 			sumFitness += life.fitness;
 		avgFitness = sumFitness / N_POP;
 		sdFitness = 0;
-		for (Life life : lifes)
+		for (MIC_Life life : lifes)
 			sdFitness += Math.pow(life.fitness - avgFitness, 2);
 	}
 

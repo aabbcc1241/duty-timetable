@@ -4,14 +4,13 @@ import core.MIC.Day;
 import ga.Gene;
 import ga.Life;
 
-public class MIC_Life extends Life {
+public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 	private MIC mic;
 	private Worker[] workers;
 
 	/** represent days **/
 	public MIC_Gene[] genes;
-
-	public long id = ID.getId();;
+	public float fitness;
 
 	/*
 	 * public MIC_Life(final int NGENE, final int LGENE) { super(NGENE, LGENE);
@@ -20,13 +19,27 @@ public class MIC_Life extends Life {
 	 */
 
 	public MIC_Life(int NGENE, int LGENE, MIC mic, Worker[] workers) {
-		// this(NGENE, LGENE);
-		super(NGENE, LGENE);
 		genes = new MIC_Gene[NGENE];
 		for (int iGENE = 0; iGENE < NGENE; iGENE++)
 			genes[iGENE] = new MIC_Gene(LGENE);
 		this.mic = mic;
 		this.workers = workers;
+	}
+
+	/** implementing **/
+	@Override
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException e) {
+			Object result = new Life(genes.length, genes[0].codes.length);
+			return result;
+		}
+	}
+
+	@Override
+	public int compareTo(MIC_Life o) {
+		return Float.compare(this.fitness, o.fitness);
 	}
 
 	/** static method **/
@@ -38,13 +51,11 @@ public class MIC_Life extends Life {
 		return newLife;
 	}
 
-	@Override
 	public void setRandom() {
 		for (int iDay = 0; iDay < mic.days.length; iDay++)
 			genes[iDay].setRandom(mic.days[iDay].timeslot);
 	}
 
-	@Override
 	public void benchmark() {
 		fitness = 0;
 		int workerId, workerIdLast;
@@ -93,13 +104,8 @@ public class MIC_Life extends Life {
 			}
 	}
 
-	@Override
 	public void mutate() {
-		mutate(mic.days);
-	}
-
-	public void mutate(Day[] days) {
-		for (int iDay = 0; iDay < days.length; iDay++)
-			genes[iDay].mutate(days[iDay]);
+		for (int iDay = 0; iDay < mic.days.length; iDay++)
+			genes[iDay].mutate(mic.days[iDay]);
 	}
 }

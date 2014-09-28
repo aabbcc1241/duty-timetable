@@ -10,6 +10,7 @@ public class Life implements Cloneable, Comparable<Life> {
 			genes[iGENE] = new Gene(LGENE);
 	}
 
+	/**implementing**/
 	@Override
 	public Object clone() {
 		try {
@@ -18,6 +19,11 @@ public class Life implements Cloneable, Comparable<Life> {
 			Object result = new Life(genes.length, genes[0].codes.length);
 			return result;
 		}
+	}
+
+	@Override
+	public int compareTo(Life o) {
+		return Float.compare(this.fitness, o.fitness);
 	}
 
 	/** static method **/
@@ -45,10 +51,5 @@ public class Life implements Cloneable, Comparable<Life> {
 	public void mutate() {
 		for (Gene gene : genes)
 			gene.mutate();
-	}
-
-	@Override
-	public int compareTo(Life o) {
-		return Float.compare(this.fitness, o.fitness);
 	}
 }
