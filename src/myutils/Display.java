@@ -31,6 +31,7 @@ public class Display extends OutputStream {
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED),
 				BorderLayout.CENTER);
 		frame.pack();
+		frame.setSize(textArea.getWidth(), textArea.getHeight());
 		frame.setVisible(true);
 
 		bufferString = new StringBuilder();

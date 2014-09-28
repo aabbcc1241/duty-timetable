@@ -21,12 +21,11 @@ public class GA {
 	/** [num of animal][num of gene] **/
 	protected List<Life> lifes;
 
+	protected Display display;
 	public float avgFitness = Float.MIN_VALUE;
 	public float sdFitness = Float.MAX_VALUE;
 	protected float lastAvgFitness;
 	protected float sumFitness;
-
-	private Display display;
 
 	/** contrucstor **/
 	public GA(int nGEN, int nGENE, int lGENE, Display display, boolean initLifes) {

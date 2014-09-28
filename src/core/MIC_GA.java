@@ -1,17 +1,19 @@
 package core;
 
 import ga.GA;
+import ga.Life;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import myutils.Display;
 import myutils.StringUtils;
 import myutils.Utils;
 
-public class MIC_GA extends GA {
+public class MIC_GA {
 	public static int N_GEN = 1000;
 	public static int N_POP = 100;
 	public static float P_MUTATION = 0.99f;
@@ -32,11 +34,17 @@ public class MIC_GA extends GA {
 	private MIC mic;
 	private int maxWorkerNameLength;
 
-	private Display display;
+	protected Display display;
+	public float avgFitness = Float.MIN_VALUE;
+	public float sdFitness = Float.MAX_VALUE;
+	protected float lastAvgFitness;
+	protected float sumFitness;
 
 	/** contrucstor **/
 	public MIC_GA(MIC mic, Worker[] workers, Display display) {
-		super(N_GEN, mic.days.length, mic.days[0].timeslot.length, display, false);
+		N_GENE = mic.days.length;
+		L_GENE = mic.days[0].timeslot.length;
+		this.display = display;
 		this.mic = mic;
 		this.workers = workers;
 		lifes = new ArrayList<MIC_Life>();
@@ -52,7 +60,6 @@ public class MIC_GA extends GA {
 			life.setRandom();
 	}
 
-	@Override
 	public void start() {
 		PrintStream oriPrintStream = System.out;
 		System.setOut(new PrintStream(display));
@@ -76,13 +83,15 @@ public class MIC_GA extends GA {
 		System.setOut(oriPrintStream);
 	}
 
-	@Override
 	protected void benchmark() {
 		for (MIC_Life life : lifes)
 			life.benchmark();
 	}
 
-	@Override
+	protected void sort() {
+		Collections.sort(lifes);
+	}
+
 	/** losers cx with random life who's better then it **/
 	protected void cx() {
 		/** new child is iLife, parents are iLife and i **/
@@ -102,14 +111,23 @@ public class MIC_GA extends GA {
 		lifes = newLifes;
 	}
 
-	@Override
 	protected void mutation() {
 		for (MIC_Life life : lifes)
 			if (Utils.random.nextFloat() < P_MUTATION)
 				life.mutate();
 	}
 
-	@Override
+	protected void calcStat() {
+		lastAvgFitness = avgFitness;
+		sumFitness = 0;
+		for (Life life : lifes)
+			sumFitness += life.fitness;
+		avgFitness = sumFitness / N_POP;
+		sdFitness = 0;
+		for (Life life : lifes)
+			sdFitness += Math.pow(life.fitness - avgFitness, 2);
+	}
+
 	public void report(int iGEN) {
 		calcStat();
 		/** prepare to display **/
