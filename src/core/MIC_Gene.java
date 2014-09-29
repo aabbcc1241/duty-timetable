@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import core.MIC.Day;
 import core.MIC.Day.Timeslot;
-import ga.GA;
 import myutils.Utils;
 
 public class MIC_Gene {
@@ -14,6 +13,8 @@ public class MIC_Gene {
 
 	public MIC_Gene(int length) {
 		codes = new int[length];
+		for(int iCode=0;iCode<codes.length;iCode++)
+			codes[iCode]=-1;
 	}
 
 	/** implementing **/
@@ -34,10 +35,10 @@ public class MIC_Gene {
 	/** instance method **/
 	public void setRandom(Timeslot[] timeslots) {
 		int size;
-		for (int iTimeslot = 0; iTimeslot < timeslots.length; iTimeslot++){
-			size=timeslots[iTimeslot].possibleWorkers
-					.size();
-			codes[iTimeslot] =(size>0)? Utils.random.nextInt():-1;}
+		for (int iTimeslot = 0; iTimeslot < timeslots.length; iTimeslot++) {
+			size = timeslots[iTimeslot].possibleWorkers.size();
+			codes[iTimeslot] = (size > 0) ? Utils.random.nextInt(size) : -1;
+		}
 	}
 
 	public void mutate(Day day, float A_MUTATION) {

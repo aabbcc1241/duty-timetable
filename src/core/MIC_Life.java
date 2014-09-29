@@ -71,13 +71,15 @@ public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 
 	public void benchmark() {
 		fitness = 0;
-		for(int i=0;i<hours.length;i++)
-			hours[i]=0;
-		int workerId, workerIdLast;
+		for (int i = 0; i < hours.length; i++)
+			hours[i] = 0;
+		int workerId, workerIdLast, index;
 		for (int iDay = 0; iDay < genes.length; iDay++)
 			for (int iTimeslot = 0; iTimeslot < genes.length; iTimeslot++) {
+				if ((index = genes[iDay].codes[iTimeslot]) == -1)
+					continue;				
 				workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers
-						.get(genes[iDay].codes[iTimeslot]).id;
+						.get(index).id;
 				hours[workerId]++;
 				switch (workers[workerId].days[iDay].timeslot[iTimeslot].status) {
 				/** check valid **/
@@ -99,23 +101,23 @@ public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 					break;
 				default:
 					break;
-				}				
+				}
 				/** check continuous bonus **/
 				if (iTimeslot > 0) {
 					workerIdLast = genes[iDay].codes[iTimeslot - 1];
 					if (workerId == workerIdLast)
 						fitness += MIC_GA.SCORE_CONTINUOUS;
-				}				
-							}
-		/**check avg hours (0.5hr)**/
-		int sum=0;
-		for(int i=0;i<hours.length;i++)
-			sum+=hours[i];
-		hoursAvg=sum/(float)hours.length;
-		hoursSd=0;
-		for(int i=0;i<hours.length;i++)
-			hoursSd+=Math.pow(hours[i]-hoursAvg, 2);
-		fitness+=hoursSd*MIC_GA.SCORE_HOUR_SD;
+				}
+			}
+		/** check avg hours (0.5hr) **/
+		int sum = 0;
+		for (int i = 0; i < hours.length; i++)
+			sum += hours[i];
+		hoursAvg = sum / (float) hours.length;
+		hoursSd = 0;
+		for (int i = 0; i < hours.length; i++)
+			hoursSd += Math.pow(hours[i] - hoursAvg, 2);
+		fitness += hoursSd * MIC_GA.SCORE_HOUR_SD;
 	}
 
 	public void mutate(float A_MUTATION) {

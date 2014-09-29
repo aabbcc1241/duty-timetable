@@ -69,10 +69,10 @@ public class DutyTimeTable {
 				readFile();
 				break;
 			case 3:
-				generate_cx();
+				generate("cx");
 				break;
 			case 4:
-				generate_grow();
+				generate("grow");
 				break;
 			default:
 				System.out.println("error input");
@@ -132,15 +132,9 @@ public class DutyTimeTable {
 		display.updateBuffer();
 	}
 
-	private void generate_cx() {
+	private void generate(String mode) {
 		mic.findPossibleWorkers(workers);
 		MIC_GA mic_GA = new MIC_GA(mic, workers, display);
-		mic_GA.start();
-	}
-
-	private void generate_grow() {
-		mic.findPossibleWorkers(workers);
-		MIC_GA mic_GA = new MIC_GA(mic, workers, display);
-		mic_GA.grow();
+		mic_GA.start(mode);
 	}
 }
