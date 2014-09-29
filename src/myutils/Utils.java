@@ -5,8 +5,12 @@ import java.util.Random;
 public class Utils {
 	public static Random random = new Random(System.currentTimeMillis());
 
-	public static void println(int i) {
-		while (i-->0)
-			System.out.println();
+	public static void sleep(long millis) {
+		try {
+			Thread.sleep(millis);
+		} catch (InterruptedException e) {
+			System.out.println(e.toString());
+			e.printStackTrace();
+		}
 	}
 }

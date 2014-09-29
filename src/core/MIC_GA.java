@@ -91,10 +91,42 @@ public class MIC_GA {
 		sumFitness = 0;
 		for (MIC_Life life : lifes)
 			sumFitness += life.fitness;
-		avgFitness = sumFitness / N_POP;
+		avgFitness = sumFitness / lifes.size();
 		sdFitness = 0;
 		for (MIC_Life life : lifes)
 			sdFitness += Math.pow(life.fitness - avgFitness, 2);
+	}
+
+	private void report(int iGEN) {
+		calcStat();
+		/** prepare to display **/
+		String msg;
+		int width = maxWorkerNameLength + 5;
+		display.clearBuffer();
+		Calendar now = Calendar.getInstance();
+		java.util.Date date = now.getTime();
+		display.writeBuffer(date.toString());
+		msg = String.format("\n %s%5s | %s%5s \n %s%5s | %s%5s \n %s%5s | %s%5s",
+				"Population: ", lifes.size(), "Generation: ", iGEN, "Avg.: ", avgFitness,
+				"SD.: ", sdFitness, "Best: ", lifes.get(0).fitness, "hourSD: ",
+				lifes.get(0).hoursSd);
+		display.writeBuffer(msg + "\n\n");
+		for (MIC.Day day : mic.days) {
+			msg = StringUtils.center("Day-" + day.dayOfWeek, width);
+			display.writeBuffer(msg + " | ");
+		}
+		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
+			display.writeBuffer("\n");
+			for (int iDay = 0; iDay < lifes.get(0).genes.length; iDay++) {
+				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
+				// msg = StringUtils.center(workers[workerId].name, width);
+				msg = (workerId == -1) ? "" : workers[workerId].name;
+				msg = StringUtils.center(msg, width);
+				display.writeBuffer(msg + " | ");
+			}
+		}
+		/** display **/
+		display.checkUpdateBuffer();
 	}
 
 	/** grow method **/
@@ -133,7 +165,7 @@ public class MIC_GA {
 			// benchmark();
 			sort();
 			removeSome();
-			report_grow(iGEN + 1);
+			report(iGEN + 1);
 			/** check if the loop should end **/
 			if ((avgFitness == lastAvgFitness) && (lifes.size() > 16))
 				;// N_GEN=1;
@@ -141,48 +173,10 @@ public class MIC_GA {
 				N_GEN++;
 
 			/** slow down for debug **/
-			/*
-			 * try { Thread.sleep(1000); } catch (InterruptedException e) {
-			 * 
-			 * e.printStackTrace(); }
-			 */
+			// Utils.sleep(1000);
 		}
 		System.out.println("\n\nFinished");
 		System.setOut(oriPrintStream);
-	}
-
-	private void report_grow(int iGEN) {
-		// calcStat();
-		/** prepare to display **/
-		String msg;
-		int width = maxWorkerNameLength + 5;
-		display.clearBuffer();
-		Calendar now = Calendar.getInstance();
-		java.util.Date date = now.getTime();
-		display.writeBuffer(date.toString());
-		msg = String.format("\n%s%5s | %s%5s | %s%5s | %s%5s", "Generation: ", iGEN,
-				"Best: ", lifes.get(0).fitness, "hourSD: ", lifes.get(0).hoursSd,
-				"N_POP.: ", lifes.size());
-
-		display.writeBuffer(msg + "\n");
-		for (MIC.Day day : mic.days) {
-			msg = StringUtils.center("Day-" + day.dayOfWeek, width);
-			display.writeBuffer(msg + " | ");
-		}
-		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
-			display.writeBuffer("\n");
-			for (int iDay = 0; iDay < lifes.get(0).genes.length; iDay++) {
-				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
-				// msg = StringUtils.center(workers[workerId].name, width);
-				msg = (workerId == -1) ? "" : workers[workerId].name;
-				msg = StringUtils.center(msg, width);
-				display.writeBuffer(msg + " | ");
-			}
-		}
-
-		/** display **/
-		display.checkUpdateBuffer();
-		// display.updateBuffer();
 	}
 
 	/** cx method **/
@@ -198,7 +192,8 @@ public class MIC_GA {
 			benchmark();
 			sort();
 			refresh();
-			report_cx(iGEN + 1);
+			sort();
+			report(iGEN + 1);
 			/** check if the loop should end **/
 			if (avgFitness == lastAvgFitness)
 				;// break;
@@ -207,11 +202,7 @@ public class MIC_GA {
 			cx();
 			mutate();
 			/** slow down for debug **/
-			/*
-			 * try { Thread.sleep(1000); } catch (InterruptedException e) {
-			 * 
-			 * e.printStackTrace(); }
-			 */
+			// Utils.sleep(1000);
 		}
 		System.out.println("\n\nFinished");
 		System.setOut(oriPrintStream);
@@ -245,46 +236,13 @@ public class MIC_GA {
 	}
 
 	private void refresh() {
-		for (int i = lifes.size(); i >= 0; i--) {
-			if (lifes.lastIndexOf(lifes.get(i)) != i) {
-				MIC_Life newLife = MIC_Life.cx(lifes.get(i), getNew());
-				lifes.set(i, newLife);
-			}
-		}
-	}
-
-	private void report_cx(int iGEN) {
-		calcStat();
-		/** prepare to display **/
-		String msg;
-		int width = maxWorkerNameLength + 5;
-		display.clearBuffer();
-		Calendar now = Calendar.getInstance();
-		java.util.Date date = now.getTime();
-		display.writeBuffer(date.toString());
-		msg = String.format("\n%s%5s | %s%5s | %s%5s | %s%5s | %s%5s", "Generation: ",
-				iGEN, "Best: ", lifes.get(0).fitness, "hourSD: ", lifes.get(0).hoursSd,
-				"Avg.: ", avgFitness, "SD.: ", sdFitness);
-
-		display.writeBuffer(msg + "\n");
-		for (MIC.Day day : mic.days) {
-			msg = StringUtils.center("Day-" + day.dayOfWeek, width);
-			display.writeBuffer(msg + " | ");
-		}
-		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
-			display.writeBuffer("\n");
-			for (int iDay = 0; iDay < lifes.get(0).genes.length; iDay++) {
-				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
-				// msg = StringUtils.center(workers[workerId].name, width);
-				msg = (workerId == -1) ? "" : workers[workerId].name;
-				msg = StringUtils.center(msg, width);
-				display.writeBuffer(msg + " | ");
-			}
-		}
-
-		/** display **/
-		display.checkUpdateBuffer();
-		// display.updateBuffer();
+		for (int i = 1; i < lifes.size(); i++)
+			for (int j = i + 1; j < lifes.size(); j++)
+				if (MIC_Life.equals(lifes.get(i), lifes.get(j))) {
+					MIC_Life newLife = MIC_Life.cx(lifes.get(j), getNew());
+					newLife.benchmark();
+					lifes.set(j, newLife);
+				}
 	}
 
 }
