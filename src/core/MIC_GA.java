@@ -71,6 +71,7 @@ public class MIC_GA {
 	}
 
 	public void start(String mode) {
+		display.show();
 		switch (mode) {
 		case "cx":
 			start_cx();
@@ -171,7 +172,10 @@ public class MIC_GA {
 				;// N_GEN=1;
 			else
 				N_GEN++;
-
+			if (!display.isShown()) {
+				display.show();
+				break;
+			}
 			/** slow down for debug **/
 			// Utils.sleep(1000);
 		}
@@ -199,6 +203,10 @@ public class MIC_GA {
 				;// break;
 			else
 				N_GEN++;
+			if (!display.isShown()) {
+				display.show();
+				break;
+			}
 			cx();
 			mutate();
 			/** slow down for debug **/

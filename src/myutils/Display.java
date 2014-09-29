@@ -3,6 +3,8 @@ package myutils;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -19,10 +21,18 @@ public class Display extends OutputStream {
 	public long interval;
 	public long lastUpdate;
 
+	/** constructor **/
 	public Display(double interval) {
 		this.interval = Math.round(interval / 1000);
 		frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				hide();
+			}
+		});
 		frame.setPreferredSize(new Dimension(800, 600));
 		container = frame.getContentPane();
 		container.setLayout(new BorderLayout());
@@ -32,7 +42,7 @@ public class Display extends OutputStream {
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 		frame.pack();
 		// frame.setSize(textArea.getWidth(), textArea.getHeight());
-		frame.setVisible(true);
+		// frame.setVisible(true);
 
 		bufferString = new StringBuilder();
 
@@ -44,10 +54,7 @@ public class Display extends OutputStream {
 		this(0);
 	}
 
-	public void setFPS(double fps) {
-		interval = Math.round(1000 / fps);
-	};
-
+	/** implementing **/
 	@Override
 	public void write(byte[] buffer, int offset, int length) throws IOException {
 		final String text = new String(buffer, offset, length);
@@ -64,6 +71,19 @@ public class Display extends OutputStream {
 		write(new byte[] { (byte) b }, 0, 1);
 	}
 
+	/** instance method **/
+	public void show() {
+		frame.setVisible(true);
+	}
+
+	public void hide() {
+		frame.setVisible(false);
+	}
+
+	public boolean isShown() {
+		return frame.isVisible();
+	}
+
 	public void clear() {
 		SwingUtilities.invokeLater(new Runnable() {
 			@Override
@@ -72,6 +92,10 @@ public class Display extends OutputStream {
 			}
 		});
 	}
+
+	public void setFPS(double fps) {
+		interval = Math.round(1000 / fps);
+	};
 
 	public void clearBuffer() {
 		bufferString = new StringBuilder();
