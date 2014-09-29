@@ -33,9 +33,11 @@ public class MIC_Gene {
 
 	/** instance method **/
 	public void setRandom(Timeslot[] timeslots) {
-		for (int iTimeslot = 0; iTimeslot < timeslots.length; iTimeslot++)
-			codes[iTimeslot] = Utils.random.nextInt(timeslots[iTimeslot].possibleWorkers
-					.size());
+		int size;
+		for (int iTimeslot = 0; iTimeslot < timeslots.length; iTimeslot++){
+			size=timeslots[iTimeslot].possibleWorkers
+					.size();
+			codes[iTimeslot] =(size>0)? Utils.random.nextInt():-1;}
 	}
 
 	public void mutate(Day day, float A_MUTATION) {

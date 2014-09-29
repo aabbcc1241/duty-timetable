@@ -46,7 +46,8 @@ public class DutyTimeTable {
 			System.out.println("0. exit");
 			System.out.println("1. getFile");
 			System.out.println("2. readFile");
-			System.out.println("3. generate");
+			System.out.println("3. generate-cx");
+			System.out.println("4. generate-grow");
 			try {
 				option = scanner.nextInt();
 			} catch (Exception e) {
@@ -68,7 +69,10 @@ public class DutyTimeTable {
 				readFile();
 				break;
 			case 3:
-				generate();
+				generate_cx();
+				break;
+			case 4:
+				generate_grow();
 				break;
 			default:
 				System.out.println("error input");
@@ -128,10 +132,15 @@ public class DutyTimeTable {
 		display.updateBuffer();
 	}
 
-	private void generate() {
+	private void generate_cx() {
 		mic.findPossibleWorkers(workers);
 		MIC_GA mic_GA = new MIC_GA(mic, workers, display);
-		//mic_GA.start();
+		mic_GA.start();
+	}
+
+	private void generate_grow() {
+		mic.findPossibleWorkers(workers);
+		MIC_GA mic_GA = new MIC_GA(mic, workers, display);
 		mic_GA.grow();
 	}
 }
