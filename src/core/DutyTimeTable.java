@@ -11,6 +11,7 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import jxl.write.Label;
 import jxl.write.WritableCell;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
@@ -30,8 +31,8 @@ public class DutyTimeTable {
 
 	public Display display;
 
-	public DutyTimeTable(String url, String path, String inFilename, String outFilename, String saveFilename,
-			int weekNum) {
+	public DutyTimeTable(String url, String path, String inFilename, String outFilename,
+			String saveFilename, int weekNum) {
 		this.url = url;
 		this.path = path;
 		this.inFilename = inFilename;
@@ -96,6 +97,7 @@ public class DutyTimeTable {
 
 	private void readFile() {
 		try {
+			display.show();
 			Workbook workbook;
 			System.out.println("geting from<" + path + "\\" + outFilename + ">");
 			workbook = MyFile.getWorkbook(path, outFilename);
@@ -120,6 +122,8 @@ public class DutyTimeTable {
 						str = cell.getContents();
 						workers[rowIndex - 1].days[sheetIndex - 1].timeslot[colIndex - 1].status = (str
 								.length() != 0) ? Integer.parseInt(str) : 0;
+						if (workers[rowIndex - 1].days[sheetIndex - 1].timeslot[colIndex - 1].status >= 10)
+							workers[rowIndex - 1].days[sheetIndex - 1].timeslot[colIndex - 1].status /= 10;
 					}
 				}
 			}
@@ -156,17 +160,17 @@ public class DutyTimeTable {
 	}
 
 	private void saveMicToWorker() {
+		Worker worker;
 		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
-			display.writeBuffer("\n");
 			for (int iDay = 0; iDay < mic.days.length; iDay++) {
-				int workerId = mic.days[iDay].timeslot[iTimeslot].worker.id;
-				if (workerId != -1)
-					switch (workers[workerId].days[iDay].timeslot[iTimeslot].status) {
+				worker = mic.days[iDay].timeslot[iTimeslot].worker;
+				if (worker != null)
+					switch (worker.days[iDay].timeslot[iTimeslot].status) {
 					case 1:
-						workers[workerId].days[iDay].timeslot[iTimeslot].status = 10;
+						worker.days[iDay].timeslot[iTimeslot].status = 10;
 						break;
 					case 2:
-						workers[workerId].days[iDay].timeslot[iTimeslot].status = 20;
+						worker.days[iDay].timeslot[iTimeslot].status = 20;
 						break;
 					}
 			}
@@ -177,15 +181,32 @@ public class DutyTimeTable {
 		try {
 			WritableWorkbook workbook;
 			System.out.println("saving to<" + path + "\\" + saveFilename + ">");
-			workbook = MyFile.getWritableWorkbook(path, outFilename);
+			MyFile.deleteFile(path + "\\" + saveFilename);
+			workbook = MyFile.getWritableWorkbook(path, saveFilename);
 			WritableSheet sheet;
 			jxl.write.Number number;
 			double val;
 			int dayAmount = workers[0].days.length;
 			int workerAmount = workers.length;
 			int timeslotAmount = workers[0].days[0].timeslot.length;
+			/** MIC **/
+			workbook.createSheet("MIC", 0);
+			sheet = workbook.getSheet(0);
+			Label label;
+			String name;
+			for (int iDay = 0; iDay < mic.days.length; iDay++)
+				for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
+					if (mic.days[iDay].timeslot[iTimeslot].worker == null)
+						name = "";
+					else
+						name = mic.days[iDay].timeslot[iTimeslot].worker.name;
+					label = new Label(iDay + 1, iTimeslot + 1, name);
+					sheet.addCell(label);
+				}
+			/** Days Timeslots status **/
 			for (int sheetIndex = 1; sheetIndex <= dayAmount; sheetIndex++) {
-				sheet = workbook.createSheet("day-" + sheetIndex, sheetIndex);
+				workbook.createSheet("day-" + sheetIndex, sheetIndex);
+				sheet = workbook.getSheet(sheetIndex);
 				for (int rowIndex = 1; rowIndex <= workerAmount; rowIndex++) {
 					for (int colIndex = 1; colIndex <= timeslotAmount; colIndex++) {
 						val = workers[rowIndex - 1].days[sheetIndex - 1].timeslot[colIndex - 1].status;
@@ -195,13 +216,15 @@ public class DutyTimeTable {
 				}
 			}
 			workbook.write();
+			workbook.close();
 		} catch (BiffException | IOException e) {
-			System.out.println("cannot readFile");
+			System.out.println("cannot writeFile");
+			e.printStackTrace();
 		} catch (RowsExceededException e) {
-			System.out.println(e.toString());
+			System.out.println("cannot writeFile");
 			e.printStackTrace();
 		} catch (WriteException e) {
-			System.out.println(e.toString());
+			System.out.println("cannot writeFile");
 			e.printStackTrace();
 		}
 	}

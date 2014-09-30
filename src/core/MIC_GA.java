@@ -185,10 +185,8 @@ public class MIC_GA {
 			removeSome();
 			report(iGEN + 1);
 			/** check if the loop should end **/
-			if ((avgFitness == lastAvgFitness) && (lifes.size() > 16))
-				;// N_GEN=1;
-			else
-				N_GEN++;
+			if ((avgFitness != lastAvgFitness) || (lifes.size() <= 16))
+				N_GEN++;				
 			if (!display.isShown()) {
 				display.show();
 				break;
@@ -216,9 +214,7 @@ public class MIC_GA {
 			sort();
 			report(iGEN + 1);
 			/** check if the loop should end **/
-			if (avgFitness == lastAvgFitness)
-				;// break;
-			else
+			if (avgFitness != lastAvgFitness)
 				N_GEN++;
 			if (!display.isShown()) {
 				display.show();
