@@ -1,4 +1,5 @@
 package myutils;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.nio.channels.ReadableByteChannel;
 
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import jxl.write.WritableWorkbook;
 
 public abstract class MyFile {
 	public static void createDir(String path) {
@@ -31,5 +33,10 @@ public abstract class MyFile {
 
 	public static Workbook getWorkbook(String path, String outFilename) throws BiffException, IOException {
 		return Workbook.getWorkbook(new File(path + "/" + outFilename));
+	}
+
+	public static WritableWorkbook getWritableWorkbook(String path, String outFilename) throws BiffException,
+			IOException {
+		return Workbook.createWorkbook(new File(path + "/" + outFilename));
 	}
 }

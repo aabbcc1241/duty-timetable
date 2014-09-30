@@ -136,4 +136,8 @@ public class Display extends OutputStream {
 		// frame.pack();
 		frame.setSize(width, height);
 	}
+	public void end(){
+		hide();
+		frame.dispose();
+	}
 }

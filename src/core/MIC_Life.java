@@ -1,7 +1,5 @@
 package core;
 
-import ga.Life;
-
 public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 	private MIC mic;
 	private Worker[] workers;
@@ -31,12 +29,16 @@ public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 	/** implementing **/
 	@Override
 	public Object clone() {
-		try {
-			return super.clone();
-		} catch (CloneNotSupportedException e) {
-			Object result = new Life(genes.length, genes[0].codes.length);
-			return result;
-		}
+		MIC_Life newLife = new MIC_Life(genes.length, genes[0].codes.length, mic, workers);
+		newLife.genes = new MIC_Gene[this.genes.length];
+		for (int iGene = 0; iGene < this.genes.length; iGene++)
+			try {
+				newLife.genes[iGene] = (MIC_Gene) this.genes[iGene].clone();
+			} catch (CloneNotSupportedException e) {
+				System.out.println(e.toString());
+				e.printStackTrace();
+			}
+		return newLife;
 	}
 
 	@Override
@@ -77,9 +79,8 @@ public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 		for (int iDay = 0; iDay < genes.length; iDay++)
 			for (int iTimeslot = 0; iTimeslot < genes.length; iTimeslot++) {
 				if ((index = genes[iDay].codes[iTimeslot]) == -1)
-					continue;				
-				workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers
-						.get(index).id;
+					continue;
+				workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers.get(index).id;
 				hours[workerId]++;
 				switch (workers[workerId].days[iDay].timeslot[iTimeslot].status) {
 				/** check valid **/

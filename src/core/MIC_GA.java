@@ -80,6 +80,7 @@ public class MIC_GA {
 			start_grow();
 			break;
 		}
+		saveToMic();
 	}
 
 	private void sort() {
@@ -107,10 +108,9 @@ public class MIC_GA {
 		Calendar now = Calendar.getInstance();
 		java.util.Date date = now.getTime();
 		display.writeBuffer(date.toString());
-		msg = String.format("\n %s%5s | %s%5s \n %s%5s | %s%5s \n %s%5s | %s%5s",
-				"Population: ", lifes.size(), "Generation: ", iGEN, "Avg.: ", avgFitness,
-				"SD.: ", sdFitness, "Best: ", lifes.get(0).fitness, "hourSD: ",
-				lifes.get(0).hoursSd);
+		msg = String.format("\n %s%5s | %s%5s \n %s%5s | %s%5s \n %s%5s | %s%5s", "Population: ",
+				lifes.size(), "Generation: ", iGEN, "Avg.: ", avgFitness, "SD.: ", sdFitness, "Best: ",
+				lifes.get(0).fitness, "hourSD: ", lifes.get(0).hoursSd / 2);
 		display.writeBuffer(msg + "\n\n");
 		for (MIC.Day day : mic.days) {
 			msg = StringUtils.center("Day-" + day.dayOfWeek, width);
@@ -118,10 +118,12 @@ public class MIC_GA {
 		}
 		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
 			display.writeBuffer("\n");
-			for (int iDay = 0; iDay < lifes.get(0).genes.length; iDay++) {
+			for (int iDay = 0; iDay < mic.days.length; iDay++) {
 				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
-				// msg = StringUtils.center(workers[workerId].name, width);
-				msg = (workerId == -1) ? "" : workers[workerId].name;
+				if (workerId != -1)
+					msg = mic.days[iDay].timeslot[iTimeslot].possibleWorkers.get(workerId).name;
+				else
+					msg = "";
 				msg = StringUtils.center(msg, width);
 				display.writeBuffer(msg + " | ");
 			}
@@ -130,8 +132,23 @@ public class MIC_GA {
 		display.checkUpdateBuffer();
 	}
 
+	private void saveToMic() {
+		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
+			display.writeBuffer("\n");
+			for (int iDay = 0; iDay < mic.days.length; iDay++) {
+				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
+				if (workerId != -1) {
+					workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers.get(workerId).id;
+					mic.days[iDay].timeslot[iTimeslot].worker = workers[workerId];
+				} else {
+					mic.days[iDay].timeslot[iTimeslot].worker = null;
+				}
+			}
+		}
+	}
+
 	/** grow method **/
-	protected MIC_Life getNew() {
+	private MIC_Life getNew() {
 		MIC_Life newLife = new MIC_Life(N_GENE, L_GENE, this.mic, this.workers);
 		newLife.setRandom();
 		return newLife;
@@ -228,8 +245,7 @@ public class MIC_GA {
 		MIC_Life life1, life2;
 		while (lifes.size() < N_POP) {
 			life1 = lifepool.get(Utils.random.nextInt(lifepool.size()));
-			life2 = new MIC_Life(life1.genes.length, life1.genes[0].codes.length, mic,
-					workers);
+			life2 = new MIC_Life(life1.genes.length, life1.genes[0].codes.length, mic, workers);
 			life2.setRandom();
 			MIC_Life newLife = MIC_Life.cx(life1, life2);
 			lifes.add(newLife);

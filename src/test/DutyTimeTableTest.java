@@ -14,9 +14,11 @@ public class DutyTimeTableTest {
 		String path = "FromGoogle";
 		String inFilename = "MIC.xls";
 		String outFilename = "MIC-old.xls";
+		String saveFilename="MIC-save.xls";
 		int weekNum = 4;
-		DutyTimeTable dutyTimeTable = new DutyTimeTable(url, path, inFilename, outFilename, weekNum);
+		DutyTimeTable dutyTimeTable = new DutyTimeTable(url, path, inFilename, outFilename, saveFilename,weekNum);
 		dutyTimeTable.menu();
+		dutyTimeTable.end();
 	}
 
 }
