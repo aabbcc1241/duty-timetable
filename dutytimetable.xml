@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="create_run_jar" name="Create Runnable Jar for Project dutytimetable with Jar-in-Jar Loader">
+<project default="create_run_jar" name="Create Runnable Jar for Project dutytimetable">
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <target name="create_run_jar">
-        <jar destfile="/home/beenotung/Programming/SRC/Java/dutytimetable/dutytimetable.jar">
+        <jar destfile="/home/beenotung/Programming/SRC/Java/dutytimetable/dutytimetable.jar" filesetmanifest="mergewithoutmain">
             <manifest>
-                <attribute name="Main-Class" value="org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader"/>
-                <attribute name="Rsrc-Main-Class" value="test.DutyTimeTableTest"/>
+                <attribute name="Main-Class" value="test.DutyTimeTableTest"/>
                 <attribute name="Class-Path" value="."/>
-                <attribute name="Rsrc-Class-Path" value="./ jxl.jar log4j-1.2.17.jar"/>
             </manifest>
-            <zipfileset src="jar-in-jar-loader.zip"/>
             <fileset dir="/home/beenotung/Programming/SRC/Java/dutytimetable/bin"/>
             <fileset dir="/home/beenotung/Programming/SRC/Java/dutytimetable/lib"/>
-            <zipfileset dir="/home/beenotung/Programming/SRC/Java/dutytimetable/lib" includes="jxl.jar"/>
-            <zipfileset dir="/home/beenotung/Programming/SRC/Java/dutytimetable/lib" includes="log4j-1.2.17.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/beenotung/Programming/SRC/Java/dutytimetable/lib/jxl.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="/home/beenotung/Programming/SRC/Java/dutytimetable/lib/log4j-1.2.17.jar"/>
         </jar>
     </target>
 </project>

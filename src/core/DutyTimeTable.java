@@ -79,8 +79,7 @@ public class DutyTimeTable {
 	public void loadSettings() throws IOException {
 		Properties properties = new Properties();
 		InputStream inputStream = new FileInputStream(PROPERTIES_FILE);
-		properties.load(inputStream);
-		System.out.println(properties.getProperty("msg"));
+		properties.load(inputStream);		
 		url=properties.getProperty("url").trim();
 		path = properties.getProperty("path").trim();
 		inFilename = properties.getProperty("inFilename").trim();
@@ -117,6 +116,7 @@ public class DutyTimeTable {
 			switch (option) {
 			case 0:
 				System.out.println("leaving");
+				display.end();
 				break;
 			case 1:
 				MyFile.createDir(path);
@@ -139,7 +139,7 @@ public class DutyTimeTable {
 				save();
 				break;
 			default:
-				System.out.println("error input");
+				System.out.println("wrong input!");
 				break;
 			}
 		} while (option != 0);
@@ -243,7 +243,8 @@ public class DutyTimeTable {
 			/** MIC **/
 			workbook.createSheet("MIC", 0);
 			sheet = workbook.getSheet(0);
-			Label label;
+			Label label=new Label(0,0,"week "+weekNum);
+			sheet.addCell(label);
 			String name;
 			for (int iDay = 0; iDay < mic.days.length; iDay++)
 				for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
@@ -279,9 +280,4 @@ public class DutyTimeTable {
 			e.printStackTrace();
 		}
 	}
-
-	public void end() {
-		display.end();
-	}
-
 }
