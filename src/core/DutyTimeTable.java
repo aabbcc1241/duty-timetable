@@ -1,8 +1,10 @@
 package core;
 
+import java.util.Properties;
 import java.util.Scanner;
-import java.awt.font.NumericShaper;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import myutils.Display;
 import myutils.MyFile;
@@ -12,13 +14,13 @@ import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
 import jxl.write.Label;
-import jxl.write.WritableCell;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
 import jxl.write.biff.RowsExceededException;
 
 public class DutyTimeTable {
+	public static final String PROPERTIES_FILE = "dutytimetable.properties";
 	public static final int WORKER_AMOUNT = 10;
 	private String path;
 	private String url;
@@ -39,6 +41,55 @@ public class DutyTimeTable {
 		this.outFilename = outFilename;
 		this.saveFilename = saveFilename;
 		this.weekNum = weekNum;
+		init();
+	}
+
+	public DutyTimeTable() {
+		try {
+			loadSettings();
+		} catch (IOException e) {
+			// e.printStackTrace();
+			System.out.println("failed to find properties file");
+			System.out.println("loading default values");
+			loadDefaultSettings();
+		}
+		init();
+	}
+
+	public void loadDefaultSettings() {
+		url = "https://docs.google.com/spreadsheet/pub?key=0AjBJCFRK44scdG9uamRqajhvTE1IZUtwZHd3QjFZNWc&output=xls";
+		path = "FromGoogle";
+		inFilename = "MIC.xls";
+		outFilename = "MIC-old.xls";
+		saveFilename = "MIC-save.xls";
+		weekNum = 4;
+	}
+
+	public void loadSettings(String url, String path, String inFilename,
+			String outFilename, String saveFilename, int weekNum) {
+		this.url = url;
+		this.path = path;
+		this.inFilename = inFilename;
+		this.outFilename = outFilename;
+		this.saveFilename = saveFilename;
+		this.weekNum = weekNum;
+
+	}
+
+	public void loadSettings() throws IOException {
+		Properties properties = new Properties();
+		InputStream inputStream = new FileInputStream(PROPERTIES_FILE);
+		properties.load(inputStream);
+		System.out.println(properties.getProperty("msg"));
+		url=properties.getProperty("url").trim();
+		path = properties.getProperty("path").trim();
+		inFilename = properties.getProperty("inFilename").trim();
+		outFilename =properties.getProperty("outFilename").trim();
+		saveFilename = properties.getProperty("saveFilename").trim();
+		weekNum =Integer.parseInt(properties.getProperty("weekNum").trim());
+	}
+
+	public void init() {
 		mic = new MIC();
 		workers = new Worker[WORKER_AMOUNT];
 		for (int iWorker = 0; iWorker < workers.length; iWorker++)
@@ -232,4 +283,5 @@ public class DutyTimeTable {
 	public void end() {
 		display.end();
 	}
+
 }

@@ -1,0 +1,7 @@
+#DutyTimeTable Properties
+url = https://docs.google.com/spreadsheet/pub?key=0AjBJCFRK44scdG9uamRqajhvTE1IZUtwZHd3QjFZNWc&output=xls;
+		path = "FromGoogle";
+		inFilename = "MIC.xls";
+		outFilename = "MIC-old.xls";
+		saveFilename = "MIC-save.xls";
+		weekNum = 4;
