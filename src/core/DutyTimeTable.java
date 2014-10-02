@@ -58,7 +58,7 @@ public class DutyTimeTable {
 
 	public void loadDefaultSettings() {
 		url = "https://docs.google.com/spreadsheet/pub?key=0AjBJCFRK44scdG9uamRqajhvTE1IZUtwZHd3QjFZNWc&output=xls";
-		path = "FromGoogle";
+		path = "MIC_EXCEL";
 		inFilename = "MIC.xls";
 		outFilename = "MIC-old.xls";
 		saveFilename = "MIC-save.xls";
@@ -262,6 +262,7 @@ public class DutyTimeTable {
 				for (int rowIndex = 1; rowIndex <= workerAmount; rowIndex++) {
 					for (int colIndex = 1; colIndex <= timeslotAmount; colIndex++) {
 						val = workers[rowIndex - 1].days[sheetIndex - 1].timeslot[colIndex - 1].status;
+						if(val==0)continue;
 						number = new jxl.write.Number(colIndex, rowIndex, val);
 						sheet.addCell(number);
 					}
