@@ -17,6 +17,7 @@ public class MIC_GA {
 	public static float A_MUTATION = 0.1f;
 	public static float P_SURVIVE = 0.25f;
 
+	public static final float SCORE_EMPTY = -500f;
 	public static final float SCORE_HAS_LESSON = -1000f;
 	public static final float SCORE_WANTED = 1f;
 	public static final float SCORE_AVAILABLE = -0.5f;

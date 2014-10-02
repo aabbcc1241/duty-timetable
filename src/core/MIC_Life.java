@@ -84,6 +84,9 @@ public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 				hours[workerId]++;
 				switch (workers[workerId].days[iDay].timeslot[iTimeslot].status) {
 				/** check valid **/
+				case -1:
+					fitness += MIC_GA.SCORE_EMPTY;
+					break;
 				case 0:
 					fitness += MIC_GA.SCORE_HAS_LESSON;
 					break;

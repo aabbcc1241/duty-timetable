@@ -172,7 +172,7 @@ public class DutyTimeTable {
 						cell = sheet.getCell(colIndex, rowIndex);
 						str = cell.getContents();
 						workers[rowIndex - 1].days[sheetIndex - 1].timeslot[colIndex - 1].status = (str
-								.length() != 0) ? Integer.parseInt(str) : 0;
+								.length() != 0) ? Integer.parseInt(str) : -1;
 						if (workers[rowIndex - 1].days[sheetIndex - 1].timeslot[colIndex - 1].status >= 10)
 							workers[rowIndex - 1].days[sheetIndex - 1].timeslot[colIndex - 1].status /= 10;
 					}
@@ -262,7 +262,7 @@ public class DutyTimeTable {
 				for (int rowIndex = 1; rowIndex <= workerAmount; rowIndex++) {
 					for (int colIndex = 1; colIndex <= timeslotAmount; colIndex++) {
 						val = workers[rowIndex - 1].days[sheetIndex - 1].timeslot[colIndex - 1].status;
-						if(val==0)continue;
+						if(val==-1)continue;
 						number = new jxl.write.Number(colIndex, rowIndex, val);
 						sheet.addCell(number);
 					}
