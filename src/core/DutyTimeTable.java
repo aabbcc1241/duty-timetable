@@ -48,7 +48,7 @@ public class DutyTimeTable {
 	}
 
 	public DutyTimeTable(JTextArea messageTextArea) {
-		this.messageTextArea=messageTextArea;
+		this.messageTextArea = messageTextArea;
 		try {
 			loadSettings();
 		} catch (IOException e) {
@@ -57,7 +57,20 @@ public class DutyTimeTable {
 			System.out.println("loading default values");
 			loadDefaultSettings();
 		}
-		init();
+		init_skipDisplay();
+	}
+
+	public DutyTimeTable(Display display) {
+		this.display = display;
+		try {
+			loadSettings();
+		} catch (IOException e) {
+			// e.printStackTrace();
+			System.out.println("failed to find properties file");
+			System.out.println("loading default values");
+			loadDefaultSettings();
+		}
+		init_skipDisplay();
 	}
 
 	public void loadDefaultSettings() {
@@ -98,6 +111,14 @@ public class DutyTimeTable {
 		for (int iWorker = 0; iWorker < workers.length; iWorker++)
 			workers[iWorker] = new Worker(iWorker);
 		display = new Display(messageTextArea);
+		display.setFPS(2);
+	}
+
+	public void init_skipDisplay() {
+		mic = new MIC();
+		workers = new Worker[WORKER_AMOUNT];
+		for (int iWorker = 0; iWorker < workers.length; iWorker++)
+			workers[iWorker] = new Worker(iWorker);
 		display.setFPS(2);
 	}
 
@@ -156,10 +177,11 @@ public class DutyTimeTable {
 
 	public void readFile() {
 		try {
-			//display.show();
+			// display.show();
 			Workbook workbook;
-			//System.out.println("getting from<" + path + "\\" + outFilename + ">");
-			display.write("getting from<" + path + "\\" + outFilename + ">");			
+			// System.out.println("getting from<" + path + "\\" + outFilename +
+			// ">");
+			display.write("getting from<" + path + "\\" + outFilename + ">");
 			workbook = MyFile.getWorkbook(path, outFilename);
 			Sheet sheet;
 			Cell cell;
@@ -189,7 +211,7 @@ public class DutyTimeTable {
 			}
 			showWorkerInfo();
 		} catch (BiffException | IOException e) {
-			//System.out.println("cannot readFile");
+			// System.out.println("cannot readFile");
 			display.write("cannot readFile");
 		}
 	}

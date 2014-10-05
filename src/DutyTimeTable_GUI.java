@@ -15,6 +15,7 @@ import java.awt.LayoutManager;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
+import myutils.Display;
 import core.DutyTimeTable;
 
 import java.awt.event.MouseAdapter;
@@ -131,8 +132,10 @@ public class DutyTimeTable_GUI {
 		});
 		controlPanel.add(jButtonSave);
 
-		dutyTimeTable = new DutyTimeTable(messageTextArea);
-		setSystemOut(dutyTimeTable.display);
+		Display display = new Display(messageTextArea);
+		setSystemOut(display);
+
+		dutyTimeTable = new DutyTimeTable(display);
 	}
 
 	private void restoreSystemOut() {
@@ -141,6 +144,10 @@ public class DutyTimeTable_GUI {
 
 	private void setSystemOut(OutputStream outputStream) {
 		System.setOut(new PrintStream(outputStream));
+	}
+
+	private void setSystemOutToJTextArea() {
+		setSystemOut(dutyTimeTable.display);
 	}
 
 	/* core stuff (algorithm on DutyTimeTable) */
