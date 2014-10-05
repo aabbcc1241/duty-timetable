@@ -156,9 +156,10 @@ public class DutyTimeTable {
 
 	public void readFile() {
 		try {
-			display.show();
+			//display.show();
 			Workbook workbook;
-			System.out.println("geting from<" + path + "\\" + outFilename + ">");
+			//System.out.println("getting from<" + path + "\\" + outFilename + ">");
+			display.write("getting from<" + path + "\\" + outFilename + ">");			
 			workbook = MyFile.getWorkbook(path, outFilename);
 			Sheet sheet;
 			Cell cell;
@@ -188,7 +189,8 @@ public class DutyTimeTable {
 			}
 			showWorkerInfo();
 		} catch (BiffException | IOException e) {
-			System.out.println("cannot readFile");
+			//System.out.println("cannot readFile");
+			display.write("cannot readFile");
 		}
 	}
 

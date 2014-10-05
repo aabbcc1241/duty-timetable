@@ -22,8 +22,8 @@ public class Display extends OutputStream {
 	public long lastUpdate;
 
 	/** constructor **/
-	public Display(JTextArea textArea , double interval) {
-		this.textArea=textArea;
+	public Display(JTextArea textArea, double interval) {
+		this.textArea = textArea;
 		this.interval = Math.round(interval / 1000);
 		frame = new JFrame();
 		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,8 +51,8 @@ public class Display extends OutputStream {
 		update();
 	}
 
-	public Display(JTextArea textArea) {		
-		this(textArea,0);		
+	public Display(JTextArea textArea) {
+		this(textArea, 0);
 	}
 
 	/** implementing **/
@@ -70,6 +70,15 @@ public class Display extends OutputStream {
 	@Override
 	public void write(int b) throws IOException {
 		write(new byte[] { (byte) b }, 0, 1);
+	}
+
+	public void write(final String text) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				textArea.append(text);
+			}
+		});
 	}
 
 	/** instance method **/
@@ -137,7 +146,8 @@ public class Display extends OutputStream {
 		// frame.pack();
 		frame.setSize(width, height);
 	}
-	public void end(){
+
+	public void end() {
 		hide();
 		frame.dispose();
 	}

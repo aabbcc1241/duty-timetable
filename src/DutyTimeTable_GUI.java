@@ -61,7 +61,7 @@ public class DutyTimeTable_GUI {
 	 */
 	private void initialize() {
 		masterFrame = new JFrame();
-		masterFrame.setBounds(100, 100, 800, 600);
+		masterFrame.setBounds(100, 100, 900, 450);
 		masterFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		masterFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 
