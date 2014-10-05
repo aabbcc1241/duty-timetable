@@ -15,7 +15,11 @@ import java.awt.LayoutManager;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 
+import core.DutyTimeTable;
+
 public class DutyTimeTable_GUI {
+
+	/* GUI stuff */
 
 	private JFrame masterFrame;
 
@@ -81,5 +85,12 @@ public class DutyTimeTable_GUI {
 
 		JButton jButtonSave = new JButton("Save");
 		controlPanel.add(jButtonSave);
+		
+		dutyTimeTable=new DutyTimeTable();
 	}
+	
+	/* core stuff (algorithm on DutyTimeTable)*/
+	private DutyTimeTable dutyTimeTable;
+	
+	
 }
