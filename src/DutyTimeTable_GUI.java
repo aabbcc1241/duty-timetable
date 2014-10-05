@@ -146,6 +146,7 @@ public class DutyTimeTable_GUI {
 		System.setOut(new PrintStream(outputStream));
 	}
 
+	@SuppressWarnings("unused")
 	private void setSystemOutToJTextArea() {
 		setSystemOut(dutyTimeTable.display);
 	}

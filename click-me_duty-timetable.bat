@@ -1,1 +1,1 @@
-java -jar dutytimetable.jar
+java -jar DutyTimeTable-GUI.jar
