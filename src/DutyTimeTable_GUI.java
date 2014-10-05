@@ -17,7 +17,14 @@ import javax.swing.SwingConstants;
 
 import core.DutyTimeTable;
 
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
 public class DutyTimeTable_GUI {
+
+	private PrintStream DEFAULT_SYSTEM_PRINTSCREAM;
 
 	/* GUI stuff */
 
@@ -43,11 +50,14 @@ public class DutyTimeTable_GUI {
 	 * Create the application.
 	 */
 	public DutyTimeTable_GUI() {
+		DEFAULT_SYSTEM_PRINTSCREAM = System.out;
 		initialize();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
+	 * 
+	 * @param a
 	 */
 	private void initialize() {
 		masterFrame = new JFrame();
@@ -56,41 +66,90 @@ public class DutyTimeTable_GUI {
 		masterFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 
 		Container controlPanel = new JPanel();
-		// controlPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		masterFrame.getContentPane().add(controlPanel, BorderLayout.NORTH);
 
 		Container messagePanel = new JPanel();
 		masterFrame.getContentPane().add(messagePanel, BorderLayout.CENTER);
 
-		JTextArea textArea = new JTextArea(25, 80);
-		textArea.setEditable(false);
-		messagePanel.add(new JScrollPane(textArea,
+		JTextArea messageTextArea = new JTextArea(25, 80);
+		messageTextArea.setEditable(false);
+		messagePanel.add(new JScrollPane(messageTextArea,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
 
 		JButton jButtonExit = new JButton("Exit");
+		jButtonExit.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				exit();
+			}
+		});
 		controlPanel.add(jButtonExit);
 
 		JButton jButtonGetFile = new JButton("Get File");
+		jButtonGetFile.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dutyTimeTable.getFile();
+			}
+		});
 		controlPanel.add(jButtonGetFile);
 
 		JButton jButtonReadFile = new JButton("Read File");
+		jButtonReadFile.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dutyTimeTable.readFile();
+			}
+		});
 		controlPanel.add(jButtonReadFile);
 
 		JButton jButtonGenerateCX = new JButton("Generate - cx");
+		jButtonGenerateCX.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dutyTimeTable.generate("cx");
+			}
+		});
 		controlPanel.add(jButtonGenerateCX);
 
 		JButton jButtonGenerateGrow = new JButton("Generate - grow");
+		jButtonGenerateGrow.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dutyTimeTable.generate("grow");
+			}
+		});
 		controlPanel.add(jButtonGenerateGrow);
 
 		JButton jButtonSave = new JButton("Save");
+		jButtonSave.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dutyTimeTable.save();
+			}
+		});
 		controlPanel.add(jButtonSave);
-		
-		dutyTimeTable=new DutyTimeTable();
+
+		dutyTimeTable = new DutyTimeTable(messageTextArea);
+		setSystemOut(dutyTimeTable.display);
 	}
-	
-	/* core stuff (algorithm on DutyTimeTable)*/
+
+	private void restoreSystemOut() {
+		System.setOut(DEFAULT_SYSTEM_PRINTSCREAM);
+	}
+
+	private void setSystemOut(OutputStream outputStream) {
+		System.setOut(new PrintStream(outputStream));
+	}
+
+	/* core stuff (algorithm on DutyTimeTable) */
 	private DutyTimeTable dutyTimeTable;
-	
-	
+
+	private void exit() {
+		restoreSystemOut();
+		masterFrame.setVisible(false);
+		masterFrame.dispose();
+		Runtime.getRuntime().exit(0);
+	}
 }

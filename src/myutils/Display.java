@@ -22,7 +22,8 @@ public class Display extends OutputStream {
 	public long lastUpdate;
 
 	/** constructor **/
-	public Display(double interval) {
+	public Display(JTextArea textArea , double interval) {
+		this.textArea=textArea;
 		this.interval = Math.round(interval / 1000);
 		frame = new JFrame();
 		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,8 +51,8 @@ public class Display extends OutputStream {
 		update();
 	}
 
-	public Display() {
-		this(0);
+	public Display(JTextArea textArea) {		
+		this(textArea,0);		
 	}
 
 	/** implementing **/

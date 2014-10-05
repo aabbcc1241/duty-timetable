@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.swing.JTextArea;
+
 import myutils.Display;
 import myutils.MyFile;
 import myutils.StringUtils;
@@ -32,6 +34,7 @@ public class DutyTimeTable {
 	Worker[] workers;
 
 	public Display display;
+	private JTextArea messageTextArea;
 
 	public DutyTimeTable(String url, String path, String inFilename, String outFilename,
 			String saveFilename, int weekNum) {
@@ -44,7 +47,8 @@ public class DutyTimeTable {
 		init();
 	}
 
-	public DutyTimeTable() {
+	public DutyTimeTable(JTextArea messageTextArea) {
+		this.messageTextArea=messageTextArea;
 		try {
 			loadSettings();
 		} catch (IOException e) {
@@ -79,13 +83,13 @@ public class DutyTimeTable {
 	public void loadSettings() throws IOException {
 		Properties properties = new Properties();
 		InputStream inputStream = new FileInputStream(PROPERTIES_FILE);
-		properties.load(inputStream);		
-		url=properties.getProperty("url").trim();
+		properties.load(inputStream);
+		url = properties.getProperty("url").trim();
 		path = properties.getProperty("path").trim();
 		inFilename = properties.getProperty("inFilename").trim();
-		outFilename =properties.getProperty("outFilename").trim();
+		outFilename = properties.getProperty("outFilename").trim();
 		saveFilename = properties.getProperty("saveFilename").trim();
-		weekNum =Integer.parseInt(properties.getProperty("weekNum").trim());
+		weekNum = Integer.parseInt(properties.getProperty("weekNum").trim());
 	}
 
 	public void init() {
@@ -93,7 +97,7 @@ public class DutyTimeTable {
 		workers = new Worker[WORKER_AMOUNT];
 		for (int iWorker = 0; iWorker < workers.length; iWorker++)
 			workers[iWorker] = new Worker(iWorker);
-		display = new Display();
+		display = new Display(messageTextArea);
 		display.setFPS(2);
 	}
 
@@ -119,12 +123,7 @@ public class DutyTimeTable {
 				display.end();
 				break;
 			case 1:
-				MyFile.createDir(path);
-				try {
-					MyFile.getFile(url, path, inFilename, outFilename);
-				} catch (IOException e) {
-					System.out.println("cannot getFile");
-				}
+				getFile();
 				break;
 			case 2:
 				readFile();
@@ -146,7 +145,16 @@ public class DutyTimeTable {
 		scanner.close();
 	}
 
-	private void readFile() {
+	public void getFile() {
+		MyFile.createDir(path);
+		try {
+			MyFile.getFile(url, path, inFilename, outFilename);
+		} catch (IOException e) {
+			System.out.println("cannot getFile");
+		}
+	}
+
+	public void readFile() {
 		try {
 			display.show();
 			Workbook workbook;
@@ -199,13 +207,13 @@ public class DutyTimeTable {
 		display.updateBuffer();
 	}
 
-	private void generate(String mode) {
+	public void generate(String mode) {
 		mic.findPossibleWorkers(workers);
 		MIC_GA mic_GA = new MIC_GA(mic, workers, display);
 		mic_GA.start(mode);
 	}
 
-	private void save() {
+	public void save() {
 		saveMicToWorker();
 		saveToFile();
 	}
@@ -243,7 +251,7 @@ public class DutyTimeTable {
 			/** MIC **/
 			workbook.createSheet("MIC", 0);
 			sheet = workbook.getSheet(0);
-			Label label=new Label(0,0,"week "+weekNum);
+			Label label = new Label(0, 0, "week " + weekNum);
 			sheet.addCell(label);
 			String name;
 			for (int iDay = 0; iDay < mic.days.length; iDay++)
@@ -262,7 +270,8 @@ public class DutyTimeTable {
 				for (int rowIndex = 1; rowIndex <= workerAmount; rowIndex++) {
 					for (int colIndex = 1; colIndex <= timeslotAmount; colIndex++) {
 						val = workers[rowIndex - 1].days[sheetIndex - 1].timeslot[colIndex - 1].status;
-						if(val==-1)continue;
+						if (val == -1)
+							continue;
 						number = new jxl.write.Number(colIndex, rowIndex, val);
 						sheet.addCell(number);
 					}
