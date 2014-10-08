@@ -39,6 +39,8 @@ public class MIC_GA {
 	private float lastAvgFitness;
 	private float sumFitness;
 
+	private boolean shouldStop = false;
+
 	/** contrucstor **/
 	public MIC_GA(MIC mic, Worker[] workers, Display display) {
 		N_GENE = mic.days.length;
@@ -72,7 +74,6 @@ public class MIC_GA {
 	}
 
 	public void start(String mode) {
-		display.show();
 		switch (mode) {
 		case "cx":
 			start_cx();
@@ -82,6 +83,10 @@ public class MIC_GA {
 			break;
 		}
 		saveToMic();
+	}
+
+	public void stop() {
+		shouldStop = true;
 	}
 
 	private void sort() {
@@ -178,7 +183,7 @@ public class MIC_GA {
 		for (Worker worker : workers)
 			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
 		maxWorkerNameLength += 5;
-		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
+		for (int iGEN = 0; (iGEN < N_GEN) && !shouldStop; iGEN++) {
 			// addNew();
 			addSome();
 			// benchmark();
@@ -187,11 +192,7 @@ public class MIC_GA {
 			report(iGEN + 1);
 			/** check if the loop should end **/
 			if ((avgFitness != lastAvgFitness) || (lifes.size() <= 16))
-				N_GEN++;				
-			if (!display.isShown()) {
-				display.show();
-				break;
-			}
+				N_GEN++;
 			/** slow down for debug **/
 			// Utils.sleep(1000);
 		}
@@ -208,7 +209,7 @@ public class MIC_GA {
 		for (Worker worker : workers)
 			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
 		maxWorkerNameLength += 5;
-		for (int iGEN = 0; iGEN < N_GEN; iGEN++) {
+		for (int iGEN = 0; (iGEN < N_GEN) && !shouldStop; iGEN++) {
 			benchmark();
 			sort();
 			refresh();
@@ -217,10 +218,6 @@ public class MIC_GA {
 			/** check if the loop should end **/
 			if (avgFitness != lastAvgFitness)
 				N_GEN++;
-			if (!display.isShown()) {
-				display.show();
-				break;
-			}
 			cx();
 			mutate();
 			/** slow down for debug **/

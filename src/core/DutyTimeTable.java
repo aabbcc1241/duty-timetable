@@ -32,12 +32,13 @@ public class DutyTimeTable {
 	int weekNum;
 	MIC mic;
 	Worker[] workers;
+	MIC_GA mic_GA;
 
 	public Display display;
 	private JTextArea messageTextArea;
 
-	public DutyTimeTable(String url, String path, String inFilename, String outFilename,
-			String saveFilename, int weekNum) {
+	public DutyTimeTable(String url, String path, String inFilename, String outFilename, String saveFilename,
+			int weekNum) {
 		this.url = url;
 		this.path = path;
 		this.inFilename = inFilename;
@@ -49,6 +50,7 @@ public class DutyTimeTable {
 
 	public DutyTimeTable(JTextArea messageTextArea) {
 		this.messageTextArea = messageTextArea;
+		this.display=new Display(messageTextArea);
 		try {
 			loadSettings();
 		} catch (IOException e) {
@@ -82,8 +84,8 @@ public class DutyTimeTable {
 		weekNum = 4;
 	}
 
-	public void loadSettings(String url, String path, String inFilename,
-			String outFilename, String saveFilename, int weekNum) {
+	public void loadSettings(String url, String path, String inFilename, String outFilename,
+			String saveFilename, int weekNum) {
 		this.url = url;
 		this.path = path;
 		this.inFilename = inFilename;
@@ -233,8 +235,12 @@ public class DutyTimeTable {
 
 	public void generate(String mode) {
 		mic.findPossibleWorkers(workers);
-		MIC_GA mic_GA = new MIC_GA(mic, workers, display);
+		mic_GA = new MIC_GA(mic, workers, display);
 		mic_GA.start(mode);
+	}
+
+	public void stop() {
+		mic_GA.stop();
 	}
 
 	public void save() {

@@ -118,6 +118,15 @@ public class DutyTimeTable_GUI {
 		});
 		controlPanel.add(jButtonGenerateGrow);
 
+		JButton jButtonStop = new JButton("Stop (Generate)");
+		jButtonStop.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				dutyTimeTable.stop();
+			}
+		});
+		controlPanel.add(jButtonStop);
+		
 		JButton jButtonSave = new JButton("Save");
 		jButtonSave.addMouseListener(new MouseAdapter() {
 			@Override
