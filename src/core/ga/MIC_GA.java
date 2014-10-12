@@ -102,11 +102,11 @@ public class MIC_GA implements Runnable {
 			sdFitness += Math.pow(life.fitness - avgFitness, 2);
 	}
 
-	private void report(int iGEN) {		
+	private void report(int iGEN) {
 		calcStat();
 		saveToMic();
 		/** display **/
-		tableFrame.update(mic);		
+		tableFrame.update(mic);
 	}
 
 	private void report_old(int iGEN) {
@@ -145,7 +145,7 @@ public class MIC_GA implements Runnable {
 	}
 
 	private void saveToMic() {
-		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {			
+		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
 			for (int iDay = 0; iDay < mic.days.length; iDay++) {
 				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
 				if (workerId != -1) {
@@ -189,9 +189,7 @@ public class MIC_GA implements Runnable {
 			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
 		maxWorkerNameLength += 5;
 		for (int iGEN = 0; (iGEN < N_GEN) && !shouldStop; iGEN++) {
-			// addNew();
 			addSome();
-			// benchmark();
 			sort();
 			removeSome();
 			report(iGEN + 1);
@@ -199,7 +197,7 @@ public class MIC_GA implements Runnable {
 			if ((avgFitness != lastAvgFitness) || (lifes.size() <= 16))
 				N_GEN++;
 			/** slow down for debug **/
-			Utils.sleep(1000);
+			// Utils.sleep(1000);
 		}
 		display.writeln("\nFinished!!!");
 	}
@@ -224,7 +222,7 @@ public class MIC_GA implements Runnable {
 			cx();
 			mutate();
 			/** slow down for debug **/
-			Utils.sleep(1000);
+		//	Utils.sleep(1000);
 		}
 		display.writeln("\nFinished!!!");
 	}
@@ -285,12 +283,12 @@ public class MIC_GA implements Runnable {
 		do {
 			switch (mode) {
 			case "cx":
-				mode="";
+				mode = "";
 				start_cx();
 				finish();
 				break;
 			case "grow":
-				mode="";
+				mode = "";
 				start_grow();
 				finish();
 				break;
