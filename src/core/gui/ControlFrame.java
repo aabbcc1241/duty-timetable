@@ -2,6 +2,7 @@ package core.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -14,6 +15,7 @@ import javax.swing.JTextArea;
 public class ControlFrame {
 	public JFrame controlFrame;
 	public JTextArea messageTextArea;
+
 	private DutyTimeTable_GUI dutyTimeTable_GUI;
 
 	public ControlFrame(DutyTimeTable_GUI dutyTimeTable_GUI) {
@@ -34,7 +36,7 @@ public class ControlFrame {
 		Container messagePanel = new JPanel();
 		controlFrame.getContentPane().add(messagePanel, BorderLayout.CENTER);
 
-		messageTextArea = new JTextArea(10, 80);
+		messageTextArea = new JTextArea(10, 60);
 		messageTextArea.setEditable(false);
 		messagePanel.add(new JScrollPane(messageTextArea,
 				JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
@@ -84,15 +86,6 @@ public class ControlFrame {
 			}
 		});
 		controlPanel.add(jButtonGenerateGrow);
-
-		JButton jButtonStop = new JButton("Stop (Generate)");
-		jButtonStop.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				dutyTimeTable_GUI.dutyTimeTable.stop();
-			}
-		});
-		controlPanel.add(jButtonStop);
 
 		JButton jButtonSave = new JButton("Save");
 		jButtonSave.addMouseListener(new MouseAdapter() {

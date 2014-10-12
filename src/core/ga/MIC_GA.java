@@ -1,18 +1,23 @@
 package core.ga;
 
+import java.awt.EventQueue;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.SwingUtilities;
+
 import core.dutytable.MIC;
 import core.dutytable.Worker;
+import core.gui.DutyTimeTable_GUI;
+import core.gui.TableFrame;
 import myutils.Display;
 import myutils.StringUtils;
 import myutils.Utils;
 
-public class MIC_GA {
+public class MIC_GA implements Runnable {
 	public static int N_GEN = 1000;
 	public static int N_POP = 100;
 	public static float P_MUTATION = 0.02f;
@@ -36,23 +41,29 @@ public class MIC_GA {
 	private int maxWorkerNameLength;
 
 	private Display display;
+	private TableFrame tableFrame;
+
 	public float avgFitness = Float.MIN_VALUE;
 	public float sdFitness = Float.MAX_VALUE;
 	private float lastAvgFitness;
 	private float sumFitness;
 
+	public Thread thread;
 	private boolean shouldStop = false;
+	public String mode;
 
 	/** contrucstor **/
-	public MIC_GA(MIC mic, Worker[] workers, Display display) {
+	public MIC_GA(MIC mic, Worker[] workers, Display display, TableFrame tableFrame) {
 		N_GENE = mic.days.length;
 		L_GENE = mic.days[0].timeslot.length;
 		this.display = display;
+		this.tableFrame = tableFrame;
 		this.mic = mic;
 		this.workers = workers;
 		lifes = new ArrayList<MIC_Life>();
 		for (int iLife = 0; iLife < N_POP; iLife++)
 			lifes.add(new MIC_Life(N_GENE, L_GENE, this.mic, this.workers));
+		mode = "";
 	}
 
 	/** static method **/
@@ -75,23 +86,6 @@ public class MIC_GA {
 		lifes.add(newLife);
 	}
 
-	public void start(String mode) {
-		
-		switch (mode) {
-		case "cx":
-			start_cx();
-			break;
-		case "grow":
-			start_grow();
-			break;
-		}
-		saveToMic();
-	}
-
-	public void stop() {
-		shouldStop = true;
-	}
-
 	private void sort() {
 		Collections.sort(lifes, Collections.reverseOrder());
 		// Collections.sort(lifes);
@@ -109,6 +103,10 @@ public class MIC_GA {
 	}
 
 	private void report(int iGEN) {
+		calcStat();		
+	}
+
+	private void report_old(int iGEN) {
 		calcStat();
 		/** prepare to display **/
 		String msg;
@@ -117,9 +115,10 @@ public class MIC_GA {
 		Calendar now = Calendar.getInstance();
 		java.util.Date date = now.getTime();
 		display.writeBuffer(date.toString());
-		msg = String.format("\n %s%5s | %s%5s \n %s%5s | %s%5s \n %s%5s | %s%5s", "Population: ",
-				lifes.size(), "Generation: ", iGEN, "Avg.: ", avgFitness, "SD.: ", sdFitness, "Best: ",
-				lifes.get(0).fitness, "hourSD: ", lifes.get(0).hoursSd / 2);
+		msg = String.format("\n %s%5s | %s%5s \n %s%5s | %s%5s \n %s%5s | %s%5s",
+				"Population: ", lifes.size(), "Generation: ", iGEN, "Avg.: ", avgFitness,
+				"SD.: ", sdFitness, "Best: ", lifes.get(0).fitness, "hourSD: ",
+				lifes.get(0).hoursSd / 2);
 		display.writeBuffer(msg + "\n\n");
 		for (MIC.Day day : mic.days) {
 			msg = StringUtils.center("Day-" + day.dayOfWeek, width);
@@ -130,7 +129,8 @@ public class MIC_GA {
 			for (int iDay = 0; iDay < mic.days.length; iDay++) {
 				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
 				if (workerId != -1)
-					msg = mic.days[iDay].timeslot[iTimeslot].possibleWorkers.get(workerId).name;
+					msg = mic.days[iDay].timeslot[iTimeslot].possibleWorkers
+							.get(workerId).name;
 				else
 					msg = "";
 				msg = StringUtils.center(msg, width);
@@ -147,7 +147,8 @@ public class MIC_GA {
 			for (int iDay = 0; iDay < mic.days.length; iDay++) {
 				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
 				if (workerId != -1) {
-					workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers.get(workerId).id;
+					workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers
+							.get(workerId).id;
 					mic.days[iDay].timeslot[iTimeslot].worker = workers[workerId];
 				} else {
 					mic.days[iDay].timeslot[iTimeslot].worker = null;
@@ -177,8 +178,7 @@ public class MIC_GA {
 	}
 
 	private void start_grow() {
-		PrintStream oriPrintStream = System.out;
-		System.setOut(new PrintStream(display));
+		display.writeln("grow...");
 		lifes.clear();
 		lifes.add(getNew());
 		lifes.add(getNew());
@@ -197,16 +197,14 @@ public class MIC_GA {
 			if ((avgFitness != lastAvgFitness) || (lifes.size() <= 16))
 				N_GEN++;
 			/** slow down for debug **/
-			// Utils.sleep(1000);
+			Utils.sleep(1000);
 		}
-		System.out.println("\n\nFinished");
-		System.setOut(oriPrintStream);
+		display.writeln("\nFinished!!!");		
 	}
 
 	/** cx method **/
 	private void start_cx() {
-		PrintStream oriPrintStream = System.out;
-		System.setOut(new PrintStream(display));
+		display.writeln("cx...");		
 		setRandom();
 		maxWorkerNameLength = 0;
 		for (Worker worker : workers)
@@ -224,10 +222,9 @@ public class MIC_GA {
 			cx();
 			mutate();
 			/** slow down for debug **/
-			// Utils.sleep(1000);
+			Utils.sleep(1000);
 		}
-		System.out.println("\n\nFinished");
-		System.setOut(oriPrintStream);
+		display.writeln("\nFinished!!!");
 	}
 
 	/** losers cx with random life who's better then it **/
@@ -242,7 +239,8 @@ public class MIC_GA {
 		MIC_Life life1, life2;
 		while (lifes.size() < N_POP) {
 			life1 = lifepool.get(Utils.random.nextInt(lifepool.size()));
-			life2 = new MIC_Life(life1.genes.length, life1.genes[0].codes.length, mic, workers);
+			life2 = new MIC_Life(life1.genes.length, life1.genes[0].codes.length, mic,
+					workers);
 			life2.setRandom();
 			MIC_Life newLife = MIC_Life.cx(life1, life2);
 			lifes.add(newLife);
@@ -266,4 +264,49 @@ public class MIC_GA {
 				}
 	}
 
+	public void start() {
+		if (thread == null)
+			thread = new Thread(this);
+		thread.start();
+	}
+
+	public void start(String mode) {
+		display.writeln("Generating...");
+		tableFrame.reInit(mic);
+		tableFrame.show();
+		this.mode = mode;
+	}
+
+	@Override
+	public void run() {
+		do {
+			switch (mode) {
+			case "cx":
+				start_cx();
+				finish();
+				break;
+			case "grow":
+				start_grow();
+				finish();
+				break;
+			default:
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		} while (true);
+	}
+
+	public void stop() {
+		shouldStop = true;
+		tableFrame.end();
+	}
+
+	private void finish() {
+		saveToMic();
+		tableFrame.hide();
+		display.writeln("Finished");
+	}
 }

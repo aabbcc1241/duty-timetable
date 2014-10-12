@@ -53,11 +53,12 @@ public class DutyTimeTable_GUI {
 	private void initialize() {
 		/* user interface */
 		controlFrame = new ControlFrame(this);
-		tableFrame = new TableFrame();
+		tableFrame = new TableFrame(this);
+		
 		display = new Display(controlFrame.messageTextArea);
 		setSystemOut(display);
 		/* core part */
-		dutyTimeTable = new DutyTimeTable(display);
+		dutyTimeTable = new DutyTimeTable(display, tableFrame);
 	}
 
 	private void restoreSystemOut() {

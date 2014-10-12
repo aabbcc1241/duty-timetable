@@ -9,6 +9,7 @@ import java.io.InputStream;
 import javax.swing.JTextArea;
 
 import core.ga.MIC_GA;
+import core.gui.TableFrame;
 import myutils.Display;
 import myutils.MyFile;
 import myutils.StringUtils;
@@ -37,34 +38,26 @@ public class DutyTimeTable {
 
 	public Display display;
 	private JTextArea messageTextArea;
+	private TableFrame tableFrame;
 
-	public DutyTimeTable(String url, String path, String inFilename, String outFilename, String saveFilename,
-			int weekNum) {
-		this.url = url;
-		this.path = path;
-		this.inFilename = inFilename;
-		this.outFilename = outFilename;
-		this.saveFilename = saveFilename;
-		this.weekNum = weekNum;
-		init();
-	}
+	/*
+	 * public DutyTimeTable(String url, String path, String inFilename, String
+	 * outFilename, String saveFilename, int weekNum) { this.url = url;
+	 * this.path = path; this.inFilename = inFilename; this.outFilename =
+	 * outFilename; this.saveFilename = saveFilename; this.weekNum = weekNum;
+	 * init(); }
+	 * 
+	 * public DutyTimeTable(JTextArea messageTextArea) { this.messageTextArea =
+	 * messageTextArea; this.display=new Display(messageTextArea); try {
+	 * loadSettings(); } catch (IOException e) { // e.printStackTrace();
+	 * System.out.println("failed to find properties file");
+	 * System.out.println("loading default values"); loadDefaultSettings(); }
+	 * init_skipDisplay(); }
+	 */
 
-	public DutyTimeTable(JTextArea messageTextArea) {
-		this.messageTextArea = messageTextArea;
-		this.display=new Display(messageTextArea);
-		try {
-			loadSettings();
-		} catch (IOException e) {
-			// e.printStackTrace();
-			System.out.println("failed to find properties file");
-			System.out.println("loading default values");
-			loadDefaultSettings();
-		}
-		init_skipDisplay();
-	}
-
-	public DutyTimeTable(Display display) {
+	public DutyTimeTable(Display display, TableFrame tableFrame) {
 		this.display = display;
+		this.tableFrame = tableFrame;
 		try {
 			loadSettings();
 		} catch (IOException e) {
@@ -73,7 +66,7 @@ public class DutyTimeTable {
 			System.out.println("loading default values");
 			loadDefaultSettings();
 		}
-		init_skipDisplay();
+		init();
 	}
 
 	public void loadDefaultSettings() {
@@ -85,16 +78,14 @@ public class DutyTimeTable {
 		weekNum = 4;
 	}
 
-	public void loadSettings(String url, String path, String inFilename, String outFilename,
-			String saveFilename, int weekNum) {
-		this.url = url;
-		this.path = path;
-		this.inFilename = inFilename;
-		this.outFilename = outFilename;
-		this.saveFilename = saveFilename;
-		this.weekNum = weekNum;
-
-	}
+	/*
+	 * public void loadSettings(String url, String path, String inFilename,
+	 * String outFilename, String saveFilename, int weekNum) { this.url = url;
+	 * this.path = path; this.inFilename = inFilename; this.outFilename =
+	 * outFilename; this.saveFilename = saveFilename; this.weekNum = weekNum;
+	 * 
+	 * }
+	 */
 
 	public void loadSettings() throws IOException {
 		Properties properties = new Properties();
@@ -108,16 +99,14 @@ public class DutyTimeTable {
 		weekNum = Integer.parseInt(properties.getProperty("weekNum").trim());
 	}
 
-	public void init() {
-		mic = new MIC();
-		workers = new Worker[WORKER_AMOUNT];
-		for (int iWorker = 0; iWorker < workers.length; iWorker++)
-			workers[iWorker] = new Worker(iWorker);
-		display = new Display(messageTextArea);
-		display.setFPS(2);
-	}
+	/*
+	 * public void init_Full() { mic = new MIC(); workers = new
+	 * Worker[WORKER_AMOUNT]; for (int iWorker = 0; iWorker < workers.length;
+	 * iWorker++) workers[iWorker] = new Worker(iWorker); display = new
+	 * Display(messageTextArea); display.setFPS(2); }
+	 */
 
-	public void init_skipDisplay() {
+	public void init() {
 		mic = new MIC();
 		workers = new Worker[WORKER_AMOUNT];
 		for (int iWorker = 0; iWorker < workers.length; iWorker++)
@@ -184,7 +173,7 @@ public class DutyTimeTable {
 			Workbook workbook;
 			// System.out.println("getting from<" + path + "\\" + outFilename +
 			// ">");
-			display.write("getting from<" + path + "\\" + outFilename + ">");
+			display.writeln("getting from<" + path + "\\" + outFilename + ">...");
 			workbook = MyFile.getWorkbook(path, outFilename);
 			Sheet sheet;
 			Cell cell;
@@ -197,6 +186,7 @@ public class DutyTimeTable {
 				for (int rowIndex = 3; rowIndex < 3 + workerAmount; rowIndex++) {
 					cell = sheet.getCell(7, rowIndex);
 					workers[rowIndex - 3].name = cell.getContents().trim();
+					display.writeln("\t" + workers[rowIndex - 3].name);
 				}
 			}
 			for (int sheetIndex = 1; sheetIndex <= dayAmount; sheetIndex++) {
@@ -212,7 +202,8 @@ public class DutyTimeTable {
 					}
 				}
 			}
-			showWorkerInfo();
+			// showWorkerInfo();
+			display.writeln("finished reading.");
 		} catch (BiffException | IOException e) {
 			// System.out.println("cannot readFile");
 			display.write("cannot readFile");
@@ -236,7 +227,7 @@ public class DutyTimeTable {
 
 	public void generate(String mode) {
 		mic.findPossibleWorkers(workers);
-		mic_GA = new MIC_GA(mic, workers, display);
+		mic_GA = new MIC_GA(mic, workers, display,tableFrame);
 		mic_GA.start(mode);
 	}
 

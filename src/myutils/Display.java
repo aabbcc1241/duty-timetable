@@ -80,6 +80,14 @@ public class Display extends OutputStream {
 			}
 		});
 	}
+	public void writeln(final String text) {
+		SwingUtilities.invokeLater(new Runnable() {
+			@Override
+			public void run() {
+				textArea.append(text+"\n");
+			}
+		});
+	}
 
 	/** instance method **/
 	public void show() {
