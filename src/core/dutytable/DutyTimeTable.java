@@ -210,7 +210,7 @@ public class DutyTimeTable {
 		}
 	}
 
-	private void showWorkerInfo() {
+	private void showWorkerInfo_old() {
 		/** show worker info **/
 		display.clearBuffer();
 		for (int iWorker = 0; iWorker < workers.length; iWorker++) {

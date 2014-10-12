@@ -38,8 +38,8 @@ public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 			try {
 				newLife.genes[iGene] = (MIC_Gene) this.genes[iGene].clone();
 			} catch (CloneNotSupportedException e) {
-				display.writeln(e.toString);
-				display.writeln("Cannot clone the gene");				
+				//display.writeln(e.toString);
+				//display.writeln("Cannot clone the gene");				
 				e.printStackTrace();
 			}
 		return newLife;
