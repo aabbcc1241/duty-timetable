@@ -1,4 +1,4 @@
-package core;
+package core.ga;
 
 import java.io.PrintStream;
 import java.util.ArrayList;
@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
+import core.dutytable.MIC;
+import core.dutytable.Worker;
 import myutils.Display;
 import myutils.StringUtils;
 import myutils.Utils;
@@ -74,6 +76,7 @@ public class MIC_GA {
 	}
 
 	public void start(String mode) {
+		
 		switch (mode) {
 		case "cx":
 			start_cx();

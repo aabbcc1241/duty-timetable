@@ -1,18 +1,18 @@
-package core;
+package core.dutytable;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import core.MIC.Day.Timeslot;
+import core.dutytable.MIC.Day.Timeslot;
 
 public class MIC {
-	Day[] days;
+	public Day[] days;
 
-	class Day {
-		int dayOfWeek;
-		Timeslot[] timeslot = new Timeslot[17];
+	public class Day {
+		public int dayOfWeek;
+		public Timeslot[] timeslot = new Timeslot[17];
 
-		class Timeslot {
+		public class Timeslot {
 			public Worker worker;
 			public List<Worker> possibleWorkers;
 

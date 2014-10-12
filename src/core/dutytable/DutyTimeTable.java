@@ -1,4 +1,4 @@
-package core;
+package core.dutytable;
 
 import java.util.Properties;
 import java.util.Scanner;
@@ -8,6 +8,7 @@ import java.io.InputStream;
 
 import javax.swing.JTextArea;
 
+import core.ga.MIC_GA;
 import myutils.Display;
 import myutils.MyFile;
 import myutils.StringUtils;

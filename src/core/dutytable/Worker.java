@@ -1,15 +1,15 @@
-package core;
+package core.dutytable;
 
 public class Worker {
-	int id;
-	String name;
-	Day[] days;;
+	public int id;
+	public String name;
+	public Day[] days;;
 
-	class Day {
-		int dayOfWeek;
-		Timeslot[] timeslot = new Timeslot[17];
+	public class Day {
+		public int dayOfWeek;
+		public Timeslot[] timeslot = new Timeslot[17];
 
-		class Timeslot {
+		public class Timeslot {
 			public int status;
 
 			/*
