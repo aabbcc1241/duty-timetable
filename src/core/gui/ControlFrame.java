@@ -25,7 +25,7 @@ public class ControlFrame {
 	public void init() {
 		/** master frame **/
 		controlFrame = new JFrame();
-		controlFrame.setBounds(100, 100, 900, 450);
+		controlFrame.setBounds(10, 10, 900, 450);
 		controlFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		controlFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 

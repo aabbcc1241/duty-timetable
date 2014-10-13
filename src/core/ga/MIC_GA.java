@@ -26,10 +26,11 @@ public class MIC_GA implements Runnable {
 	public static final float SCORE_CONTINUOUS = 1f;
 	public static final float SCORE_HOUR_SD = 0f;
 
+	public int iGEN;
 	protected int N_GENE;
 	protected int L_GENE;
 	/** [num of animal][num of gene] **/
-	protected List<MIC_Life> lifes;
+	public List<MIC_Life> lifes;
 
 	private Worker[] workers;
 	private MIC mic;
@@ -183,7 +184,7 @@ public class MIC_GA implements Runnable {
 		for (Worker worker : workers)
 			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
 		maxWorkerNameLength += 5;
-		for (int iGEN = 0; (iGEN < N_GEN) && !shouldStop; iGEN++) {
+		for ( iGEN = 0; (iGEN < N_GEN) && !shouldStop; iGEN++) {
 			addSome();
 			sort();
 			removeSome();
@@ -205,7 +206,7 @@ public class MIC_GA implements Runnable {
 		for (Worker worker : workers)
 			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
 		maxWorkerNameLength += 5;
-		for (int iGEN = 0; (iGEN < N_GEN) && !shouldStop; iGEN++) {
+		for ( iGEN = 0; (iGEN < N_GEN) && !shouldStop; iGEN++) {
 			benchmark();
 			sort();
 			refresh();

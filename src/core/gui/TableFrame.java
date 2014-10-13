@@ -12,12 +12,17 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
 import core.dutytable.MIC;
+import core.ga.MIC_GA;
 
 public class TableFrame implements Runnable{
 	public JFrame tableFrame;
-	public JScrollPane scrollPane;
+	public JScrollPane infoScrollPane;
+	public JScrollPane mainScrollPane;
+	public JTable infoTable;
 	public JTable mainTable;
-	public String[] columnNames;
+	public String[] infoColumnNames;
+	public String[] mainColumnNames;
+	public DefaultTableModel infoModel;
 	public DefaultTableModel mainModel;
 
 	private DutyTimeTable_GUI dutyTimeTable_GUI;
@@ -33,7 +38,7 @@ public class TableFrame implements Runnable{
 	public void init() {
 		/** frame **/
 		tableFrame = new JFrame();
-		tableFrame.setBounds(10, 10, 800, 600);
+		tableFrame.setBounds(100, 100, 800, 600);
 		tableFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		tableFrame.setResizable(true);
 		tableFrame.getContentPane().setLayout(new BorderLayout(0, 0));
@@ -47,25 +52,37 @@ public class TableFrame implements Runnable{
 			}
 		});
 		tableFrame.add(jButtonStop, BorderLayout.NORTH);
-		/* table */
+		/*infotable */		
+		{
+			String tmp[] ={"name","value"};
+			infoColumnNames = tmp;
+		}
+		infoModel=new DefaultTableModel(0,0);
+		infoModel.setColumnIdentifiers(infoColumnNames);
+		infoTable=new JTable();
+		infoTable.setModel(infoModel);
+		tableFrame.add(infoTable,BorderLayout.CENTER);
+		
+		/* main table */
 		{
 			String tmp[] = { "星期一", "星期二", "星期三", "星期四", "星期五" };
-			columnNames = tmp;
+			mainColumnNames = tmp;
 		}
 		mainModel = new DefaultTableModel(0, 0);
-		mainModel.setColumnIdentifiers(columnNames);
+		mainModel.setColumnIdentifiers(mainColumnNames);
 		mainTable = new JTable();
 		mainTable.setModel(mainModel);
-		scrollPane = new JScrollPane(mainTable,
+		mainScrollPane = new JScrollPane(mainTable,
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		scrollPane.setBorder(null);
-		tableFrame.add(scrollPane, BorderLayout.CENTER);
+		mainScrollPane.setBorder(null);
+		tableFrame.add(mainScrollPane, BorderLayout.SOUTH);
 		// tableFrame.add(mainTable, BorderLayout.CENTER);
 		// show();
 	}
 
 	public void pack() {
+		infoTable.setSize(infoTable.getPreferredSize());
 		mainTable.setPreferredScrollableViewportSize(mainTable.getPreferredSize());
 		tableFrame.pack();
 	}
@@ -107,15 +124,39 @@ public class TableFrame implements Runnable{
 		shouldUpdate = false;
 	}
 
-	public void update() {
-		while (mainModel.getRowCount() > 0)
-			mainModel.removeRow(0);
+	public void update() {		
+		/**info table**/
+		MIC_GA mic_GA = dutyTimeTable_GUI.dutyTimeTable.mic_GA;
+		Object []infoRowData=new Object[2];
+		while(infoModel.getRowCount()>0)
+			infoModel.removeRow(0);
+		infoRowData[0]="Population";
+		infoRowData[1]=mic_GA.lifes.size();		
+		infoModel.addRow(infoRowData);
+		infoRowData[0]="Generation";
+		infoRowData[1]=mic_GA.iGEN;		
+		infoModel.addRow(infoRowData);
+		infoRowData[0]="Avg Fitness";
+		infoRowData[1]=mic_GA.avgFitness;		
+		infoModel.addRow(infoRowData);
+		infoRowData[0]="SD Fitness";
+		infoRowData[1]=mic_GA.sdFitness;		
+		infoModel.addRow(infoRowData);
+		infoRowData[0]="Best Fitness";
+		infoRowData[1]=mic_GA.lifes.get(0).fitness;	
+		infoModel.addRow(infoRowData);
+		infoRowData[0]="Hour SD";
+		infoRowData[1]=mic_GA.lifes.get(0).hoursSd;	
+		infoModel.addRow(infoRowData);		
+		/**main talbe**/
 		MIC mic=dutyTimeTable_GUI.dutyTimeTable.mic;
-		Object[] rowData = new Object[mic.days.length];
+		Object[] mainRowData = new Object[mic.days.length];
+		while (mainModel.getRowCount() > 0)
+			mainModel.removeRow(0);	
 		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
 			for (int iDay = 0; iDay < mic.days.length; iDay++)
-				rowData[iDay] = mic.days[iDay].timeslot[iTimeslot].worker.name;
-			mainModel.addRow(rowData);
+				mainRowData[iDay] = mic.days[iDay].timeslot[iTimeslot].worker.name;
+			mainModel.addRow(mainRowData);
 		}
 		pack();
 	}
