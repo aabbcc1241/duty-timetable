@@ -112,7 +112,8 @@ public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 				}
 				/** check continuous bonus **/
 				if (iTimeslot > 0) {
-					workerIdLast = genes[iDay].codes[iTimeslot - 1];
+					index = genes[iDay].codes[iTimeslot - 1];
+					workerIdLast = mic.days[iDay].timeslot[iTimeslot-1].possibleWorkers.get(index).id;
 					if (workerId == workerIdLast)
 						fitness += MIC_GA.SCORE_CONTINUOUS;
 				}
