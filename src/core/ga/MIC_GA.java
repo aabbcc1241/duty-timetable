@@ -1,17 +1,12 @@
 package core.ga;
 
-import java.awt.EventQueue;
-import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import javax.swing.SwingUtilities;
-
 import core.dutytable.MIC;
 import core.dutytable.Worker;
-import core.gui.DutyTimeTable_GUI;
 import core.gui.TableFrame;
 import myutils.Display;
 import myutils.StringUtils;
@@ -26,9 +21,9 @@ public class MIC_GA implements Runnable {
 
 	public static final float SCORE_EMPTY = -500f;
 	public static final float SCORE_HAS_LESSON = -1000f;
-	public static final float SCORE_WANTED = 2f;
-	public static final float SCORE_AVAILABLE = -0.5f;
-	public static final float SCORE_CONTINUOUS = 5f;
+	public static final float SCORE_WANTED = 1f;
+	public static final float SCORE_AVAILABLE = 0f;
+	public static final float SCORE_CONTINUOUS = 1f;
 	public static final float SCORE_HOUR_SD = 0f;
 
 	protected int N_GENE;
