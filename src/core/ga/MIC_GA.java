@@ -101,7 +101,7 @@ public class MIC_GA implements Runnable {
 		calcStat();
 		saveToMic();
 		/** display **/
-		tableFrame.update(mic);
+		//tableFrame.update(mic);
 	}
 
 	private void report_old(int iGEN) {
@@ -271,6 +271,7 @@ public class MIC_GA implements Runnable {
 		tableFrame.show();
 		this.mode = mode;
 		start();
+		tableFrame.startUpdate();
 	}
 
 	@Override

@@ -6,8 +6,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import javax.swing.JTextArea;
-
 import core.ga.MIC_GA;
 import core.gui.TableFrame;
 import myutils.Display;
@@ -31,13 +29,12 @@ public class DutyTimeTable {
 	private String inFilename;
 	private String outFilename;
 	private String saveFilename;
-	int weekNum;
-	MIC mic;
-	Worker[] workers;
-	MIC_GA mic_GA;
+	public int weekNum;
+	public MIC mic;
+	public Worker[] workers;
+	public MIC_GA mic_GA;
 
-	public Display display;
-	private JTextArea messageTextArea;
+	public Display display;	
 	private TableFrame tableFrame;
 
 	/*
