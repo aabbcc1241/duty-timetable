@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project default="create_run_jar" name="Create Runnable Jar for Project DutyTimeTable-GUI">
+<project default="create_run_jar" name="Create Runnable Jar for Project dutytimetable">
     <!--this file was created by Eclipse Runnable JAR Export Wizard-->
     <!--ANT 1.7 is required                                        -->
     <target name="create_run_jar">
-        <jar destfile="/home/beenotung/Programming/SRC/Java/DutyTimeTable-GUI/DutyTimeTable-GUI.jar" filesetmanifest="mergewithoutmain">
+        <jar destfile="C:/Users/hkpu/AppData/Local/windows-usb/PortableApps/Git/programming/dutytimetable/DutyTimeTable-GUI.jar" filesetmanifest="mergewithoutmain">
             <manifest>
-                <attribute name="Main-Class" value="DutyTimeTable_GUI"/>
+                <attribute name="Main-Class" value="launcher.Launcher"/>
                 <attribute name="Class-Path" value="."/>
             </manifest>
-            <fileset dir="/home/beenotung/Programming/SRC/Java/DutyTimeTable-GUI/bin"/>
-            <zipfileset excludes="META-INF/*.SF" src="/home/beenotung/Programming/SRC/Java/DutyTimeTable-GUI/lib/jxl.jar"/>
-            <zipfileset excludes="META-INF/*.SF" src="/home/beenotung/Programming/SRC/Java/DutyTimeTable-GUI/lib/log4j-1.2.17.jar"/>
+            <fileset dir="C:/Users/hkpu/AppData/Local/windows-usb/PortableApps/Git/programming/dutytimetable/bin"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/hkpu/AppData/Local/windows-usb/PortableApps/Git/programming/dutytimetable/lib/jxl.jar"/>
+            <zipfileset excludes="META-INF/*.SF" src="C:/Users/hkpu/AppData/Local/windows-usb/PortableApps/Git/programming/dutytimetable/lib/log4j-1.2.17.jar"/>
         </jar>
     </target>
 </project>

@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import core.dutytable.MIC;
 import core.ga.MIC_GA;
 
-public class TableFrame implements Runnable{
+public class TableFrame implements Runnable {
 	public JFrame tableFrame;
 	public JScrollPane infoScrollPane;
 	public JScrollPane mainScrollPane;
@@ -52,20 +52,20 @@ public class TableFrame implements Runnable{
 			}
 		});
 		tableFrame.add(jButtonStop, BorderLayout.NORTH);
-		/*infotable */		
+		/* infotable */
 		{
-			String tmp[] ={"name","value"};
+			String tmp[] = { "name", "value" };
 			infoColumnNames = tmp;
 		}
-		infoModel=new DefaultTableModel(0,0);
+		infoModel = new DefaultTableModel(0, 0);
 		infoModel.setColumnIdentifiers(infoColumnNames);
-		infoTable=new JTable();
+		infoTable = new JTable();
 		infoTable.setModel(infoModel);
-		tableFrame.add(infoTable,BorderLayout.CENTER);
-		
+		tableFrame.add(infoTable, BorderLayout.CENTER);
+
 		/* main table */
 		{
-			String tmp[] = { "æ˜ŸæœŸä¸€", "æ˜ŸæœŸäºŒ", "æ˜ŸæœŸä¸‰", "æ˜ŸæœŸå››", "æ˜ŸæœŸäº”" };
+			String tmp[] = { "¬P´Á¤@", "¬P´Á¤G", "¬P´Á¤T", "¬P´Á¥|", "¬P´Á¤­" };
 			mainColumnNames = tmp;
 		}
 		mainModel = new DefaultTableModel(0, 0);
@@ -83,7 +83,8 @@ public class TableFrame implements Runnable{
 
 	public void pack() {
 		infoTable.setSize(infoTable.getPreferredSize());
-		mainTable.setPreferredScrollableViewportSize(mainTable.getPreferredSize());
+		mainTable.setPreferredScrollableViewportSize(mainTable
+				.getPreferredSize());
 		tableFrame.pack();
 	}
 
@@ -115,8 +116,8 @@ public class TableFrame implements Runnable{
 
 	public void startUpdate() {
 		shouldUpdate = true;
-		if(thread==null)
-			thread=new Thread(this);
+		if (thread == null)
+			thread = new Thread(this);
 		thread.start();
 	}
 
@@ -124,35 +125,35 @@ public class TableFrame implements Runnable{
 		shouldUpdate = false;
 	}
 
-	public void update() {		
-		/**info table**/
+	public void update() {
+		/** info table **/
 		MIC_GA mic_GA = dutyTimeTable_GUI.dutyTimeTable.mic_GA;
-		Object []infoRowData=new Object[2];
-		while(infoModel.getRowCount()>0)
+		Object[] infoRowData = new Object[2];
+		while (infoModel.getRowCount() > 0)
 			infoModel.removeRow(0);
-		infoRowData[0]="Population";
-		infoRowData[1]=mic_GA.lifes.size();		
+		infoRowData[0] = "Population";
+		infoRowData[1] = mic_GA.lifes.size();
 		infoModel.addRow(infoRowData);
-		infoRowData[0]="Generation";
-		infoRowData[1]=mic_GA.iGEN;		
+		infoRowData[0] = "Generation";
+		infoRowData[1] = mic_GA.iGEN;
 		infoModel.addRow(infoRowData);
-		infoRowData[0]="Avg Fitness";
-		infoRowData[1]=mic_GA.avgFitness;		
+		infoRowData[0] = "Avg Fitness";
+		infoRowData[1] = mic_GA.avgFitness;
 		infoModel.addRow(infoRowData);
-		infoRowData[0]="SD Fitness";
-		infoRowData[1]=mic_GA.sdFitness;		
+		infoRowData[0] = "SD Fitness";
+		infoRowData[1] = mic_GA.sdFitness;
 		infoModel.addRow(infoRowData);
-		infoRowData[0]="Best Fitness";
-		infoRowData[1]=mic_GA.lifes.get(0).fitness;	
+		infoRowData[0] = "Best Fitness";
+		infoRowData[1] = mic_GA.lifes.get(0).fitness;
 		infoModel.addRow(infoRowData);
-		infoRowData[0]="Hour SD";
-		infoRowData[1]=mic_GA.lifes.get(0).hoursSd;	
-		infoModel.addRow(infoRowData);		
-		/**main talbe**/
-		MIC mic=dutyTimeTable_GUI.dutyTimeTable.mic;
+		infoRowData[0] = "Hour SD";
+		infoRowData[1] = mic_GA.lifes.get(0).hoursSd;
+		infoModel.addRow(infoRowData);
+		/** main talbe **/
+		MIC mic = dutyTimeTable_GUI.dutyTimeTable.mic;
 		Object[] mainRowData = new Object[mic.days.length];
 		while (mainModel.getRowCount() > 0)
-			mainModel.removeRow(0);	
+			mainModel.removeRow(0);
 		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
 			for (int iDay = 0; iDay < mic.days.length; iDay++)
 				mainRowData[iDay] = mic.days[iDay].timeslot[iTimeslot].worker.name;
@@ -163,7 +164,7 @@ public class TableFrame implements Runnable{
 
 	@Override
 	public void run() {
-		while(shouldUpdate){			
+		while (shouldUpdate) {
 			try {
 				Thread.sleep(1000);
 				update();
