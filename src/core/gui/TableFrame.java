@@ -11,10 +11,9 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.table.DefaultTableModel;
 
-import core.dutytable.MIC;
-import core.ga.MIC_GA;
+import core.dutytable.mic.MIC;
 
-public class TableFrame implements Runnable{
+public class TableFrame implements Runnable {
 	public JFrame tableFrame;
 	public JScrollPane infoScrollPane;
 	public JScrollPane mainScrollPane;
@@ -26,6 +25,7 @@ public class TableFrame implements Runnable{
 	public DefaultTableModel mainModel;
 
 	private DutyTimeTable_GUI dutyTimeTable_GUI;
+	public InfoCarrier infoCarrier;
 
 	private Thread thread;
 	private boolean shouldUpdate = false;
@@ -52,17 +52,17 @@ public class TableFrame implements Runnable{
 			}
 		});
 		tableFrame.add(jButtonStop, BorderLayout.NORTH);
-		/*infotable */		
+		/* infotable */
 		{
-			String tmp[] ={"name","value"};
+			String tmp[] = { "name", "value" };
 			infoColumnNames = tmp;
 		}
-		infoModel=new DefaultTableModel(0,0);
+		infoModel = new DefaultTableModel(0, 0);
 		infoModel.setColumnIdentifiers(infoColumnNames);
-		infoTable=new JTable();
+		infoTable = new JTable();
 		infoTable.setModel(infoModel);
-		tableFrame.add(infoTable,BorderLayout.CENTER);
-		
+		tableFrame.add(infoTable, BorderLayout.CENTER);
+
 		/* main table */
 		{
 			String tmp[] = { "星期一", "星期二", "星期三", "星期四", "星期五" };
@@ -72,8 +72,7 @@ public class TableFrame implements Runnable{
 		mainModel.setColumnIdentifiers(mainColumnNames);
 		mainTable = new JTable();
 		mainTable.setModel(mainModel);
-		mainScrollPane = new JScrollPane(mainTable,
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
+		mainScrollPane = new JScrollPane(mainTable, ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		mainScrollPane.setBorder(null);
 		tableFrame.add(mainScrollPane, BorderLayout.SOUTH);
@@ -115,8 +114,8 @@ public class TableFrame implements Runnable{
 
 	public void startUpdate() {
 		shouldUpdate = true;
-		if(thread==null)
-			thread=new Thread(this);
+		if (thread == null)
+			thread = new Thread(this);
 		thread.start();
 	}
 
@@ -124,46 +123,49 @@ public class TableFrame implements Runnable{
 		shouldUpdate = false;
 	}
 
-	public void update() {		
-		/**info table**/
-		MIC_GA mic_GA = dutyTimeTable_GUI.dutyTimeTable.mic_GA;
-		Object []infoRowData=new Object[2];
-		while(infoModel.getRowCount()>0)
-			infoModel.removeRow(0);
-		infoRowData[0]="Population";
-		infoRowData[1]=mic_GA.lifes.size();		
-		infoModel.addRow(infoRowData);
-		infoRowData[0]="Generation";
-		infoRowData[1]=mic_GA.iGEN;		
-		infoModel.addRow(infoRowData);
-		infoRowData[0]="Avg Fitness";
-		infoRowData[1]=mic_GA.avgFitness;		
-		infoModel.addRow(infoRowData);
-		infoRowData[0]="SD Fitness";
-		infoRowData[1]=mic_GA.sdFitness;		
-		infoModel.addRow(infoRowData);
-		infoRowData[0]="Best Fitness";
-		infoRowData[1]=mic_GA.lifes.get(0).fitness;	
-		infoModel.addRow(infoRowData);
-		infoRowData[0]="Hour SD";
-		infoRowData[1]=mic_GA.lifes.get(0).hoursSd;	
-		infoModel.addRow(infoRowData);		
-		/**main talbe**/
-		MIC mic=dutyTimeTable_GUI.dutyTimeTable.mic;
-		Object[] mainRowData = new Object[mic.days.length];
-		while (mainModel.getRowCount() > 0)
-			mainModel.removeRow(0);	
-		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
-			for (int iDay = 0; iDay < mic.days.length; iDay++)
-				mainRowData[iDay] = mic.days[iDay].timeslot[iTimeslot].worker.name;
-			mainModel.addRow(mainRowData);
+	public void update() {
+		/** info table **/
+		if (infoCarrier != null) {
+			while (infoModel.getRowCount() > 0)
+				infoModel.removeRow(0);
+			Object[] infoRowData = new Object[2];
+			infoRowData[0] = "Population";
+			infoRowData[1] = infoCarrier.popSize;
+			infoModel.addRow(infoRowData);
+			infoRowData[0] = "Generation";
+			infoRowData[1] = infoCarrier.iGen;
+			infoModel.addRow(infoRowData);
+			infoRowData[0] = "Avg Fitness";
+			infoRowData[1] = infoCarrier.avgFitness;
+			infoModel.addRow(infoRowData);
+			infoRowData[0] = "SD Fitness";
+			infoRowData[1] = infoCarrier.sdFitness;
+			infoModel.addRow(infoRowData);
+			infoRowData[0] = "Best Fitness";
+			infoRowData[1] = infoCarrier.bestLife.fitness;
+			infoModel.addRow(infoRowData);
+			infoRowData[0] = "Hour SD";
+			infoRowData[1] = infoCarrier.bestLife.hoursSd;
+			infoModel.addRow(infoRowData);
+		}
+		/** main talbe **/
+		MIC mic = infoCarrier.mic;
+		if (infoCarrier != null) {
+			Object[] mainRowData = new Object[mic.days.length];
+			while (mainModel.getRowCount() > 0)
+				mainModel.removeRow(0);
+			for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
+				for (int iDay = 0; iDay < mic.days.length; iDay++)
+					mainRowData[iDay] = mic.days[iDay].timeslot[iTimeslot].worker.name;
+				mainModel.addRow(mainRowData);
+			}
 		}
 		pack();
 	}
 
 	@Override
 	public void run() {
-		while(shouldUpdate){			
+		while (shouldUpdate) {
 			try {
 				Thread.sleep(1000);
 				update();

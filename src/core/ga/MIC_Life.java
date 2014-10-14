@@ -1,7 +1,7 @@
 package core.ga;
 
-import core.dutytable.MIC;
-import core.dutytable.Worker;
+import core.dutytable.mic.MIC;
+import core.dutytable.worker.Worker;
 
 public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 	private MIC mic;

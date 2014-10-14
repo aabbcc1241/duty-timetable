@@ -2,8 +2,8 @@ package core.ga;
 
 import java.util.Arrays;
 
-import core.dutytable.MIC.Day;
-import core.dutytable.MIC.Day.Timeslot;
+import core.dutytable.mic.Day;
+import core.dutytable.mic.Timeslot;
 import myutils.Utils;
 
 public class MIC_Gene implements Cloneable {

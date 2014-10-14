@@ -6,6 +6,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import core.dutytable.mic.MIC;
+import core.dutytable.worker.Worker;
 import core.ga.MIC_GA;
 import core.gui.TableFrame;
 import myutils.Display;
@@ -34,7 +36,7 @@ public class DutyTimeTable {
 	public Worker[] workers;
 	public MIC_GA mic_GA;
 
-	public Display display;	
+	public Display display;
 	private TableFrame tableFrame;
 
 	/*
@@ -224,7 +226,7 @@ public class DutyTimeTable {
 
 	public void generate(String mode) {
 		mic.findPossibleWorkers(workers);
-		mic_GA = new MIC_GA(mic, workers, display,tableFrame);
+		mic_GA = new MIC_GA(mic, workers, display, tableFrame);
 		mic_GA.start(mode);
 	}
 
