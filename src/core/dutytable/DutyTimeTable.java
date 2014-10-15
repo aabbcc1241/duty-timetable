@@ -241,9 +241,9 @@ public class DutyTimeTable {
 
 	private void saveMicToWorker() {
 		Worker worker;
-		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
+		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslots.length; iTimeslot++) {
 			for (int iDay = 0; iDay < mic.days.length; iDay++) {
-				worker = mic.days[iDay].timeslot[iTimeslot].worker;
+				worker = mic.days[iDay].timeslots[iTimeslot].worker;
 				if (worker != null)
 					switch (worker.days[iDay].timeslot[iTimeslot].status) {
 					case 1:
@@ -276,11 +276,11 @@ public class DutyTimeTable {
 			sheet.addCell(label);
 			String name;
 			for (int iDay = 0; iDay < mic.days.length; iDay++)
-				for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
-					if (mic.days[iDay].timeslot[iTimeslot].worker == null)
+				for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslots.length; iTimeslot++) {
+					if (mic.days[iDay].timeslots[iTimeslot].worker == null)
 						name = "";
 					else
-						name = mic.days[iDay].timeslot[iTimeslot].worker.name;
+						name = mic.days[iDay].timeslots[iTimeslot].worker.name;
 					label = new Label(iDay + 1, iTimeslot + 1, name);
 					sheet.addCell(label);
 				}

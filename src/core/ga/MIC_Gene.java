@@ -50,12 +50,12 @@ public class MIC_Gene implements Cloneable {
 
 	public void mutate(Day day, float A_MUTATION) {
 		int newCode;
-		for (int iTimeslot = 0; iTimeslot < day.timeslot.length; iTimeslot++)
-			if ((day.timeslot[iTimeslot].possibleWorkers.size() > 1)
+		for (int iTimeslot = 0; iTimeslot < day.timeslots.length; iTimeslot++)
+			if ((day.timeslots[iTimeslot].possibleWorkers.size() > 1)
 					&& (Utils.random.nextFloat() < A_MUTATION)) {
 				do {
 					newCode = Utils.random
-							.nextInt(day.timeslot[iTimeslot].possibleWorkers.size());
+							.nextInt(day.timeslots[iTimeslot].possibleWorkers.size());
 				} while (newCode == codes[iTimeslot]);
 				codes[iTimeslot] = newCode;
 			}

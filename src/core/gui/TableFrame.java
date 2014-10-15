@@ -104,7 +104,7 @@ public class TableFrame implements Runnable {
 		while (mainModel.getRowCount() > 0)
 			mainModel.removeRow(0);
 		Object[] rowData = new Object[mic.days.length];
-		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
+		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslots.length; iTimeslot++) {
 			for (int iDay = 0; iDay < mic.days.length; iDay++)
 				rowData[iDay] = 0;
 			mainModel.addRow(rowData);
@@ -153,9 +153,9 @@ public class TableFrame implements Runnable {
 		Object[] mainRowData = new Object[mic.days.length];
 		while (mainModel.getRowCount() > 0)
 			mainModel.removeRow(0);
-		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
+		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslots.length; iTimeslot++) {
 			for (int iDay = 0; iDay < mic.days.length; iDay++)
-				mainRowData[iDay] = mic.days[iDay].timeslot[iTimeslot].worker.name;
+				mainRowData[iDay] = mic.days[iDay].timeslots[iTimeslot].worker.name;
 			mainModel.addRow(mainRowData);
 		}
 		pack();

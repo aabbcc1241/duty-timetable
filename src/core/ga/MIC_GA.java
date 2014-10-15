@@ -54,7 +54,7 @@ public class MIC_GA implements Runnable {
 	/** contrucstor **/
 	public MIC_GA(MIC mic, Worker[] workers, Display display, TableFrame tableFrame) {
 		N_GENE = mic.days.length;
-		L_GENE = mic.days[0].timeslot.length;
+		L_GENE = mic.days[0].timeslots.length;
 		this.display = display;
 		this.tableFrame = tableFrame;
 		this.mic = mic;
@@ -104,8 +104,9 @@ public class MIC_GA implements Runnable {
 	private void report(int iGEN) {
 		calcStat();
 		bestLife = (MIC_Life) lifes.get(0).clone();
-		saveToMic(bestLife);
-		InfoCarrier carrier = new InfoCarrier(lifes.size(), iGEN, avgFitness, sdFitness, bestLife, mic);
+		MIC tmpMic = new MIC();
+		saveToMic(tmpMic, bestLife);
+		InfoCarrier carrier = new InfoCarrier(lifes.size(), iGEN, avgFitness, sdFitness, bestLife, tmpMic);
 		/** display **/
 		tableFrame.infoCarrier = carrier;
 		// tableFrame.update(mic);
@@ -128,12 +129,12 @@ public class MIC_GA implements Runnable {
 			msg = StringUtils.center("Day-" + day.dayOfWeek, width);
 			display.writeBuffer(msg + " | ");
 		}
-		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
+		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslots.length; iTimeslot++) {
 			display.writeBuffer("\n");
 			for (int iDay = 0; iDay < mic.days.length; iDay++) {
 				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
 				if (workerId != -1)
-					msg = mic.days[iDay].timeslot[iTimeslot].possibleWorkers.get(workerId).name;
+					msg = mic.days[iDay].timeslots[iTimeslot].possibleWorkers.get(workerId).name;
 				else
 					msg = "";
 				msg = StringUtils.center(msg, width);
@@ -145,14 +146,28 @@ public class MIC_GA implements Runnable {
 	}
 
 	private void saveToMic(MIC_Life life) {
-		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
+		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslots.length; iTimeslot++) {
 			for (int iDay = 0; iDay < mic.days.length; iDay++) {
 				int workerId = life.genes[iDay].codes[iTimeslot];
 				if (workerId != -1) {
-					workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers.get(workerId).id;
-					mic.days[iDay].timeslot[iTimeslot].worker = workers[workerId];
+					workerId = mic.days[iDay].timeslots[iTimeslot].possibleWorkers.get(workerId).id;
+					mic.days[iDay].timeslots[iTimeslot].worker = workers[workerId];
 				} else {
-					mic.days[iDay].timeslot[iTimeslot].worker = null;
+					mic.days[iDay].timeslots[iTimeslot].worker = null;
+				}
+			}
+		}
+	}
+
+	private void saveToMic(MIC mic, MIC_Life life) {
+		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslots.length; iTimeslot++) {
+			for (int iDay = 0; iDay < mic.days.length; iDay++) {
+				int workerId = life.genes[iDay].codes[iTimeslot];
+				if (workerId != -1) {
+					workerId = mic.days[iDay].timeslots[iTimeslot].possibleWorkers.get(workerId).id;
+					mic.days[iDay].timeslots[iTimeslot].worker = workers[workerId];
+				} else {
+					mic.days[iDay].timeslots[iTimeslot].worker = null;
 				}
 			}
 		}

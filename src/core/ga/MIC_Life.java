@@ -72,7 +72,7 @@ public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 	/** instance method **/
 	public void setRandom() {
 		for (int iDay = 0; iDay < mic.days.length; iDay++)
-			genes[iDay].setRandom(mic.days[iDay].timeslot);
+			genes[iDay].setRandom(mic.days[iDay].timeslots);
 	}
 
 	public void benchmark() {
@@ -84,7 +84,7 @@ public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 			for (int iTimeslot = 0; iTimeslot < genes.length; iTimeslot++) {
 				if ((index = genes[iDay].codes[iTimeslot]) == -1)
 					continue;
-				workerId = mic.days[iDay].timeslot[iTimeslot].possibleWorkers.get(index).id;
+				workerId = mic.days[iDay].timeslots[iTimeslot].possibleWorkers.get(index).id;
 				hours[workerId]++;
 				switch (workers[workerId].days[iDay].timeslot[iTimeslot].status) {
 				/** check valid **/
@@ -113,7 +113,7 @@ public class MIC_Life implements Cloneable, Comparable<MIC_Life> {
 				/** check continuous bonus **/
 				if (iTimeslot > 0) {
 					index = genes[iDay].codes[iTimeslot - 1];
-					workerIdLast = mic.days[iDay].timeslot[iTimeslot-1].possibleWorkers.get(index).id;
+					workerIdLast = mic.days[iDay].timeslots[iTimeslot-1].possibleWorkers.get(index).id;
 					if (workerId == workerIdLast)
 						fitness += MIC_GA.SCORE_CONTINUOUS;
 				}
