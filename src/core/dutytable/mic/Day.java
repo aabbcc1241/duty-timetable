@@ -12,10 +12,11 @@ public class Day implements Cloneable {
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	protected Object clone() {
 		Day result = new Day(dayOfWeek);
 		for (int iTimeslot = 0; iTimeslot < timeslots.length; iTimeslot++) {
-			result.timeslots[iTimeslot] = (Timeslot) timeslots[iTimeslot].clone();
+			result.timeslots[iTimeslot] = (Timeslot) timeslots[iTimeslot]
+					.clone();
 		}
 		return result;
 	}

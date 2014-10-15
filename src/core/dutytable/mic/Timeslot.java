@@ -15,7 +15,7 @@ public class Timeslot implements Cloneable {
 	}
 
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	protected Object clone() {
 		Timeslot result = new Timeslot();
 		result.worker = worker;
 		result.possibleWorkers = possibleWorkers;

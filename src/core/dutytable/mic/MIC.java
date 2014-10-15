@@ -17,7 +17,7 @@ public class MIC implements Cloneable {
 
 	/** implement **/
 	@Override
-	protected Object clone() throws CloneNotSupportedException {
+	public Object clone() {
 		MIC result = new MIC();
 		for (int dayOfWeek = 1; dayOfWeek <= 5; dayOfWeek++) {
 			result.days[dayOfWeek - 1] = (Day) days[dayOfWeek - 1].clone();
@@ -40,8 +40,10 @@ public class MIC implements Cloneable {
 			for (int iDay = 0; iDay < workers[iWorker].days.length; iDay++)
 				for (int iTimeslot = 0; iTimeslot < workers[iWorker].days[iDay].timeslot.length; iTimeslot++) {
 					status = workers[iWorker].days[iDay].timeslot[iTimeslot].status;
-					if ((status == 1) || (status == 10) || (status == 2) || (status == 20))
-						days[iDay].timeslots[iTimeslot].possibleWorkers.add(workers[iWorker]);
+					if ((status == 1) || (status == 10) || (status == 2)
+							|| (status == 20))
+						days[iDay].timeslots[iTimeslot].possibleWorkers
+								.add(workers[iWorker]);
 				}
 	}
 

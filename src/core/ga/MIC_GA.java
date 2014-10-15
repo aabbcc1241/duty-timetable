@@ -52,7 +52,8 @@ public class MIC_GA implements Runnable {
 	public String mode;
 
 	/** contrucstor **/
-	public MIC_GA(MIC mic, Worker[] workers, Display display, TableFrame tableFrame) {
+	public MIC_GA(MIC mic, Worker[] workers, Display display,
+			TableFrame tableFrame) {
 		N_GENE = mic.days.length;
 		L_GENE = mic.days[0].timeslots.length;
 		this.display = display;
@@ -104,9 +105,10 @@ public class MIC_GA implements Runnable {
 	private void report(int iGEN) {
 		calcStat();
 		bestLife = (MIC_Life) lifes.get(0).clone();
-		MIC tmpMic = new MIC();
+		MIC tmpMic = (MIC) mic.clone();
 		saveToMic(tmpMic, bestLife);
-		InfoCarrier carrier = new InfoCarrier(lifes.size(), iGEN, avgFitness, sdFitness, bestLife, tmpMic);
+		InfoCarrier carrier = new InfoCarrier(lifes.size(), iGEN, avgFitness,
+				sdFitness, bestLife, tmpMic);
 		/** display **/
 		tableFrame.infoCarrier = carrier;
 		// tableFrame.update(mic);
@@ -121,9 +123,11 @@ public class MIC_GA implements Runnable {
 		Calendar now = Calendar.getInstance();
 		java.util.Date date = now.getTime();
 		display.writeBuffer(date.toString());
-		msg = String.format("\n %s%5s | %s%5s \n %s%5s | %s%5s \n %s%5s | %s%5s", "Population: ",
-				lifes.size(), "Generation: ", iGEN, "Avg.: ", avgFitness, "SD.: ", sdFitness, "Best: ",
-				lifes.get(0).fitness, "hourSD: ", lifes.get(0).hoursSd / 2);
+		msg = String.format(
+				"\n %s%5s | %s%5s \n %s%5s | %s%5s \n %s%5s | %s%5s",
+				"Population: ", lifes.size(), "Generation: ", iGEN, "Avg.: ",
+				avgFitness, "SD.: ", sdFitness, "Best: ", lifes.get(0).fitness,
+				"hourSD: ", lifes.get(0).hoursSd / 2);
 		display.writeBuffer(msg + "\n\n");
 		for (core.dutytable.mic.Day day : mic.days) {
 			msg = StringUtils.center("Day-" + day.dayOfWeek, width);
@@ -134,7 +138,8 @@ public class MIC_GA implements Runnable {
 			for (int iDay = 0; iDay < mic.days.length; iDay++) {
 				int workerId = lifes.get(0).genes[iDay].codes[iTimeslot];
 				if (workerId != -1)
-					msg = mic.days[iDay].timeslots[iTimeslot].possibleWorkers.get(workerId).name;
+					msg = mic.days[iDay].timeslots[iTimeslot].possibleWorkers
+							.get(workerId).name;
 				else
 					msg = "";
 				msg = StringUtils.center(msg, width);
@@ -150,7 +155,8 @@ public class MIC_GA implements Runnable {
 			for (int iDay = 0; iDay < mic.days.length; iDay++) {
 				int workerId = life.genes[iDay].codes[iTimeslot];
 				if (workerId != -1) {
-					workerId = mic.days[iDay].timeslots[iTimeslot].possibleWorkers.get(workerId).id;
+					workerId = mic.days[iDay].timeslots[iTimeslot].possibleWorkers
+							.get(workerId).id;
 					mic.days[iDay].timeslots[iTimeslot].worker = workers[workerId];
 				} else {
 					mic.days[iDay].timeslots[iTimeslot].worker = null;
@@ -164,7 +170,8 @@ public class MIC_GA implements Runnable {
 			for (int iDay = 0; iDay < mic.days.length; iDay++) {
 				int workerId = life.genes[iDay].codes[iTimeslot];
 				if (workerId != -1) {
-					workerId = mic.days[iDay].timeslots[iTimeslot].possibleWorkers.get(workerId).id;
+					workerId = mic.days[iDay].timeslots[iTimeslot].possibleWorkers
+							.get(workerId).id;
 					mic.days[iDay].timeslots[iTimeslot].worker = workers[workerId];
 				} else {
 					mic.days[iDay].timeslots[iTimeslot].worker = null;
@@ -200,7 +207,8 @@ public class MIC_GA implements Runnable {
 		lifes.add(getNew());
 		maxWorkerNameLength = 0;
 		for (Worker worker : workers)
-			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
+			maxWorkerNameLength = Math.max(maxWorkerNameLength,
+					worker.name.length());
 		maxWorkerNameLength += 5;
 		for (iGEN = 0; (iGEN < N_GEN) && !shouldStop; iGEN++) {
 			addSome();
@@ -222,7 +230,8 @@ public class MIC_GA implements Runnable {
 		setRandom();
 		maxWorkerNameLength = 0;
 		for (Worker worker : workers)
-			maxWorkerNameLength = Math.max(maxWorkerNameLength, worker.name.length());
+			maxWorkerNameLength = Math.max(maxWorkerNameLength,
+					worker.name.length());
 		maxWorkerNameLength += 5;
 		for (iGEN = 0; (iGEN < N_GEN) && !shouldStop; iGEN++) {
 			benchmark();
@@ -253,7 +262,8 @@ public class MIC_GA implements Runnable {
 		MIC_Life life1, life2;
 		while (lifes.size() < N_POP) {
 			life1 = lifepool.get(Utils.random.nextInt(lifepool.size()));
-			life2 = new MIC_Life(life1.genes.length, life1.genes[0].codes.length, mic, workers);
+			life2 = new MIC_Life(life1.genes.length,
+					life1.genes[0].codes.length, mic, workers);
 			life2.setRandom();
 			MIC_Life newLife = MIC_Life.cx(life1, life2);
 			lifes.add(newLife);
