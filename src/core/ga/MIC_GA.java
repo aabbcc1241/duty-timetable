@@ -7,6 +7,7 @@ import java.util.List;
 
 import core.dutytable.mic.MIC;
 import core.dutytable.worker.Worker;
+import core.gui.InfoCarrier;
 import core.gui.TableFrame;
 import core.ga.MIC_Life;
 import myutils.Display;
@@ -32,6 +33,7 @@ public class MIC_GA implements Runnable {
 	protected int L_GENE;
 	/** [num of animal][num of gene] **/
 	public List<MIC_Life> lifes;
+	public MIC_Life bestLife;
 
 	private Worker[] workers;
 	private MIC mic;
@@ -101,8 +103,11 @@ public class MIC_GA implements Runnable {
 
 	private void report(int iGEN) {
 		calcStat();
-		saveToMic(lifes.get(0));
+		bestLife = (MIC_Life) lifes.get(0).clone();
+		saveToMic(bestLife);
+		InfoCarrier carrier = new InfoCarrier(lifes.size(), iGEN, avgFitness, sdFitness, bestLife, mic);
 		/** display **/
+		tableFrame.infoCarrier = carrier;
 		// tableFrame.update(mic);
 	}
 

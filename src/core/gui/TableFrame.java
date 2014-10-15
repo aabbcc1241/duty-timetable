@@ -124,41 +124,39 @@ public class TableFrame implements Runnable {
 	}
 
 	public void update() {
+		if (infoCarrier == null)
+			return;
 		/** info table **/
-		if (infoCarrier != null) {
-			while (infoModel.getRowCount() > 0)
-				infoModel.removeRow(0);
-			Object[] infoRowData = new Object[2];
-			infoRowData[0] = "Population";
-			infoRowData[1] = infoCarrier.popSize;
-			infoModel.addRow(infoRowData);
-			infoRowData[0] = "Generation";
-			infoRowData[1] = infoCarrier.iGen;
-			infoModel.addRow(infoRowData);
-			infoRowData[0] = "Avg Fitness";
-			infoRowData[1] = infoCarrier.avgFitness;
-			infoModel.addRow(infoRowData);
-			infoRowData[0] = "SD Fitness";
-			infoRowData[1] = infoCarrier.sdFitness;
-			infoModel.addRow(infoRowData);
-			infoRowData[0] = "Best Fitness";
-			infoRowData[1] = infoCarrier.bestLife.fitness;
-			infoModel.addRow(infoRowData);
-			infoRowData[0] = "Hour SD";
-			infoRowData[1] = infoCarrier.bestLife.hoursSd;
-			infoModel.addRow(infoRowData);
-		}
+		while (infoModel.getRowCount() > 0)
+			infoModel.removeRow(0);
+		Object[] infoRowData = new Object[2];
+		infoRowData[0] = "Population";
+		infoRowData[1] = infoCarrier.popSize;
+		infoModel.addRow(infoRowData);
+		infoRowData[0] = "Generation";
+		infoRowData[1] = infoCarrier.iGen;
+		infoModel.addRow(infoRowData);
+		infoRowData[0] = "Avg Fitness";
+		infoRowData[1] = infoCarrier.avgFitness;
+		infoModel.addRow(infoRowData);
+		infoRowData[0] = "SD Fitness";
+		infoRowData[1] = infoCarrier.sdFitness;
+		infoModel.addRow(infoRowData);
+		infoRowData[0] = "Best Fitness";
+		infoRowData[1] = infoCarrier.bestLife.fitness;
+		infoModel.addRow(infoRowData);
+		infoRowData[0] = "Hour SD";
+		infoRowData[1] = infoCarrier.bestLife.hoursSd;
+		infoModel.addRow(infoRowData);
 		/** main talbe **/
 		MIC mic = infoCarrier.mic;
-		if (infoCarrier != null) {
-			Object[] mainRowData = new Object[mic.days.length];
-			while (mainModel.getRowCount() > 0)
-				mainModel.removeRow(0);
-			for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
-				for (int iDay = 0; iDay < mic.days.length; iDay++)
-					mainRowData[iDay] = mic.days[iDay].timeslot[iTimeslot].worker.name;
-				mainModel.addRow(mainRowData);
-			}
+		Object[] mainRowData = new Object[mic.days.length];
+		while (mainModel.getRowCount() > 0)
+			mainModel.removeRow(0);
+		for (int iTimeslot = 0; iTimeslot < mic.days[0].timeslot.length; iTimeslot++) {
+			for (int iDay = 0; iDay < mic.days.length; iDay++)
+				mainRowData[iDay] = mic.days[iDay].timeslot[iTimeslot].worker.name;
+			mainModel.addRow(mainRowData);
 		}
 		pack();
 	}
