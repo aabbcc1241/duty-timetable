@@ -1,4 +1,6 @@
-package javafxtest.gui;
+package dutytimetable.gui;
+
+import dutytimetable.debug.Debug;
 
 import javax.swing.*;
 import java.awt.*;
@@ -79,6 +81,7 @@ public abstract class BaseForm {
     }
 
     public void onLoad() {
+        contentPanel.setVisible(true);
         setSaved();
         openAction();
     }
@@ -91,19 +94,43 @@ public abstract class BaseForm {
 
     public abstract boolean importData();
 
-    public abstract boolean exportData();
+    public abstract boolean exportData(String filename);
 
     public void openAction() {
-        if (importData())
+        String filename = JOptionPane.showInputDialog(contentPanel,
+                "Please enter the full-path of the source Excel file",
+                "Import timetable data",
+                JOptionPane.INFORMATION_MESSAGE);
+        if (filename == null || filename.trim().length() < 1) return;
+        if (importData()) {
             buttonReset.setVisible(false);
+            progressLabel.setText("OK! Imported timetable from " + filename);
+        } else {
+            JOptionPane.showConfirmDialog(contentPanel,
+                    Debug.ERROR_MESSAGE_FILE_READ,
+                    "Failed to open Excel file",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     public void saveAction() {
-        if (exportData()) {
+        String filename = JOptionPane.showInputDialog(contentPanel,
+                "Please enter the full-path of the output Excel file",
+                "Import timetable data",
+                JOptionPane.INFORMATION_MESSAGE);
+        if (filename == null || filename.trim().length() < 1) return;
+        if (exportData(filename)) {
             setSaved();
+            progressLabel.setText("OK! Saved solution to "+filename);
         } else
-            //TODO promt save failed
-            ;
+        {
+            JOptionPane.showConfirmDialog(contentPanel,
+                    Debug.ERROR_MESSAGE_FILE_READ,
+                    "Failed to open Excel file",
+                    JOptionPane.OK_CANCEL_OPTION,
+                    JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private boolean saved;
@@ -170,7 +197,7 @@ public abstract class BaseForm {
             }
 
             @Override
-            public boolean exportData() {
+            public boolean exportData(String filename) {
                 System.out.println("exportData");
                 return new Random(System.currentTimeMillis()).nextBoolean();
             }
