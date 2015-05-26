@@ -1,0 +1,3 @@
+[submodule "lib/google"]
+	path = lib/google
+	url = https://github.com/google/gdata-java-client.git

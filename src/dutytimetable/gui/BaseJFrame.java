@@ -143,17 +143,14 @@ public abstract class BaseJFrame extends JFrame {
             buttonReset.setVisible(false);
             progressLabel.setText("OK! Imported timetable from " + filename);
         } else {
-            Object[]options={"OK"};
+            Object[] options = {"OK"};
             try {
                 JOptionPane.showConfirmDialog(contentPanel,
-                        (Object)Debug.ERROR_MESSAGE_FILE_READ,
+                        Debug.ERROR_CODE_FILE_READ,
                         "Failed to open Excel file",
                         JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.ERROR_MESSAGE,
-                        null,//icon
-                        options,null
-                );
-            }catch (HeadlessException e){
+                        JOptionPane.ERROR_MESSAGE);
+            } catch (HeadlessException e) {
             }
             progressLabel.setText(Debug.ERROR_MESSAGE_FILE_READ);
         }
@@ -217,7 +214,7 @@ public abstract class BaseJFrame extends JFrame {
 
 
     public static void main(String[] args) {
-               BaseJFrame baseJFrame=new BaseJFrame() {
+        BaseJFrame baseJFrame = new BaseJFrame() {
             @Override
             public void pauseGenerate() {
                 System.out.println("pause iterate");
