@@ -1,5 +1,9 @@
 package dutytimetable.debug;
 
+import javax.xml.crypto.Data;
+import java.security.Timestamp;
+import java.util.Calendar;
+
 /**
  * Created by hkpu on 15/5/2015.
  */
@@ -24,5 +28,8 @@ public class Debug {
     public static void println(String msg) {
         if (MODE == MODE_DEBUG)
             System.out.println(msg);
+    }
+    public static void showMessage(String msg){
+        Debug.println(Calendar.getInstance().toInstant().toString()+"\t"+msg);
     }
 }
