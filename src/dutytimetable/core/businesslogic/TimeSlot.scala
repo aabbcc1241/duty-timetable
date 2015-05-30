@@ -1,4 +1,4 @@
-package dutytimetable.core.logic
+package dutytimetable.core.businesslogic
 
 /**
  * Created by beenotung on 5/28/15.
@@ -18,15 +18,9 @@ object TimeSlot {
       if (endMinute == 0) "00" else endMinute
     }
   })
-  val TimeSlotColumnHeader = Array.tabulate[String](17)(i => {
-    val startMinute = (i % 2) * 30
-    val startHour = i / 2 + 10
-    val endMinute = (startMinute + 30) % 60
-    val endHour = startHour + startMinute / 30
-    startHour + "" + {
-      if (startMinute == 0) "00" else startMinute
-    } + " ~ " + endHour + "" + {
-      if (endMinute == 0) "00" else endMinute
-    }
-  })
+
+  def getTimeSlotColumnHeader(timeSlotIndex: Int): String = {
+    //TODO
+    " "
+  }
 }

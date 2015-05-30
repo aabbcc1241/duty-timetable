@@ -1,4 +1,4 @@
-package dutytimetable.core.logic
+package dutytimetable.core.businesslogic
 
 /**
  * Created by beenotung on 5/28/15.
