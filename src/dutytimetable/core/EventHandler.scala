@@ -18,7 +18,7 @@ object EventHandler {
     System.out.println("reset iterate")
   }
 
-  def importData: Boolean = {
+  def importData(filename:String): Boolean = {
     System.out.println("import data")
     return new Random().nextBoolean
   }

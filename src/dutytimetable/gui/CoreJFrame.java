@@ -1,6 +1,7 @@
 package dutytimetable.gui;
 
 import dutytimetable.core.EventHandler;
+import dutytimetable.core.Facilitator;
 import dutytimetable.debug.Debug;
 
 import javax.swing.*;
@@ -16,7 +17,7 @@ import java.awt.event.WindowEvent;
 public class CoreJFrame extends JFrame {
     JPanel contentPanel;
     private JToolBar mainToolBar;
-    private JPanel mainPanel;
+    public JPanel mainPanel;
     private JPanel progressPanel;
     private JProgressBar progressBar;
     private JLabel progressLabel;
@@ -33,6 +34,8 @@ public class CoreJFrame extends JFrame {
     private final String GENERATE_RESUME_TOOLTIPS = "Resume to generate solution";
 
     public CoreJFrame() {
+        setMinimumSize(new Dimension(600,400));
+
         buttonOpen = new JButton("Open");
         buttonOpen.setToolTipText("Load from excel file");
         buttonOpen.addMouseListener(new MouseAdapter() {
@@ -74,6 +77,7 @@ public class CoreJFrame extends JFrame {
             }
         });
 
+        //main toolbar
         mainToolBar.add(buttonOpen);
         mainToolBar.add(buttonSave);
         mainToolBar.addSeparator(new Dimension(50, 1));
@@ -82,10 +86,13 @@ public class CoreJFrame extends JFrame {
         mainToolBar.addSeparator(new Dimension(50, 1));
         mainToolBar.add(buttonExit);
 
-        mainPanel.setPreferredSize(new Dimension(400, 300));
+        //main panel bar
+        //mainPanel.setUI(SpreadSheetViewer.getViewerPanel(Facilitator.path()).getUI());
+        //mainPanel.setPreferredSize(new Dimension(400, 300));
+
+        //progress bar
         progressBar.setVisible(false);
         progressLabel.setText("Ready");
-        System.out.println(mainPanel.getSize());
 
         contentPanel.setVisible(true);
         setContentPane(contentPanel);
@@ -130,11 +137,16 @@ public class CoreJFrame extends JFrame {
                 "Import timetable data",
                 JOptionPane.INFORMATION_MESSAGE);
         if (filename == null || filename.trim().length() < 1) return;
-        if (EventHandler.importData()) {
+        progressBar.setValue(20);
+        progressBar.setVisible(true);
+        if (EventHandler.importData(filename)) {
             buttonReset.setVisible(false);
             progressLabel.setText("OK! Imported timetable from " + filename);
+            progressBar.setValue(100);
+            progressBar.setVisible(false);
         } else {
-            Object[] options = {"OK"};
+            progressBar.setValue(0);
+            progressBar.setVisible(false);
             try {
                 JOptionPane.showConfirmDialog(contentPanel,
                         Debug.ERROR_CODE_FILE_READ,
