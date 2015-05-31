@@ -5,6 +5,7 @@ import dutytimetable.core.Facilitator;
 import dutytimetable.debug.Debug;
 
 import javax.swing.*;
+import javax.transaction.Synchronization;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -15,6 +16,17 @@ import java.awt.event.WindowEvent;
  * Created by hkpu on 15/5/2015.
  */
 public class CoreJFrame extends JFrame {
+    private static CoreJFrame instance = null;
+
+    public static CoreJFrame getInstance() {
+        if (instance == null)
+            synchronized (CoreJFrame.class) {
+                if (instance == null)
+                    instance = new CoreJFrame();
+            }
+        return instance;
+    }
+
     JPanel contentPanel;
     private JToolBar mainToolBar;
     public JPanel mainPanel;
@@ -34,7 +46,9 @@ public class CoreJFrame extends JFrame {
     private final String GENERATE_RESUME_TOOLTIPS = "Resume to generate solution";
 
     public CoreJFrame() {
-        setMinimumSize(new Dimension(600,400));
+        instance = this;
+
+        setMinimumSize(new Dimension(600, 400));
 
         buttonOpen = new JButton("Open");
         buttonOpen.setToolTipText("Load from excel file");
@@ -132,16 +146,17 @@ public class CoreJFrame extends JFrame {
 
 
     public void openAction() {
-        String filename = JOptionPane.showInputDialog(contentPanel,
+        String defaultUrl="https://docs.google.com/spreadsheets/d/1CJzvveDFk8i0E1HMVaQeSPLuIVpfo6thV1G0yMGoktw/export?format=xlsx&id=1CJzvveDFk8i0E1HMVaQeSPLuIVpfo6thV1G0yMGoktw";
+        String url = JOptionPane.showInputDialog(contentPanel,
                 "Please enter the full-path of the source Excel file",
                 "Import timetable data",
                 JOptionPane.INFORMATION_MESSAGE);
-        if (filename == null || filename.trim().length() < 1) return;
+        if (url == null || url.trim().length() < 1) return;
         progressBar.setValue(20);
         progressBar.setVisible(true);
-        if (EventHandler.importData(filename)) {
+        if (EventHandler.importData(url)) {
             buttonReset.setVisible(false);
-            progressLabel.setText("OK! Imported timetable from " + filename);
+            progressLabel.setText("OK! Imported timetable from " + url);
             progressBar.setValue(100);
             progressBar.setVisible(false);
         } else {
@@ -213,5 +228,14 @@ public class CoreJFrame extends JFrame {
             default:
                 System.err.println("Unexpected button clicked: " + button.getText());
         }
+    }
+
+    private JPanel lastSpreadSheetViewerPanel = null;
+
+    public void updateSpreadSheetViewerPanel(JPanel jPanel) {
+        if (lastSpreadSheetViewerPanel != null)
+            mainPanel.remove(lastSpreadSheetViewerPanel);
+        lastSpreadSheetViewerPanel = jPanel;
+        mainPanel.add(jPanel,BorderLayout.CENTER);
     }
 }

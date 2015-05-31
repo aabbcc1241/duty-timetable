@@ -20,8 +20,8 @@ object SpreadSheetViewer {
 
   def active_=(newVal: Boolean) = _active = newVal
 
-  def getViewerPanel(path: String): ODSViewerPanel = {
-    println("start getViewerPanel")
+  def getViewerPanel(filename: String): ODSViewerPanel = {
+    Debug.showMessage("start getViewerPanel")
     val err = System.err
     val out = System.out
     System.setErr(new PrintStream(new OutputStream {
@@ -31,7 +31,7 @@ object SpreadSheetViewer {
     var viewerPanel: ODSViewerPanel = null
     try {
       var doc = new OpenDocument
-      doc.loadFrom(path)
+      doc.loadFrom(filename)
       val mainFrame = new JFrame("Viewer")
       val printer = new DefaultDocumentPrinter
       viewerPanel = new ODSViewerPanel(doc, printer, true)
@@ -42,7 +42,7 @@ object SpreadSheetViewer {
       System.setErr(err)
       System.setOut(out)
     }
-    println("finish getViewerPanel")
+    Debug.showMessage("finish getViewerPanel")
     viewerPanel
   }
 
