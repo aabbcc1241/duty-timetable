@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+
+<AnchorPane id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+  <children>
+    <BorderPane id="rootPane" layoutX="0.0" layoutY="0.0" prefHeight="400.0" prefWidth="600.0">
+      <bottom>
+        <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+          <left>
+            <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+              <center>
+                <Label contentDisplay="CENTER" text="Loading..." textAlignment="LEFT" textOverrun="LEADING_WORD_ELLIPSIS" />
+              </center>
+            </BorderPane>
+          </left>
+          <right>
+            <ProgressIndicator focusTraversable="false" progress="0.0" visible="true" />
+          </right>
+        </BorderPane>
+      </bottom>
+      <center>
+        <TabPane id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+          <tabs>
+            <Tab id="timetableTab" text="Timetable">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <children>
+                    <BorderPane layoutX="14.0" layoutY="14.0" prefHeight="273.0" prefWidth="572.0">
+                      <center>
+                        <VBox prefHeight="200.0" prefWidth="100.0">
+                          <children>
+                            <TableView prefHeight="200.0" prefWidth="200.0">
+                              <columns>
+                                <TableColumn prefWidth="75.0" text="Column X" />
+                                <TableColumn prefWidth="75.0" text="Column X" />
+                              </columns>
+                            </TableView>
+                            <GridPane alignment="CENTER_LEFT">
+                              <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                              </columnConstraints>
+                              <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              </rowConstraints>
+                            </GridPane>
+                          </children>
+                        </VBox>
+                      </center>
+                    </BorderPane>
+                  </children>
+                </AnchorPane>
+              </content>
+            </Tab>
+            <Tab id="settingsTab" text="Settings">
+              <content>
+                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+          </tabs>
+        </TabPane>
+      </center>
+      <top>
+        <MenuBar id="menuBar">
+          <menus>
+            <Menu id="flieMenu" mnemonicParsing="false" text="File">
+              <items>
+                <MenuItem id="openMenuItem" mnemonicParsing="false" text="Open" />
+                <MenuItem id="saveMenuItem" mnemonicParsing="false" text="Save" />
+                <MenuItem id="closeMenuItem" mnemonicParsing="false" text="Close" />
+              </items>
+            </Menu>
+            <Menu id="editMenu" mnemonicParsing="false" text="Edit">
+              <items>
+                <MenuItem id="start_resumeMenuItem" mnemonicParsing="false" text="Start/Resume" />
+                <MenuItem id="pauseMenuItem" mnemonicParsing="false" text="Pause" />
+                <MenuItem id="settingsMenuItem" mnemonicParsing="false" text="Settings" />
+              </items>
+            </Menu>
+            <Menu id="helpMenu" mnemonicParsing="false" text="Help">
+              <items>
+                <MenuItem id="aboutMenuItem" mnemonicParsing="false" text="About" />
+              </items>
+            </Menu>
+          </menus>
+        </MenuBar>
+      </top>
+    </BorderPane>
+  </children>
+</AnchorPane>

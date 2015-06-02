@@ -149,7 +149,7 @@ public class CoreJFrame extends JFrame {
         String url = null;
         try {
             url = JOptionPane.showInputDialog(contentPanel,
-                    "Please enter the full-path of the source Excel file",
+                    "Please enter the url of the GDoc",
                     "Import timetable data",
                     JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
