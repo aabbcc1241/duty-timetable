@@ -1,9 +1,11 @@
 package dutytimetable.core
 
+import java.io.IOException
 import java.util.Random
 
 import dutytimetable.debug.Debug
 import dutytimetable.gui.{SpreadSheetViewer, CoreJFrame}
+import dutytimetable.utils.ExcelReader
 import myutils.FileUtils
 import myutils.google.GoogleUtils
 
@@ -27,13 +29,18 @@ object EventHandler {
     import Facilitator.FILE_FORMAT
     import Facilitator.FILENAME
     val fileUrl = GoogleUtils.generateDocExportUrl(GoogleUtils.extractDocKey(url), FILE_FORMAT)
-    println(fileUrl)
-    if (FileUtils.downloadFile(fileUrl, FILENAME) != FILENAME) return false
-    val viewerPanel = SpreadSheetViewer.getViewerPanel(FILENAME)
-    if (viewerPanel == null) return false
+    Debug.showMessage("downloading from " + fileUrl)
+    try {
+      if (FileUtils.downloadFile(fileUrl, FILENAME) != FILENAME) return false
+    } catch {
+      case e: IOException => return false
+    }
+    //val viewerPanel = SpreadSheetViewer.getViewerPanel(FILENAME)
+    //if (viewerPanel == null) return false
     //CoreJFrame.getInstance().mainPanel.setUI(viewerPanel.getUI)
     //CoreJFrame.getInstance().mainPanel.updateUI()
-    CoreJFrame.getInstance().updateSpreadSheetViewerPanel(viewerPanel)
+    //CoreJFrame.getInstance().updateSpreadSheetViewerPanel(viewerPanel)
+    ExcelReader.preview(FILENAME)
     Debug.showMessage("imported success")
     true
   }

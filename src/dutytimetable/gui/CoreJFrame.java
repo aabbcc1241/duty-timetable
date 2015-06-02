@@ -146,11 +146,16 @@ public class CoreJFrame extends JFrame {
 
 
     public void openAction() {
-        String defaultUrl="https://docs.google.com/spreadsheets/d/1CJzvveDFk8i0E1HMVaQeSPLuIVpfo6thV1G0yMGoktw/export?format=xlsx&id=1CJzvveDFk8i0E1HMVaQeSPLuIVpfo6thV1G0yMGoktw";
-        String url = JOptionPane.showInputDialog(contentPanel,
-                "Please enter the full-path of the source Excel file",
-                "Import timetable data",
-                JOptionPane.INFORMATION_MESSAGE);
+        String url = null;
+        try {
+            url = JOptionPane.showInputDialog(contentPanel,
+                    "Please enter the full-path of the source Excel file",
+                    "Import timetable data",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            if (!(e instanceof ClassNotFoundException))
+                throw e;
+        }
         if (url == null || url.trim().length() < 1) return;
         progressBar.setValue(20);
         progressBar.setVisible(true);
@@ -236,6 +241,6 @@ public class CoreJFrame extends JFrame {
         if (lastSpreadSheetViewerPanel != null)
             mainPanel.remove(lastSpreadSheetViewerPanel);
         lastSpreadSheetViewerPanel = jPanel;
-        mainPanel.add(jPanel,BorderLayout.CENTER);
+        mainPanel.add(jPanel, BorderLayout.CENTER);
     }
 }
