@@ -1,0 +1,4 @@
+strategies:
+fine tune => crossover
+tendency of broad search => prob. mutation
+scale of broad search => amount mutation

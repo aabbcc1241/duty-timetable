@@ -86,65 +86,220 @@
                       <center>
                         <Accordion>
                           <expandedPane>
-                            <TitledPane fx:id="x2" animated="false" text="Weights">
+                            <TitledPane fx:id="x1" animated="false" text="Strategies">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
-                                    <GridPane layoutX="0.0" layoutY="0.0" prefHeight="235.0" prefWidth="563.0">
-                                      <children>
-                                        <Label text="wanted bonus weight" GridPane.columnIndex="0" GridPane.rowIndex="0" />
-                                        <Label text="continous bonus weight" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                        <Label text="spare punish weight" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                                        <Slider blockIncrement="1.0" showTickLabels="true" showTickMarks="true" value="50.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                        <Slider blockIncrement="1.0" showTickLabels="true" showTickMarks="true" value="50.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                        <Slider blockIncrement="1.0" orientation="HORIZONTAL" showTickLabels="true" showTickMarks="true" value="25.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                      </children>
-                                      <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                    </GridPane>
+                                    <BorderPane layoutX="0.0" layoutY="0.0" prefHeight="227.0" prefWidth="570.0">
+                                      <center>
+                                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                          <center>
+                                            <GridPane>
+                                              <children>
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                  <children>
+                                                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
+                                                      <children>
+                                                        <Label text="tendency to fine tune" />
+                                                        <Slider blockIncrement="1.0" showTickLabels="true" showTickMarks="true" value="25.0" />
+                                                      </children>
+                                                    </VBox>
+                                                  </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                                  <children>
+                                                    <Label text="tendency to broad search" />
+                                                    <Slider blockIncrement="1.0" majorTickUnit="5.0" max="20.0" showTickLabels="true" showTickMarks="true" value="3.0" />
+                                                  </children>
+                                                </VBox>
+                                                <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                                  <children>
+                                                    <Label text="scale of broad search" />
+                                                    <Slider blockIncrement="1.0" majorTickUnit="20.0" max="80.0" showTickLabels="true" showTickMarks="true" />
+                                                  </children>
+                                                </VBox>
+                                              </children>
+                                              <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              </columnConstraints>
+                                              <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              </rowConstraints>
+                                            </GridPane>
+                                          </center>
+                                          <left>
+                                            <GridPane>
+                                              <children>
+                                                <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                  <center>
+                                                    <Label text="weaker" />
+                                                  </center>
+                                                </BorderPane>
+                                                <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                                  <center>
+                                                    <Label text="weaker" />
+                                                  </center>
+                                                </BorderPane>
+                                                <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                                  <center>
+                                                    <Label text="narrower" />
+                                                  </center>
+                                                </BorderPane>
+                                              </children>
+                                              <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              </columnConstraints>
+                                              <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              </rowConstraints>
+                                            </GridPane>
+                                          </left>
+                                          <right>
+                                            <GridPane>
+                                              <children>
+                                                <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                  <center>
+                                                    <Label text="stronger" />
+                                                  </center>
+                                                </BorderPane>
+                                                <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                                  <center>
+                                                    <Label text="stronger" />
+                                                  </center>
+                                                </BorderPane>
+                                                <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                                  <center>
+                                                    <Label text="broader" />
+                                                  </center>
+                                                </BorderPane>
+                                              </children>
+                                              <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              </columnConstraints>
+                                              <rowConstraints>
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              </rowConstraints>
+                                            </GridPane>
+                                          </right>
+                                        </BorderPane>
+                                      </center>
+                                      <top>
+                                        <CheckBox alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Dynamic Approach" BorderPane.alignment="CENTER" />
+                                      </top>
+                                    </BorderPane>
                                   </children>
                                 </AnchorPane>
                               </content>
                             </TitledPane>
                           </expandedPane>
                           <panes>
-                            <fx:reference source="x2" />
-                            <TitledPane fx:id="x1" animated="false" text="Strategies">
+                            <TitledPane animated="false" text="Priorities">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                   <children>
-                                    <GridPane alignment="CENTER" layoutX="3.0" layoutY="-1.0" prefHeight="227.0" prefWidth="563.0">
-                                      <children>
-                                        <Label text="Rate of Crossover" GridPane.columnIndex="0" GridPane.rowIndex="1" />
-                                        <Label text="Prob. Mutation" GridPane.columnIndex="0" GridPane.rowIndex="2" />
-                                        <Label text="Amount of Mutation" GridPane.columnIndex="0" GridPane.rowIndex="3" />
-                                        <Slider blockIncrement="1.0" showTickLabels="true" showTickMarks="true" value="25.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                        <Slider blockIncrement="1.0" majorTickUnit="5.0" max="20.0" showTickLabels="true" showTickMarks="true" value="3.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                                        <Slider blockIncrement="1.0" majorTickUnit="20.0" max="80.0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                                        <CheckBox alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Dynamic Approach" GridPane.columnIndex="1" GridPane.rowIndex="0" />
-                                      </children>
-                                      <columnConstraints>
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                    </GridPane>
+                                    <BorderPane layoutX="0.0" layoutY="0.0" prefHeight="235.0" prefWidth="563.0">
+                                      <center>
+                                        <GridPane>
+                                          <children>
+                                            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                              <children>
+                                                <Label text="priority to wanted timeslot" />
+                                                <Slider blockIncrement="1.0" showTickLabels="true" showTickMarks="true" value="50.0" />
+                                              </children>
+                                            </VBox>
+                                            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                              <children>
+                                                <Label text="priority to continuous timeslot" />
+                                                <Slider blockIncrement="1.0" showTickLabels="true" showTickMarks="true" value="50.0" />
+                                              </children>
+                                            </VBox>
+                                            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                              <children>
+                                                <Label text="priority to avoid spare timeslot" />
+                                                <Slider blockIncrement="1.0" orientation="HORIZONTAL" showTickLabels="true" showTickMarks="true" value="25.0" />
+                                              </children>
+                                            </VBox>
+                                          </children>
+                                          <columnConstraints>
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          </columnConstraints>
+                                          <rowConstraints>
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          </rowConstraints>
+                                        </GridPane>
+                                      </center>
+                                      <left>
+                                        <GridPane>
+                                          <children>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                              <center>
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="LEFT" text="lower priority" textAlignment="LEFT" />
+                                              </center>
+                                            </BorderPane>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                              <center>
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="LEFT" text="lower priority" textAlignment="LEFT" />
+                                              </center>
+                                            </BorderPane>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                              <center>
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="LEFT" text="lower priority" textAlignment="LEFT" />
+                                              </center>
+                                            </BorderPane>
+                                          </children>
+                                          <columnConstraints>
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          </columnConstraints>
+                                          <rowConstraints>
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          </rowConstraints>
+                                        </GridPane>
+                                      </left>
+                                      <right>
+                                        <GridPane>
+                                          <children>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                              <center>
+                                                <Label text="higher priority" />
+                                              </center>
+                                            </BorderPane>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                              <center>
+                                                <Label text="higher priority" />
+                                              </center>
+                                            </BorderPane>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                              <center>
+                                                <Label text="higher priority" />
+                                              </center>
+                                            </BorderPane>
+                                          </children>
+                                          <columnConstraints>
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          </columnConstraints>
+                                          <rowConstraints>
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          </rowConstraints>
+                                        </GridPane>
+                                      </right>
+                                    </BorderPane>
                                   </children>
                                 </AnchorPane>
                               </content>
                             </TitledPane>
+                            <fx:reference source="x1" />
                           </panes>
                         </Accordion>
                       </center>
