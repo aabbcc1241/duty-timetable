@@ -6,7 +6,7 @@ import javafx.scene.control.TextInputDialog
 /**
  * Created by beenotung on 6/13/15.
  */
-object GDoc {
+object FileHandler {
   def receiveUrl(url: String) = {
     printf("url=" + url)
   }
@@ -21,5 +21,17 @@ object GDoc {
     result.ifPresent(new Consumer[String] {
       override def accept(t: String): Unit = receiveUrl(t)
     })
+  }
+
+  def openFile = getUrl
+
+  var saved = true
+
+  def saveFile = {
+    //TODO
+    if (!saved) {
+      println("saving file")
+      saved = true
+    }
   }
 }

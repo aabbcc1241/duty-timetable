@@ -15,17 +15,30 @@
           <left>
             <BorderPane prefHeight="-1.0" prefWidth="-1.0">
               <center>
-                <Label contentDisplay="CENTER" text="Loading..." textAlignment="LEFT" textOverrun="LEADING_WORD_ELLIPSIS" />
+                <Label fx:id="statusLabel" contentDisplay="CENTER" text="Loading..." textAlignment="LEFT" textOverrun="LEADING_WORD_ELLIPSIS" />
               </center>
+              <left>
+                <Region prefHeight="14.0" prefWidth="14.0" />
+              </left>
             </BorderPane>
           </left>
           <right>
-            <ProgressIndicator depthTest="INHERIT" focusTraversable="false" mouseTransparent="false" pickOnBounds="false" progress="-1.0" rotate="0.0" visible="true">
-              <rotationAxis>
-                <Point3D z="1.0" />
-              </rotationAxis>
-            </ProgressIndicator>
+            <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+              <center>
+                <ProgressIndicator fx:id="progressIndicator" depthTest="INHERIT" focusTraversable="false" mouseTransparent="false" pickOnBounds="false" prefHeight="-1.0" prefWidth="-1.0" progress="-1.0" rotate="0.0" visible="true">
+                  <rotationAxis>
+                    <Point3D z="1.0" />
+                  </rotationAxis>
+                </ProgressIndicator>
+              </center>
+              <right>
+                <Region prefHeight="14.0" prefWidth="14.0" />
+              </right>
+            </BorderPane>
           </right>
+          <top>
+            <Separator prefWidth="200.0" />
+          </top>
         </BorderPane>
       </bottom>
       <center>
@@ -86,6 +99,109 @@
                       <center>
                         <Accordion>
                           <expandedPane>
+                            <TitledPane fx:id="x2" animated="false" text="Priorities">
+                              <content>
+                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                  <children>
+                                    <BorderPane layoutX="0.0" layoutY="0.0" prefHeight="235.0" prefWidth="563.0">
+                                      <center>
+                                        <GridPane>
+                                          <children>
+                                            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                              <children>
+                                                <Label text="priority to wanted timeslot" />
+                                                <Slider blockIncrement="1.0" showTickLabels="true" showTickMarks="true" value="50.0" />
+                                              </children>
+                                            </VBox>
+                                            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                              <children>
+                                                <Label text="priority to continuous timeslot" />
+                                                <Slider blockIncrement="1.0" showTickLabels="true" showTickMarks="true" value="50.0" />
+                                              </children>
+                                            </VBox>
+                                            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                              <children>
+                                                <Label text="priority to avoid spare timeslot" />
+                                                <Slider blockIncrement="1.0" orientation="HORIZONTAL" showTickLabels="true" showTickMarks="true" value="25.0" />
+                                              </children>
+                                            </VBox>
+                                          </children>
+                                          <columnConstraints>
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          </columnConstraints>
+                                          <rowConstraints>
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          </rowConstraints>
+                                        </GridPane>
+                                      </center>
+                                      <left>
+                                        <GridPane>
+                                          <children>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                              <center>
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="LEFT" text="lower priority" textAlignment="LEFT" />
+                                              </center>
+                                            </BorderPane>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                              <center>
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="LEFT" text="lower priority" textAlignment="LEFT" />
+                                              </center>
+                                            </BorderPane>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                              <center>
+                                                <Label alignment="CENTER_RIGHT" contentDisplay="LEFT" text="lower priority" textAlignment="LEFT" />
+                                              </center>
+                                            </BorderPane>
+                                          </children>
+                                          <columnConstraints>
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          </columnConstraints>
+                                          <rowConstraints>
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          </rowConstraints>
+                                        </GridPane>
+                                      </left>
+                                      <right>
+                                        <GridPane>
+                                          <children>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                              <center>
+                                                <Label text="higher priority" />
+                                              </center>
+                                            </BorderPane>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                              <center>
+                                                <Label text="higher priority" />
+                                              </center>
+                                            </BorderPane>
+                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                              <center>
+                                                <Label text="higher priority" />
+                                              </center>
+                                            </BorderPane>
+                                          </children>
+                                          <columnConstraints>
+                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          </columnConstraints>
+                                          <rowConstraints>
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          </rowConstraints>
+                                        </GridPane>
+                                      </right>
+                                    </BorderPane>
+                                  </children>
+                                </AnchorPane>
+                              </content>
+                            </TitledPane>
+                          </expandedPane>
+                          <panes>
+                            <fx:reference source="x2" />
                             <TitledPane fx:id="x1" animated="false" text="Strategies">
                               <content>
                                 <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
@@ -197,109 +313,6 @@
                                 </AnchorPane>
                               </content>
                             </TitledPane>
-                          </expandedPane>
-                          <panes>
-                            <TitledPane animated="false" text="Priorities">
-                              <content>
-                                <AnchorPane id="Content" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                  <children>
-                                    <BorderPane layoutX="0.0" layoutY="0.0" prefHeight="235.0" prefWidth="563.0">
-                                      <center>
-                                        <GridPane>
-                                          <children>
-                                            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                              <children>
-                                                <Label text="priority to wanted timeslot" />
-                                                <Slider blockIncrement="1.0" showTickLabels="true" showTickMarks="true" value="50.0" />
-                                              </children>
-                                            </VBox>
-                                            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                              <children>
-                                                <Label text="priority to continuous timeslot" />
-                                                <Slider blockIncrement="1.0" showTickLabels="true" showTickMarks="true" value="50.0" />
-                                              </children>
-                                            </VBox>
-                                            <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                                              <children>
-                                                <Label text="priority to avoid spare timeslot" />
-                                                <Slider blockIncrement="1.0" orientation="HORIZONTAL" showTickLabels="true" showTickMarks="true" value="25.0" />
-                                              </children>
-                                            </VBox>
-                                          </children>
-                                          <columnConstraints>
-                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          </columnConstraints>
-                                          <rowConstraints>
-                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          </rowConstraints>
-                                        </GridPane>
-                                      </center>
-                                      <left>
-                                        <GridPane>
-                                          <children>
-                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                              <center>
-                                                <Label alignment="CENTER_RIGHT" contentDisplay="LEFT" text="lower priority" textAlignment="LEFT" />
-                                              </center>
-                                            </BorderPane>
-                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                              <center>
-                                                <Label alignment="CENTER_RIGHT" contentDisplay="LEFT" text="lower priority" textAlignment="LEFT" />
-                                              </center>
-                                            </BorderPane>
-                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                                              <center>
-                                                <Label alignment="CENTER_RIGHT" contentDisplay="LEFT" text="lower priority" textAlignment="LEFT" />
-                                              </center>
-                                            </BorderPane>
-                                          </children>
-                                          <columnConstraints>
-                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          </columnConstraints>
-                                          <rowConstraints>
-                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          </rowConstraints>
-                                        </GridPane>
-                                      </left>
-                                      <right>
-                                        <GridPane>
-                                          <children>
-                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                              <center>
-                                                <Label text="higher priority" />
-                                              </center>
-                                            </BorderPane>
-                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
-                                              <center>
-                                                <Label text="higher priority" />
-                                              </center>
-                                            </BorderPane>
-                                            <BorderPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
-                                              <center>
-                                                <Label text="higher priority" />
-                                              </center>
-                                            </BorderPane>
-                                          </children>
-                                          <columnConstraints>
-                                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          </columnConstraints>
-                                          <rowConstraints>
-                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          </rowConstraints>
-                                        </GridPane>
-                                      </right>
-                                    </BorderPane>
-                                  </children>
-                                </AnchorPane>
-                              </content>
-                            </TitledPane>
-                            <fx:reference source="x1" />
                           </panes>
                         </Accordion>
                       </center>
@@ -317,19 +330,18 @@
             <Menu id="flieMenu" mnemonicParsing="false" text="File">
               <items>
                 <MenuItem id="openMenuItem" mnemonicParsing="false" onAction="#openMenuItemOnAction" text="Open" />
-                <MenuItem id="saveMenuItem" mnemonicParsing="false" text="Save" />
-                <MenuItem id="closeMenuItem" mnemonicParsing="false" text="Close" />
+                <MenuItem id="closeMenuItem" mnemonicParsing="false" onAction="#closeMenuItemOnAction" text="Close" />
               </items>
             </Menu>
             <Menu id="editMenu" mnemonicParsing="false" text="Edit">
               <items>
-                <MenuItem id="start_resumeMenuItem" mnemonicParsing="false" text="Start/Resume" />
-                <MenuItem id="pauseMenuItem" mnemonicParsing="false" text="Pause" />
-                <MenuItem id="settingsMenuItem" mnemonicParsing="false" text="Settings" />
+                <MenuItem id="start_resumeMenuItem" mnemonicParsing="false" onAction="#startMenuItemOnAction" text="Start/Resume" />
+                <MenuItem id="pauseMenuItem" mnemonicParsing="false" onAction="#pauseMenuItemOnAction" text="Pause" />
               </items>
             </Menu>
             <Menu id="helpMenu" mnemonicParsing="false" text="Help">
               <items>
+                <MenuItem id="onlineDocumentationMenuItem" mnemonicParsing="false" text="Online Documentation" />
                 <MenuItem id="aboutMenuItem" mnemonicParsing="false" text="About" />
               </items>
             </Menu>
