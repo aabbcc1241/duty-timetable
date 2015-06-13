@@ -316,7 +316,7 @@
           <menus>
             <Menu id="flieMenu" mnemonicParsing="false" text="File">
               <items>
-                <MenuItem id="openMenuItem" mnemonicParsing="false" onAction="#func1" text="Open" />
+                <MenuItem id="openMenuItem" mnemonicParsing="false" onAction="#openMenuItemOnAction" text="Open" />
                 <MenuItem id="saveMenuItem" mnemonicParsing="false" text="Save" />
                 <MenuItem id="closeMenuItem" mnemonicParsing="false" text="Close" />
               </items>

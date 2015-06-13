@@ -2,9 +2,12 @@ package dutytimetable.gui.fx;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import dutytimetable.gui.fx.mainmodel.GDoc;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TitledPane;
+
 
 
 public class MainController {
@@ -20,8 +23,8 @@ public class MainController {
 
 
     @FXML
-    void func1(ActionEvent event) {
-        System.out.println(1);
+    void openMenuItemOnAction(ActionEvent event) {
+        GDoc.getUrl();
     }
 
     @FXML
