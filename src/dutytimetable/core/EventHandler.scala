@@ -4,7 +4,7 @@ import java.io.IOException
 import java.util.Random
 
 import dutytimetable.debug.Debug
-import dutytimetable.gui.{SpreadSheetViewer, CoreJFrame}
+import dutytimetable.gui.{ CoreJFrame}
 import dutytimetable.utils.ExcelReader
 import myutils.FileUtils
 import myutils.google.GoogleUtils

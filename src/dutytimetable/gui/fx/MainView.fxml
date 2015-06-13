@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.paint.*?>
 
-<AnchorPane id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" snapToPixel="true" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2">
+<AnchorPane id="anchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" snapToPixel="true" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dutytimetable.gui.fx.MainController">
   <children>
     <BorderPane id="rootPane" layoutX="0.0" layoutY="0.0" prefHeight="400.0" prefWidth="600.0" snapToPixel="true">
       <bottom>
@@ -316,7 +316,7 @@
           <menus>
             <Menu id="flieMenu" mnemonicParsing="false" text="File">
               <items>
-                <MenuItem id="openMenuItem" mnemonicParsing="false" text="Open" />
+                <MenuItem id="openMenuItem" mnemonicParsing="false" onAction="#func1" text="Open" />
                 <MenuItem id="saveMenuItem" mnemonicParsing="false" text="Save" />
                 <MenuItem id="closeMenuItem" mnemonicParsing="false" text="Close" />
               </items>

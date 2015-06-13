@@ -1,11 +1,9 @@
 package dutytimetable.gui;
 
 import dutytimetable.core.EventHandler;
-import dutytimetable.core.Facilitator;
 import dutytimetable.debug.Debug;
 
 import javax.swing.*;
-import javax.transaction.Synchronization;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

@@ -9,11 +9,11 @@ import javafx.stage.Stage;
 /**
  * Created by beenotung on 6/8/15.
  */
-public class MainLayoutLoader extends Application {
+public class MainLoader extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("MainLayout.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
         Scene scene = new Scene(root, 600, 400);
         stage.setTitle("Auto Duty-Timetable Application");
         stage.setScene(scene);
