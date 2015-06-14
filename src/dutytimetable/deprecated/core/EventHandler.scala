@@ -3,7 +3,7 @@ package dutytimetable.deprecated.core
 import java.io.IOException
 import java.util.Random
 import dutytimetable.deprecated.gui.{ CoreJFrame}
-import dutytimetable.model.ExcelReader
+import dutytimetable.model.{Config, ExcelReader}
 import myutils.FileUtils
 import myutils.debug.Debug
 import myutils.google.GoogleUtils
@@ -25,8 +25,8 @@ object EventHandler {
   }
 
   def importData(url: String): Boolean = {
-    import Facilitator.FILE_FORMAT
-    import Facilitator.FILENAME
+    import Config.FILE_FORMAT
+    import Config.FILENAME
     val fileUrl = GoogleUtils.generateDocExportUrl(GoogleUtils.extractDocKey(url), FILE_FORMAT)
     Debug.showMessage("downloading from " + fileUrl)
     try {

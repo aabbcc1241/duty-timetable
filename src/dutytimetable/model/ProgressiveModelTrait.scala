@@ -8,11 +8,12 @@ import scala.collection.mutable.ArrayBuffer
  * Created by beenotung on 6/14/15.
  */
 trait ProgressiveModelTrait {
-   val Stage_Final: Double
+  val Stage_Final: Double
 
-  def updateProgressStage(newStage: Double) = {
-    task.updateProgress(newStage / Stage_Final)
-  }
+  def updateProgressStage(newStage: Double) = task.updateProgress(newStage / Stage_Final)
+
+  def updateMessage(msg: String) = task.updateMessage(msg)
+
 
   var task: TransparentTask[Void] = new TransparentTask[Void] {
     override def call(): Void = null

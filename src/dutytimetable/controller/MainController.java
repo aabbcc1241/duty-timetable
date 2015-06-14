@@ -48,7 +48,11 @@ public class MainController {
 
     @FXML
     void openMenuItemOnAction(ActionEvent event) {
-        FileView.getUrl();
+        try {
+            FileView.getUrl();
+        } catch (ActionCancelException e) {
+            e.runnable().run();
+        }
     }
 
     @FXML

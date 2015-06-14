@@ -195,7 +195,7 @@ implements <a href="../../../../../../org/apache/poi/ss/formula/eval/ValueEval.h
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static java.lang.String</code></td>
-<td class="colLast"><code><strong><a href="../../../../../../org/apache/poi/ss/formula/eval/ErrorEval.html#getText(int)">getText</a></strong>(int&nbsp;errorCode)</code>
+<td class="colLast"><code><strong><a href="../../../../../../org/apache/poi/ss/formula/eval/ErrorEval.html#getText(int)">getText</a></strong>(int&nbsp;errorId)</code>
 <div class="block">Converts error codes to text.</div>
 </td>
 </tr>
@@ -205,7 +205,7 @@ implements <a href="../../../../../../org/apache/poi/ss/formula/eval/ValueEval.h
 </tr>
 <tr class="altColor">
 <td class="colFirst"><code>static <a href="../../../../../../org/apache/poi/ss/formula/eval/ErrorEval.html" title="class in org.apache.poi.ss.formula.eval">ErrorEval</a></code></td>
-<td class="colLast"><code><strong><a href="../../../../../../org/apache/poi/ss/formula/eval/ErrorEval.html#valueOf(int)">valueOf</a></strong>(int&nbsp;errorCode)</code>
+<td class="colLast"><code><strong><a href="../../../../../../org/apache/poi/ss/formula/eval/ErrorEval.html#valueOf(int)">valueOf</a></strong>(int&nbsp;errorId)</code>
 <div class="block">Translates an Excel internal error code into the corresponding POI ErrorEval instance</div>
 </td>
 </tr>
@@ -333,9 +333,9 @@ implements <a href="../../../../../../org/apache/poi/ss/formula/eval/ValueEval.h
 <ul class="blockList">
 <li class="blockList">
 <h4>valueOf</h4>
-<pre>public static&nbsp;<a href="../../../../../../org/apache/poi/ss/formula/eval/ErrorEval.html" title="class in org.apache.poi.ss.formula.eval">ErrorEval</a>&nbsp;valueOf(int&nbsp;errorCode)</pre>
+<pre>public static&nbsp;<a href="../../../../../../org/apache/poi/ss/formula/eval/ErrorEval.html" title="class in org.apache.poi.ss.formula.eval">ErrorEval</a>&nbsp;valueOf(int&nbsp;errorId)</pre>
 <div class="block">Translates an Excel internal error code into the corresponding POI ErrorEval instance</div>
-<dl><dt><span class="strong">Parameters:</span></dt><dd><code>errorCode</code> - </dd></dl>
+<dl><dt><span class="strong">Parameters:</span></dt><dd><code>errorId</code> - </dd></dl>
 </li>
 </ul>
 <a name="getText(int)">
@@ -344,7 +344,7 @@ implements <a href="../../../../../../org/apache/poi/ss/formula/eval/ValueEval.h
 <ul class="blockList">
 <li class="blockList">
 <h4>getText</h4>
-<pre>public static&nbsp;java.lang.String&nbsp;getText(int&nbsp;errorCode)</pre>
+<pre>public static&nbsp;java.lang.String&nbsp;getText(int&nbsp;errorId)</pre>
 <div class="block">Converts error codes to text.  Handles non-standard error codes OK.  
  For debug/test purposes (and for formatting error messages).</div>
 <dl><dt><span class="strong">Returns:</span></dt><dd>the String representation of the specified Excel error code.</dd></dl>

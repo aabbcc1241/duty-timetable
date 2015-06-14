@@ -2,7 +2,7 @@ package dutytimetable.deprecated.gui;
 
 import dutytimetable.deprecated.core.EventHandler;
 import myutils.debug.Debug;
-
+import myutils.debug.ErrorPair;
 
 import javax.swing.*;
 import java.awt.*;
@@ -168,13 +168,13 @@ public class CoreJFrame extends JFrame {
             progressBar.setVisible(false);
             try {
                 JOptionPane.showConfirmDialog(contentPanel,
-                        Debug.ERROR_CODE_FILE_READ,
-                        "Failed to open Excel file",
+                        ErrorPair.generalErrorMessage(Debug.ERROR_PAIR_FILE_READ.errorId),
+                        Debug.ERROR_PAIR_FILE_READ.errorMessage,
                         JOptionPane.OK_CANCEL_OPTION,
                         JOptionPane.ERROR_MESSAGE);
             } catch (HeadlessException e) {
             }
-            progressLabel.setText(Debug.ERROR_MESSAGE_FILE_READ);
+            progressLabel.setText(Debug.ERROR_PAIR_FILE_READ.errorMessage);
         }
     }
 
@@ -189,8 +189,8 @@ public class CoreJFrame extends JFrame {
             progressLabel.setText("OK! Saved solution to " + filename);
         } else {
             JOptionPane.showConfirmDialog(contentPanel,
-                    Debug.ERROR_MESSAGE_FILE_READ,
-                    "Failed to open Excel file",
+                    ErrorPair.generalErrorMessage(Debug.ERROR_PAIR_FILE_WRITE.errorId),
+                    Debug.ERROR_PAIR_FILE_WRITE.errorMessage,
                     JOptionPane.OK_CANCEL_OPTION,
                     JOptionPane.ERROR_MESSAGE);
         }

@@ -6,6 +6,8 @@ import javafx.beans.value.{ChangeListener, ObservableValue}
 import dutytimetable.controller.MainController
 import dutytimetable.model.{GlobalStatus, ProgressiveListener, ProgressiveModelTrait}
 
+import scala.collection.mutable
+
 /**
  * Created by beenotung on 6/14/15.
  */
@@ -26,7 +28,6 @@ object StatusView extends ProgressiveListener {
     updateProgress(progressiveModel.task.getProgress)
     updateText(progressiveModel.task.getMessage)
   }
-
 
   def setProgressBind(newDoubleExpression: DoubleExpression) = controller.getProgressIndicator.progressProperty().bind(newDoubleExpression)
 
@@ -55,4 +56,25 @@ object StatusView extends ProgressiveListener {
     setProgressBind(progressiveModel.task.progressProperty())
     progressiveModel.task.messageProperty().addListener(textListener)
   }
+
+  var savedTargets = new mutable.Stack[ProgressiveModelTrait]()
+
+
+   
+  def saveBind = {
+    savedTargets.push(target)
+  }
+
+  def saveAndBind(newTarget: ProgressiveModelTrait)={
+    saveBind
+    newTarget.bindMeOnStatusView
+  }
+
+  def restoreBind = {
+    if (savedTargets.isEmpty)
+      GlobalStatus.bindMeOnStatusView
+    else
+      savedTargets.pop().bindMeOnStatusView
+  }
+
 }

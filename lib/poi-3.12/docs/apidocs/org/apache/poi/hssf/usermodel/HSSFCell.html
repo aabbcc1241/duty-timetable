@@ -362,7 +362,7 @@ implements <a href="../../../../../org/apache/poi/ss/usermodel/Cell.html" title=
 </tr>
 <tr class="rowColor">
 <td class="colFirst"><code>void</code></td>
-<td class="colLast"><code><strong><a href="../../../../../org/apache/poi/hssf/usermodel/HSSFCell.html#setCellErrorValue(byte)">setCellErrorValue</a></strong>(byte&nbsp;errorCode)</code>
+<td class="colLast"><code><strong><a href="../../../../../org/apache/poi/hssf/usermodel/HSSFCell.html#setCellErrorValue(byte)">setCellErrorValue</a></strong>(byte&nbsp;errorId)</code>
 <div class="block">set a error value for the cell</div>
 </td>
 </tr>
@@ -943,12 +943,12 @@ implements <a href="../../../../../org/apache/poi/ss/usermodel/Cell.html" title=
 <ul class="blockList">
 <li class="blockList">
 <h4>setCellErrorValue</h4>
-<pre>public&nbsp;void&nbsp;setCellErrorValue(byte&nbsp;errorCode)</pre>
+<pre>public&nbsp;void&nbsp;setCellErrorValue(byte&nbsp;errorId)</pre>
 <div class="block">set a error value for the cell</div>
 <dl>
 <dt><strong>Specified by:</strong></dt>
 <dd><code><a href="../../../../../org/apache/poi/ss/usermodel/Cell.html#setCellErrorValue(byte)">setCellErrorValue</a></code>&nbsp;in interface&nbsp;<code><a href="../../../../../org/apache/poi/ss/usermodel/Cell.html" title="interface in org.apache.poi.ss.usermodel">Cell</a></code></dd>
-<dt><span class="strong">Parameters:</span></dt><dd><code>errorCode</code> - the error value to set this cell to.  For formulas we'll set the
+<dt><span class="strong">Parameters:</span></dt><dd><code>errorId</code> - the error value to set this cell to.  For formulas we'll set the
         precalculated value , for errors we'll set
         its value. For other types we will change the cell to an error
         cell and set its value.</dd><dt><span class="strong">See Also:</span></dt><dd><a href="../../../../../org/apache/poi/ss/usermodel/FormulaError.html" title="enum in org.apache.poi.ss.usermodel"><code>FormulaError</code></a></dd></dl>
