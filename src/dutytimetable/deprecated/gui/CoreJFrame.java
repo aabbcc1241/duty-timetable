@@ -1,7 +1,8 @@
-package dutytimetable.gui;
+package dutytimetable.deprecated.gui;
 
-import dutytimetable.core.EventHandler;
-import dutytimetable.debug.Debug;
+import dutytimetable.deprecated.core.EventHandler;
+import myutils.debug.Debug;
+
 
 import javax.swing.*;
 import java.awt.*;

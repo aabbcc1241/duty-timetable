@@ -1,12 +1,11 @@
-package dutytimetable.core
+package dutytimetable.deprecated.core
 
 import java.io.IOException
 import java.util.Random
-
-import dutytimetable.debug.Debug
-import dutytimetable.gui.{ CoreJFrame}
-import dutytimetable.utils.ExcelReader
+import dutytimetable.deprecated.gui.{ CoreJFrame}
+import dutytimetable.model.ExcelReader
 import myutils.FileUtils
+import myutils.debug.Debug
 import myutils.google.GoogleUtils
 
 /**

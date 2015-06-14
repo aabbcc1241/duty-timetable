@@ -1,4 +1,4 @@
-package dutytimetable.core.businesslogic
+package dutytimetable.deprecated.core.businesslogic
 
 /**
  * Created by beenotung on 5/28/15.

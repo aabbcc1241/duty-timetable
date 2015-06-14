@@ -1,4 +1,4 @@
-package dutytimetable.gui;
+package dutytimetable.deprecated.gui;
 
 import javax.swing.*;
 

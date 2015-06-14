@@ -1,4 +1,4 @@
-package dutytimetable.core
+package dutytimetable.deprecated.core
 
 /**
  * Created by beenotung on 5/30/15.

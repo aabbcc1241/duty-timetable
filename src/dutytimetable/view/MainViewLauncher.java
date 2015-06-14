@@ -1,4 +1,4 @@
-package dutytimetable.gui.fx;
+package dutytimetable.view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 /**
  * Created by beenotung on 6/8/15.
  */
-public class MainLoader extends Application {
+public class MainViewLauncher extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {

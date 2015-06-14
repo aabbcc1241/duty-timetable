@@ -5,6 +5,8 @@ import javafx.scene.control.ProgressBar
 import javafx.scene.layout.StackPane
 import javafx.stage.Stage
 
+import scala.collection.mutable
+
 /**
  * Created by beenotung on 6/13/15.
  */
@@ -12,7 +14,14 @@ object Test extends App {
   override def main(args: Array[String]) {
     //println(Runtime.getRuntime.getClass)
     //println(this.getClass.getResource("Test.scala").toString)
-    (new ProgressTest).main(args)
+    //(new ProgressTest).main(args)
+    ListTest
+  }
+  def ListTest={
+    val list=new mutable.MutableList[String]
+    println(list.toVector)
+    list+="a"
+    println(list.toVector)
   }
 }
 
