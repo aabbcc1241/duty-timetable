@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="640.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/2.2" fx:controller="dutytimetable.view.MainSceneController">
+  <children>
+    <BorderPane prefHeight="-1.0" prefWidth="-1.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <bottom>
+        <BorderPane prefHeight="-1.0" prefWidth="-1.0">
+          <left>
+            <Label text="Label" />
+          </left>
+          <right>
+            <ProgressIndicator progress="0.0" />
+          </right>
+          <top>
+            <Separator prefHeight="-1.0" prefWidth="-1.0" />
+          </top>
+        </BorderPane>
+      </bottom>
+      <center>
+        <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE">
+          <tabs>
+            <Tab text="Untitled Tab 1">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+            <Tab text="Untitled Tab 2">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+          </tabs>
+        </TabPane>
+      </center>
+      <top>
+        <HBox id="toobar" prefHeight="-1.0">
+          <children>
+            <Button mnemonicParsing="false" text="Open">
+              <HBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+              </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="Save">
+              <HBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+              </HBox.margin>
+            </Button>
+            <Region prefHeight="0.0" prefWidth="10.0">
+              <HBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+              </HBox.margin>
+            </Region>
+            <Button mnemonicParsing="false" text="reset">
+              <HBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+              </HBox.margin>
+            </Button>
+            <CheckBox mnemonicParsing="false" prefHeight="25.0" text="run">
+              <HBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+              </HBox.margin>
+            </CheckBox>
+            <Region prefHeight="0.0" prefWidth="10.0">
+              <HBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+              </HBox.margin>
+            </Region>
+            <Button mnemonicParsing="false" text="Help">
+              <HBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+              </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" text="Abort">
+              <HBox.margin>
+                <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+              </HBox.margin>
+            </Button>
+          </children>
+        </HBox>
+      </top>
+    </BorderPane>
+  </children>
+</AnchorPane>
